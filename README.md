@@ -24,7 +24,7 @@
 
 ![architecture](/doc/img/architecture.png "architecture")
 
-*框架完善中*
+*架构完善中*
 
 ## 快速开始
 
