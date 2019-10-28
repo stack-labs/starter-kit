@@ -23,6 +23,7 @@
 - ...
 
 *架构完善中*
+
 <img src="/doc/img/architecture.png" width="50%">
 
 ## 快速开始
