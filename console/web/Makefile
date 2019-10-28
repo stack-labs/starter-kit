@@ -25,4 +25,4 @@ statik:
 
 .PHONY: run
 run: vue statik
-	go run main.go --registry=etcd
+	go run main.go

@@ -22,7 +22,41 @@
 - [ ] GraphQL Gateway
 - ...
 
+![architecture](/doc/img/architecture.png "architecture")
+
+*框架完善中*
+
 ## 快速开始
+
+### 运行网关
+
+自定义`micro`工具，[网关插件](/gateway)
+
+#### 手动打包及运行
+
+*略*
+
+#### Docker运行
+
+*TODO*
+
+### 运行服务
+- Web应用
+	- `console/web`控制台
+- 聚合API
+	- `console/api`控制台
+- 基础服务
+	- `srv/account`账户
+	
+```bash
+$ cd {指定服务目录}
+
+# 默认mdns注册中心
+$ make run
+
+# 使用etcd注册中心
+$ MICRO_REGISTRY=etcd make run
+```
 
 ### 预制环境
 

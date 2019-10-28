@@ -20,4 +20,4 @@ docker:
 
 .PHONY: run
 run:
-	go run main.go --registry=etcd
+	go run main.go
