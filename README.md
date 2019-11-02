@@ -2,7 +2,13 @@
 
 本仓库旨在提供面向Go-Micro生产环境的快速开发包。项目结合维护者们十余年的工作经验，不同领域的实战沉淀，一切为了缩短大家的选型、开发周期。
 
-### 我们提供以下能力
+## 目录
+
+- [目标](#目标)
+- [架构设计](#架构设计)
+- [快速开始](#快速开始)
+
+## 目标
 
 - 自定义[micro网关](gateway)
 	- [x] `JWT`认证
@@ -55,6 +61,7 @@
 		- Jaeger
 - ...
 
+## 架构设计
 
 ### 目录结构
 
@@ -64,7 +71,7 @@
 │   │   ├── api         go.micro.api.*，API
 │   │   └── web         go.micro.web.*，Web，集成gin、echo等web框架
 │   ├── mobile          移动端
-│   └── openapi         开发API
+│   └── openapi         开放API
 ├── deploy              部署
 │   ├── docker
 │   └── k8s
@@ -90,7 +97,6 @@
 ```
 
 ### 系统架构图
-*TODO*
 <img src="/doc/img/architecture.png" width="50%">
 
 ### 业务架构图
@@ -132,11 +138,3 @@ $ make run
 # 使用etcd注册中心
 $ MICRO_REGISTRY=etcd make run
 ```
-
-### 预制环境
-
-环境安装
-
-### 
-
-待完善
