@@ -1,18 +1,18 @@
-// +build api
-
 package main
 
 import (
 	"net/http"
+
+	"github.com/micro/micro/api"
 
 	// tcp transport
 	_ "github.com/micro/go-plugins/transport/tcp"
 	// k8s registry
 	_ "github.com/micro/go-plugins/registry/kubernetes"
 
+	"github.com/casbin/casbin/v2/persist/file-adapter"
 	"github.com/hb-go/micro-plugins/micro/auth"
 	"github.com/hb-go/micro-plugins/micro/cors"
-	"github.com/micro/micro/api"
 )
 
 func init() {
