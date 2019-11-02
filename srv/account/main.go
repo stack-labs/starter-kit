@@ -4,8 +4,8 @@ import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
 
-	"github.com/micro-in-cn/starter-kit/srv/account/handler"
-	account "github.com/micro-in-cn/starter-kit/srv/account/proto/account"
+	"github.com/micro-in-cn/starter-kit/srv/account/interface/handler"
+	"github.com/micro-in-cn/starter-kit/srv/account/registry"
 )
 
 func main() {
@@ -18,8 +18,13 @@ func main() {
 	// Initialise service
 	service.Init()
 
+	ctn, err := registry.NewContainer()
+	if err != nil {
+		log.Fatalf("failed to build container: %v", err)
+	}
+
 	// Register Handler
-	account.RegisterAccountHandler(service.Server(), new(handler.Account))
+	handler.Apply(service.Server(), ctn)
 
 	// Run service
 	if err := service.Run(); err != nil {
