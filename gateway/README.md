@@ -15,3 +15,10 @@ $ make build
 $ ./micro --registry=etcd api
 $ ./micro --registry=etcd web
 ```
+
+## Docker
+
+```bash
+# tag自定义
+$ make docker tag=hbchen/micro:v1.14.0_starter_kit
+```

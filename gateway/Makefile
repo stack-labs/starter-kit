@@ -5,10 +5,14 @@ GOPATH:=$(shell go env GOPATH)
 build:
 	go build -o micro main.go plugin.go
 
+.PHONY: build_linux
+build_linux:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/micro main.go plugin.go
+
 .PHONY: docker
-docker:
-	docker build . -t micro:latest
+docker: build_linux
+	docker build . -t $(tag)
 
 .PHONY: run
 run:
-	go run main.go plugin.go -h
+	go run main.go plugin.go

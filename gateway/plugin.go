@@ -33,6 +33,7 @@ func init() {
 
 	// watcher
 	// https://casbin.org/docs/zh-CN/watchers
+	// w := etcdwatcher.NewWatcher("http://127.0.0.1:2379")
 	// w, _ := rediswatcher.NewWatcher("127.0.0.1:6379")
 	// auth.RegisterWatcher("default", w)
 

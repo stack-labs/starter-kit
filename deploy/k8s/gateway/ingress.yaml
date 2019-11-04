@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: ns-micro
+  name: ingress-micro-api
+spec:
+  rules:
+  - host: api.starter-kit.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: micro-api
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: ns-micro
+  name: ingress-micro-web
+spec:
+  rules:
+  - host: www.starter-kit.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: micro-web
+          servicePort: 80
