@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: ns-micro
+  name: micro-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: micro-api
+    spec:
+      serviceAccountName: micro-services
+      containers:
+      - name: api
+        image: hbchen/micro:v1.14.0_starter_kit
+        command: [
+          "/micro",
+          "--registry=kubernetes",
+          "--server=rpc",
+          "--broker=http",
+          "--transport=tcp",
+          "--register_ttl=60",
+          "--register_interval=30",
+          "--selector=cache",
+          "--enable_stats",
+          "api",
+          "--address=:80"
+        ]
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: api-port

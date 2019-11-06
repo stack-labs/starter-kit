@@ -4,15 +4,19 @@ GOPATH:=$(shell go env GOPATH)
 
 .PHONY: build
 build: vue statik
-	go build -o console-web main.go plugin.go
+	go build -o ./bin/console-web main.go plugin.go
+
+.PHONY: build_linux
+build_linux: vue statik
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web main.go plugin.go
 
 .PHONY: test
 test:
 	go test -v ./... -cover
 
 .PHONY: docker
-docker:
-	docker build . -t console-web:latest
+docker: build_linux
+	docker build . -t $(tag)
 
 .PHONY: vue
 vue:
@@ -24,5 +28,5 @@ statik:
 	go generate ./...
 
 .PHONY: run
-run: vue statik
-	go run main.go
+run:
+	./bin/console-web --registry=$(registry)

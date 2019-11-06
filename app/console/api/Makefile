@@ -8,16 +8,20 @@ proto:
 
 .PHONY: build
 build: proto
-	go build -o console-api main.go plugin.go
+	go build -o ./bin/console-api main.go plugin.go
+
+.PHONY: build_linux
+build_linux: proto
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-api main.go plugin.go
 
 .PHONY: test
 test:
 	go test -v ./... -cover
 
 .PHONY: docker
-docker:
-	docker build . -t console-api:latest
+docker: build_linux
+	docker build . -t $(tag)
 
 .PHONY: run
 run:
-	go run main.go
+	./bin/console-api --registry=$(registry)

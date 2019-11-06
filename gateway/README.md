@@ -8,10 +8,21 @@
 ## 运行网关
 
 ```bash
-# 打包
+# 编译
 $ make build
 
-# 运行
-$ ./micro --registry=etcd api
-$ ./micro --registry=etcd web
+# API
+$ make run_api
+$ make run_api registry=etcd    # 指定registry
+
+# Web
+$ make run_web
+$ make run_web registry=etcd    # 指定registry
+```
+
+## Docker
+
+```bash
+# tag自定义
+$ make docker tag=hbchen/micro:v1.14.0_starter_kit
 ```

@@ -109,11 +109,13 @@
 
 ## 快速开始
 
+[Kubernetes环境](/deploy/k8s)
+
 ### 运行网关
 
 自定义`micro`工具，[网关插件](/gateway/plugin.go)
 
-#### 手动打包及运行
+#### 编译及运行
 
 [gateway](/gateway)
 
@@ -133,8 +135,19 @@
 $ cd {指定服务目录}
 
 # 默认mdns注册中心
-$ make run
+$ make build run
 
 # 使用etcd注册中心
-$ MICRO_REGISTRY=etcd make run
+$ make build run registry=etcd
+```
+
+### Makefile
+```bash
+$ make build                        # 编译
+$ make run                          # 运行
+$ make run registry=etcd            # 运行，指定registry
+$ make build run                    # 编译&运行
+$ make build run registry=etcd      # 编译&运行，指定registry
+
+$ make docker tag=xxx/xxx:v0.0.1
 ```
