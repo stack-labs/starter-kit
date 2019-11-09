@@ -24,4 +24,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/console-api --registry=$(registry)
+	./bin/console-api --registry=$(registry) --transport=$(transport)

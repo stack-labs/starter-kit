@@ -2,11 +2,13 @@ package main
 
 //go:generate statik -src=./vue/dist -dest=./ -f
 import (
+	"net/http"
+
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/web"
 	"github.com/rakyll/statik/fs"
-	"net/http"
 
+	"github.com/micro-in-cn/starter-kit/app/console/web/iris"
 	_ "github.com/micro-in-cn/starter-kit/app/console/web/statik"
 )
 
@@ -21,6 +23,13 @@ func main() {
 	if err := service.Init(); err != nil {
 		log.Fatal(err)
 	}
+
+	// Iris
+	h, err := iris.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+	service.Handle("/v1/", h)
 
 	statikFS, err := fs.New()
 	if err != nil {
