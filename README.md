@@ -15,7 +15,7 @@
 	- [x] `Casbin`鉴权
 	- [ ] Tracing
 	- [ ] RequestID
-	- [ ] Metrics
+	- [x] Metrics
 	- [ ] Access Log
 	- ...
 - 网关选择
@@ -26,7 +26,7 @@
 	- micro web
 		- [ ] gin
 		- [ ] echo
-		- [ ] iris
+		- [x] [iris](/app/console/web/iris)
 - 配置中心
 - 前后端分离`console`
 	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
@@ -69,14 +69,14 @@
 ├── app                 应用，API聚合、Web应用
 │   ├── console         控制台
 │   │   ├── api         go.micro.api.*，API
-│   │   └── web         go.micro.web.*，Web，集成gin、echo等web框架
+│   │   └── web         go.micro.web.*，Web，集成gin、echo、iris等web框架
 │   ├── mobile          移动端
 │   └── openapi         开放API
 ├── deploy              部署
 │   ├── docker
 │   └── k8s
 ├── doc                 文档资源
-├── gateway             网关
+├── gateway             网关，自定义micro
 ├── pkg                 公共资源包
 └── srv                 基础服务
     ├── account         账户服务，领域模型整洁架构示例
@@ -143,11 +143,11 @@ $ make build run registry=etcd
 
 ### Makefile
 ```bash
-$ make build                        # 编译
-$ make run                          # 运行
-$ make run registry=etcd            # 运行，指定registry
-$ make build run                    # 编译&运行
-$ make build run registry=etcd      # 编译&运行，指定registry
+$ make build                                    # 编译
+$ make run                                      # 运行
+$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
+$ make build run                                # 编译&运行
+$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
 
 $ make docker tag=xxx/xxx:v0.0.1
 ```

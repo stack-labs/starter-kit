@@ -4,25 +4,30 @@ import (
 	"net/http"
 
 	"github.com/micro/micro/api"
+	"github.com/micro/micro/web"
 
-	// tcp transport
-	_ "github.com/micro/go-plugins/transport/tcp"
-	// k8s registry
+	// micro plugins
 	_ "github.com/micro/go-plugins/registry/kubernetes"
+	_ "github.com/micro/go-plugins/transport/tcp"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/hb-go/micro-plugins/micro/auth"
-	"github.com/hb-go/micro-plugins/micro/cors"
+
+	"github.com/micro-in-cn/starter-kit/gateway/plugin/auth"
+	"github.com/micro-in-cn/starter-kit/gateway/plugin/cors"
+	"github.com/micro-in-cn/starter-kit/gateway/plugin/metrics"
 )
 
+// API
 func init() {
 	// 跨域
-	api.Register(cors.NewPlugin(
+	corsPlugin := cors.NewPlugin(
 		cors.WithAllowMethods(http.MethodHead, http.MethodGet, http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete),
 		cors.WithAllowCredentials(true),
 		cors.WithMaxAge(3600),
 		cors.WithUseRsPkg(true),
-	))
+	)
+	api.Register(corsPlugin)
+	web.Register(corsPlugin)
 
 	// adapter
 	// xorm
@@ -40,5 +45,19 @@ func init() {
 	// 自定义Response
 	auth.AuthResponse = auth.DefaultResponseHandler
 
-	api.Register(auth.NewPlugin())
+	authPlugin := auth.NewPlugin(
+		auth.WithSkipperFunc(func(r *http.Request) bool {
+			return false
+		}),
+	)
+	api.Register(authPlugin)
+	// web.Register(authPlugin)
+
+	metricsPlugin := metrics.NewPlugin(
+		metrics.WithSkipperFunc(func(r *http.Request) bool {
+			return false
+		}),
+	)
+	api.Register(metricsPlugin)
+	// web.Register(metricsPlugin)
 }

@@ -1,10 +1,5 @@
-p, public, /, (GET)|(OPTIONS)
+p, public, /, GET
 p, public, /stats, GET
-p, public, /metrics, GET
-p, public, /account/login, (POST)|(OPTIONS)
-p, admin, /account/logout, POST
-p, admin, /account/info, GET
-p, admin, /table/list, GET
 
 p, alice, /alice_data/*, GET
 p, alice, /alice_data/resource1, POST
