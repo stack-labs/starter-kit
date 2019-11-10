@@ -25,6 +25,7 @@ func newPlugin(opts ...Option) plugin.Plugin {
 	options := newOptions(opts...)
 
 	return plugin.NewPlugin(
+		plugin.WithName("metrics"),
 		plugin.WithHandler(
 			func(h http.Handler) http.Handler {
 				md := make(map[string]string)
@@ -76,6 +77,7 @@ func newPlugin(opts ...Option) plugin.Plugin {
 
 					// 静态资源等不需要监控的请求，可以实现SkipperFunc过滤
 					if options.skipperFunc(r) {
+						h.ServeHTTP(w, r)
 						return
 					}
 
