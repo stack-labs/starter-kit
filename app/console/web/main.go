@@ -8,6 +8,8 @@ import (
 	"github.com/micro/go-micro/web"
 	"github.com/rakyll/statik/fs"
 
+	"github.com/micro-in-cn/starter-kit/app/console/web/echo"
+	"github.com/micro-in-cn/starter-kit/app/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/app/console/web/iris"
 	_ "github.com/micro-in-cn/starter-kit/app/console/web/statik"
 )
@@ -24,12 +26,26 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Iris
-	h, err := iris.New()
+	// Echo
+	echoHandler, err := echo.New()
 	if err != nil {
 		log.Fatal(err)
 	}
-	service.Handle("/v1/", h)
+	service.Handle("/v1/echo/", echoHandler)
+
+	// Gin
+	ginHandler, err := gin.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+	service.Handle("/v1/gin/", ginHandler)
+
+	// Iris
+	irisHandler, err := iris.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+	service.Handle("/v1/iris/", irisHandler)
 
 	statikFS, err := fs.New()
 	if err != nil {
