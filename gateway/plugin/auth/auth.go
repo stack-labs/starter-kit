@@ -2,8 +2,6 @@ package auth
 
 import (
 	"crypto/rsa"
-	"github.com/micro/go-micro/util/log"
-
 	"net/http"
 	"strings"
 
@@ -14,17 +12,16 @@ import (
 	"github.com/dgrijalva/jwt-go/test"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro/errors"
+	"github.com/micro/go-micro/util/log"
 	"github.com/micro/micro/plugin"
 )
 
 const id = "hb-go.micro-plugins.micro.auth"
 
-var AuthResponse ResponseHandler
 var adapters map[string]persist.Adapter
 var watchers map[string]persist.Watcher
 
 func init() {
-	AuthResponse = DefaultResponseHandler
 	adapters = make(map[string]persist.Adapter)
 	watchers = make(map[string]persist.Watcher)
 }
@@ -37,31 +34,12 @@ func RegisterWatcher(key string, w persist.Watcher) {
 	watchers[key] = w
 }
 
-type ResponseHandler func(w http.ResponseWriter, r *http.Request, err error)
-
-func DefaultResponseHandler(w http.ResponseWriter, r *http.Request, err error) {
-	mErr, ok := err.(*errors.Error)
-	if !ok {
-		mErr = &errors.Error{
-			Id:     id,
-			Code:   http.StatusInternalServerError,
-			Detail: err.Error(),
-			Status: http.StatusText(http.StatusInternalServerError),
-		}
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(int(mErr.Code))
-	w.Write([]byte(mErr.Error()))
-}
-
 type Auth struct {
-	opts Options
+	options Options
 
 	enforcer *casbin.Enforcer
 	pubUser  string
 	pubKey   *rsa.PublicKey
-	response ResponseHandler
 }
 
 func (a *Auth) keyFunc(*jwt.Token) (interface{}, error) {
@@ -70,7 +48,7 @@ func (a *Auth) keyFunc(*jwt.Token) (interface{}, error) {
 
 func (a *Auth) handler(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if a.opts.skipperFunc(r) {
+		if a.options.skipperFunc(r) {
 			h.ServeHTTP(w, r)
 			return
 		}
@@ -82,7 +60,7 @@ func (a *Auth) handler(h http.Handler) http.Handler {
 		if a.pubUser != "" {
 			allowed, err := a.enforcer.Enforce(a.pubUser, path, method)
 			if err != nil {
-				a.response(w, r, errors.InternalServerError(id, err.Error()))
+				a.options.responseHandler(w, r, errors.InternalServerError(id, err.Error()))
 				return
 			} else if allowed {
 				h.ServeHTTP(w, r)
@@ -99,23 +77,23 @@ func (a *Auth) handler(h http.Handler) http.Handler {
 		)
 
 		if err != nil || token == nil {
-			a.response(w, r, errors.Unauthorized(id, "JWT token parse token=nil or with error: %v", err.Error()))
+			a.options.responseHandler(w, r, errors.Unauthorized(id, "JWT token parse token=nil or with error: %v", err.Error()))
 			return
 		}
 
 		if !token.Valid {
-			a.response(w, r, errors.Unauthorized(id, "JWT token invalid"))
+			a.options.responseHandler(w, r, errors.Unauthorized(id, "JWT token invalid"))
 			return
 		}
 
 		// 访问控制
 		claims := token.Claims.(*jwt.StandardClaims)
 		if allowed, err := a.enforcer.Enforce(claims.Id, path, method); err != nil {
-			a.response(w, r, errors.InternalServerError(id, err.Error()))
+			a.options.responseHandler(w, r, errors.InternalServerError(id, err.Error()))
 			return
 		} else if !allowed {
 			log.Infof("Claims ID: %v, path: %v, method: %v", claims.Id, path, method)
-			a.response(w, r, errors.Forbidden(id, "Casbin access control not allowed"))
+			a.options.responseHandler(w, r, errors.Forbidden(id, "Casbin access control not allowed"))
 			return
 		}
 
@@ -127,9 +105,8 @@ func (a *Auth) handler(h http.Handler) http.Handler {
 func NewPlugin(opts ...Option) plugin.Plugin {
 	options := newOptions(opts...)
 
-	a := Auth{
-		opts:     options,
-		response: AuthResponse,
+	a := &Auth{
+		options: options,
 	}
 
 	var egAdapter, egWatcher []string

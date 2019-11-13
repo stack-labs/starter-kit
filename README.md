@@ -13,7 +13,7 @@
 - 自定义[micro网关](gateway)
 	- [x] `JWT`认证
 	- [x] `Casbin`鉴权
-	- [ ] Tracing
+	- [x] Tracing
 	- [ ] RequestID
 	- [x] Metrics
 	- [ ] Access Log
@@ -24,8 +24,8 @@
 		- [ ] proxy
 		- [ ] rpc
 	- micro web
-		- [ ] gin
-		- [ ] echo
+		- [x] [echo](/app/console/web/echo)
+		- [x] [gin](/app/console/web/gin)
 		- [x] [iris](/app/console/web/iris)
 - 配置中心
 - 前后端分离`console`
@@ -111,6 +111,13 @@
 
 [Kubernetes环境](/deploy/k8s)
 
+### 依赖服务
+#### Jaeger
+http://localhost:16686/
+```bash
+$ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
+```
+
 ### 运行网关
 
 自定义`micro`工具，[网关插件](/gateway/plugin.go)
@@ -140,6 +147,23 @@ $ make build run
 # 使用etcd注册中心
 $ make build run registry=etcd
 ```
+
+### 服务测试
+- gateway
+	- http://localhost:8080/
+	- http://localhost:8080/metrics
+	- http://localhost:8082/
+	- http://localhost:8082/metrics
+- console
+	- http://localhost:8082/console
+	- Web API
+		- http://localhost:8082/console/v1/echo/
+		- http://localhost:8082/console/v1/gin/
+		- http://localhost:8082/console/v1/iris/
+	- API
+        - http://localhost:8080/account/login
+        - http://localhost:8080/account/info
+        - http://localhost:8080/account/logout
 
 ### Makefile
 ```bash

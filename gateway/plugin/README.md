@@ -2,9 +2,11 @@
 
 micro定制插件
 
-- auth
-- cors
-- metrics
+- [auth](/gateway/plugin/auth)
+- [cors](/gateway/plugin/cors)
+- [metrics](/gateway/plugin/metrics)
+- [trace](/gateway/plugin/trace)
+	- opentracing
 
 ## Ref
 

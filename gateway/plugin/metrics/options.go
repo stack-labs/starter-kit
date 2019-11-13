@@ -1,23 +1,18 @@
 package metrics
 
 import (
-	"net/http"
+	"github.com/micro-in-cn/starter-kit/gateway/plugin/util/request"
 )
 
 type Options struct {
-	skipperFunc SkipperFunc
+	skipperFunc request.SkipperFunc
 }
 
 type Option func(o *Options)
-type SkipperFunc func(r *http.Request) bool
-
-var DefaultSkipperFunc = func(r *http.Request) bool {
-	return false
-}
 
 func newOptions(opts ...Option) Options {
 	opt := Options{
-		skipperFunc: DefaultSkipperFunc,
+		skipperFunc: request.DefaultSkipperFunc,
 	}
 
 	for _, o := range opts {
@@ -27,7 +22,7 @@ func newOptions(opts ...Option) Options {
 	return opt
 }
 
-func WithSkipperFunc(skipperFunc SkipperFunc) Option {
+func WithSkipperFunc(skipperFunc request.SkipperFunc) Option {
 	return func(o *Options) {
 		o.skipperFunc = skipperFunc
 	}

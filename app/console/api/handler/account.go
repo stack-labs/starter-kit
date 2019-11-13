@@ -40,7 +40,6 @@ func (*Account) Login(ctx context.Context, req *api.Request, rsp *api.Response) 
 	}
 
 	b, err := ResponseBody(20000, response)
-	log.Logf("err:%v", err)
 	if err != nil {
 		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
 	}
