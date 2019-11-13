@@ -1,11 +1,15 @@
-package auth
+package opentracing
 
 import (
+	"github.com/opentracing/opentracing-go"
+
 	"github.com/micro-in-cn/starter-kit/gateway/plugin/util/request"
 	"github.com/micro-in-cn/starter-kit/gateway/plugin/util/response"
 )
 
 type Options struct {
+	tracer opentracing.Tracer
+
 	responseHandler response.Handler
 	skipperFunc     request.SkipperFunc
 }
@@ -14,6 +18,7 @@ type Option func(o *Options)
 
 func newOptions(opts ...Option) Options {
 	opt := Options{
+		tracer:          opentracing.GlobalTracer(),
 		responseHandler: response.DefaultResponseHandler,
 		skipperFunc:     request.DefaultSkipperFunc,
 	}
@@ -23,6 +28,12 @@ func newOptions(opts ...Option) Options {
 	}
 
 	return opt
+}
+
+func WithTracer(tracer opentracing.Tracer) Option {
+	return func(o *Options) {
+		o.tracer = tracer
+	}
 }
 
 func WithResponseHandler(handler response.Handler) Option {

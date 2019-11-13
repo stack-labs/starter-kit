@@ -21,10 +21,13 @@ require (
 	github.com/micro/go-plugins v1.4.0
 	github.com/micro/micro v1.14.0
 	github.com/moul/http2curl v1.0.0 // indirect
+	github.com/opentracing/opentracing-go v1.1.0
 	github.com/prometheus/client_golang v1.1.0
 	github.com/rakyll/statik v0.1.6
 	github.com/rs/cors v1.6.0
 	github.com/sarulabs/di v2.0.0+incompatible
+	github.com/uber/jaeger-client-go v2.15.0+incompatible
+	github.com/uber/jaeger-lib v1.5.0
 	github.com/valyala/fasthttp v1.6.0 // indirect
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect

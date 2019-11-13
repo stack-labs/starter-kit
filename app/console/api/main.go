@@ -7,6 +7,7 @@ import (
 
 	"github.com/micro-in-cn/starter-kit/app/console/api/client"
 	"github.com/micro-in-cn/starter-kit/app/console/api/handler"
+	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
 
 func main() {
@@ -16,14 +17,21 @@ func main() {
 		micro.Version("v1"),
 	)
 
+	// 链路追踪
+	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console", "127.0.0.1:6831")
+	if err != nil {
+		log.Fatalf("opentracing tracer create error:%v", err)
+	}
+	defer closer.Close()
+
 	// Initialise service
 	service.Init(
 		// create wrap for the Example srv client
 		micro.WrapHandler(client.AccountWrapper(service)),
-		micro.WrapHandler(opentracing.NewHandlerWrapper(nil)),       // server端handler接受请求
+		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
 		micro.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
 		micro.WrapClient(opentracing.NewClientWrapper(nil)),         // client端发起请求，包括Call()、Stream()、Publish()
-		micro.WrapCall(opentracing.NewCallWrapper(nil)),             // client端发起请求，仅Call()
+		micro.WrapCall(opentracing.NewCallWrapper(t)),               // client端发起请求，仅Call()
 	)
 
 	// Register Handler

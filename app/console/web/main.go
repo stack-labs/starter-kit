@@ -12,6 +12,8 @@ import (
 	"github.com/micro-in-cn/starter-kit/app/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/app/console/web/iris"
 	_ "github.com/micro-in-cn/starter-kit/app/console/web/statik"
+	"github.com/micro-in-cn/starter-kit/gateway/plugin/trace/opentracing"
+	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
 
 func main() {
@@ -26,26 +28,35 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// 链路追踪
+	t, closer, err := tracer.NewJaegerTracer("go.micro.web.console", "127.0.0.1:6831")
+	if err != nil {
+		log.Fatalf("opentracing tracer create error:%v", err)
+	}
+	defer closer.Close()
+	h := opentracing.NewPlugin(opentracing.WithTracer(t)).Handler()
+
+	// TODO Path末尾"/"问题
 	// Echo
 	echoHandler, err := echo.New()
 	if err != nil {
 		log.Fatal(err)
 	}
-	service.Handle("/v1/echo/", echoHandler)
+	service.Handle("/v1/echo/", h(echoHandler))
 
 	// Gin
 	ginHandler, err := gin.New()
 	if err != nil {
 		log.Fatal(err)
 	}
-	service.Handle("/v1/gin/", ginHandler)
+	service.Handle("/v1/gin/", h(ginHandler))
 
 	// Iris
 	irisHandler, err := iris.New()
 	if err != nil {
 		log.Fatal(err)
 	}
-	service.Handle("/v1/iris/", irisHandler)
+	service.Handle("/v1/iris/", h(irisHandler))
 
 	statikFS, err := fs.New()
 	if err != nil {
