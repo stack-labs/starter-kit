@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
-	"github.com/micro/go-plugins/wrapper/trace/opentracing"
 
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 	"github.com/micro-in-cn/starter-kit/srv/account/interface/handler"
 	"github.com/micro-in-cn/starter-kit/srv/account/registry"
 )
@@ -24,6 +24,7 @@ func main() {
 	}
 	defer closer.Close()
 	service.Init(
+		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 		micro.WrapCall(opentracing.NewCallWrapper(t)),
 		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),
 	)

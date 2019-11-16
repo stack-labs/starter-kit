@@ -34,7 +34,12 @@ func main() {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}
 	defer closer.Close()
-	h := opentracing.NewPlugin(opentracing.WithTracer(t)).Handler()
+
+	// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
+	h := opentracing.NewPlugin(
+		opentracing.WithTracer(t),
+		opentracing.WithAutoStart(false),
+	).Handler()
 
 	// TODO Path末尾"/"问题
 	// Echo

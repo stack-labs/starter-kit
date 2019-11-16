@@ -4,9 +4,11 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/micro/micro/api"
 	"github.com/micro/micro/web"
+	"golang.org/x/time/rate"
 
 	// micro plugins
 	_ "github.com/micro/go-plugins/registry/kubernetes"
@@ -105,14 +107,24 @@ func initMetrics() {
 	))
 }
 
+// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 func initTrace() {
 	apiTracer, apiCloser, err := tracer.NewJaegerTracer("go.micro.api", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}
+
+	limiter := rate.NewLimiter(rate.Every(time.Millisecond*100), 10)
 	apiTracerCloser = apiCloser
 	api.Register(opentracing.NewPlugin(
 		opentracing.WithTracer(apiTracer),
+		opentracing.WithSkipperFunc(func(r *http.Request) bool {
+			// 采样频率控制，根据需要细分Host、Path等分别控制
+			if !limiter.Allow() {
+				return true
+			}
+			return false
+		}),
 	))
 
 	webTracer, webCloser, err := tracer.NewJaegerTracer("go.micro.web", "127.0.0.1:6831")
@@ -123,6 +135,7 @@ func initTrace() {
 	web.Register(opentracing.NewPlugin(
 		opentracing.WithTracer(webTracer),
 		opentracing.WithSkipperFunc(func(r *http.Request) bool {
+			// Host、Path等过滤规则
 			path := r.URL.Path
 			idx := strings.Index(path[1:], "/")
 			if idx > 0 {
