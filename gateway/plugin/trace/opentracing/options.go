@@ -12,6 +12,8 @@ type Options struct {
 
 	responseHandler response.Handler
 	skipperFunc     request.SkipperFunc
+
+	autoStart bool
 }
 
 type Option func(o *Options)
@@ -21,6 +23,7 @@ func newOptions(opts ...Option) Options {
 		tracer:          opentracing.GlobalTracer(),
 		responseHandler: response.DefaultResponseHandler,
 		skipperFunc:     request.DefaultSkipperFunc,
+		autoStart:       true,
 	}
 
 	for _, o := range opts {
@@ -45,5 +48,11 @@ func WithResponseHandler(handler response.Handler) Option {
 func WithSkipperFunc(skipperFunc request.SkipperFunc) Option {
 	return func(o *Options) {
 		o.skipperFunc = skipperFunc
+	}
+}
+
+func WithAutoStart(auto bool) Option {
+	return func(o *Options) {
+		o.autoStart = auto
 	}
 }
