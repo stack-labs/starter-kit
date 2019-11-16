@@ -70,15 +70,17 @@ func newPlugin(opts ...Option) plugin.Plugin {
 					return
 				} else if span != nil {
 					defer span.Finish()
+
+					span.SetTag("http.host", r.Host)
+					span.SetTag("http.method", r.Method)
+
+					ww := response.WrapWriter{ResponseWriter: w}
+					h.ServeHTTP(&ww, r)
+
+					span.SetTag("http.status_code", ww.StatusCode)
+				} else {
+					h.ServeHTTP(w, r)
 				}
-
-				span.SetTag("http.host", r.Host)
-				span.SetTag("http.method", r.Method)
-
-				ww := response.WrapWriter{ResponseWriter: w}
-				h.ServeHTTP(&ww, r)
-
-				span.SetTag("http.status_code", ww.StatusCode)
 			})
 		}),
 	)
