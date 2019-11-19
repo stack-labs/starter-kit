@@ -35,6 +35,7 @@ func pluginAfterFunc() error {
 	return nil
 }
 
+// 插件注册
 func init() {
 	// 跨域
 	initCors()
@@ -87,12 +88,16 @@ func initAuth() {
 
 func initMetrics() {
 	api.Register(metrics.NewPlugin(
+		metrics.WithNamespace("gateway"),
+		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			return false
 		}),
 	))
 
 	web.Register(metrics.NewPlugin(
+		metrics.WithNamespace("gateway"),
+		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			path := r.URL.Path
 			idx := strings.Index(path[1:], "/")

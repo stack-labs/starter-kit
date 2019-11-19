@@ -8,49 +8,111 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/micro-in-cn/starter-kit/gateway/plugin/util/request"
 	"github.com/micro-in-cn/starter-kit/gateway/plugin/util/response"
+)
+
+var (
+	DefObjectives = map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001}
 )
 
 type Prometheus struct {
 	options *Options
 }
 
+// RequestSize returns the size of request object.
+func RequestSize(r *http.Request) float64 {
+	size := 0
+	if r.URL != nil {
+		size = len(r.URL.String())
+	}
+
+	size += len(r.Method)
+	size += len(r.Proto)
+
+	for name, values := range r.Header {
+		size += len(name)
+		for _, value := range values {
+			size += len(value)
+		}
+	}
+	size += len(r.Host)
+
+	// r.Form and r.MultipartForm are assumed to be included in r.URL.
+	if r.ContentLength != -1 {
+		size += int(r.ContentLength)
+	}
+	return float64(size)
+}
+
 func (p *Prometheus) handler(h http.Handler) http.Handler {
+	opts := p.options
 	md := make(map[string]string)
 
-	opsCounter := prometheus.NewCounterVec(
+	labels := []string{"host"}
+	reqTotalCounter := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Namespace: "micro",
+			Namespace: opts.namespace,
+			Subsystem: opts.subsystem,
 			Name:      "request_total",
-			Help:      "How many go-micro requests processed, partitioned by method and status",
+			Help:      "Total request count.",
 		},
-		[]string{"path", "method", "code"},
+		[]string{"host", "status"},
 	)
 
-	timeCounterSummary := prometheus.NewSummaryVec(
+	reqDurSummary := prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
-			Namespace: "micro",
-			Name:      "upstream_latency_microseconds",
-			Help:      "Service backend method request latencies in microseconds",
+			Namespace:  opts.namespace,
+			Subsystem:  opts.subsystem,
+			Name:       "request_latency_seconds",
+			Help:       "Request latencies in seconds.",
+			Objectives: DefObjectives,
 		},
-		[]string{"path", "method"},
+		labels,
 	)
 
-	timeCounterHistogram := prometheus.NewHistogramVec(
+	reqDurHistogram := prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Namespace: "micro",
+			Namespace: opts.namespace,
+			Subsystem: opts.subsystem,
 			Name:      "request_duration_seconds",
-			Help:      "Service method request time in seconds",
+			Help:      "Request time in seconds.",
 		},
-		[]string{"path", "method"},
+		labels,
+	)
+
+	reqSizeSummary := prometheus.NewSummaryVec(
+		prometheus.SummaryOpts{
+			Namespace:  opts.namespace,
+			Subsystem:  opts.subsystem,
+			Name:       "request_size_bytes",
+			Help:       "Request size in bytes.",
+			Objectives: DefObjectives,
+		},
+		labels,
+	)
+
+	respSizeSummary := prometheus.NewSummaryVec(
+		prometheus.SummaryOpts{
+			Namespace:  opts.namespace,
+			Subsystem:  opts.subsystem,
+			Name:       "response_size_bytes",
+			Help:       "Response size in bytes.",
+			Objectives: DefObjectives,
+		},
+		labels,
 	)
 
 	reg := prometheus.NewRegistry()
 	wrapreg := prometheus.WrapRegistererWith(md, reg)
 	wrapreg.MustRegister(
-		opsCounter,
-		timeCounterSummary,
-		timeCounterHistogram,
+		prometheus.NewProcessCollector(prometheus.ProcessCollectorOpts{}),
+		prometheus.NewGoCollector(),
+		reqTotalCounter,
+		reqDurSummary,
+		reqDurHistogram,
+		reqSizeSummary,
+		respSizeSummary,
 	)
 
 	prometheus.DefaultGatherer = reg
@@ -69,18 +131,19 @@ func (p *Prometheus) handler(h http.Handler) http.Handler {
 			return
 		}
 
-		path := r.URL.Path
-		method := r.Method
+		values := []string{r.Host}
 		timer := prometheus.NewTimer(prometheus.ObserverFunc(func(v float64) {
-			us := v * 1000000 // make microseconds
-			timeCounterSummary.WithLabelValues(path, method).Observe(us)
-			timeCounterHistogram.WithLabelValues(path, method).Observe(v)
+			reqDurSummary.WithLabelValues(values...).Observe(v)
+			reqDurHistogram.WithLabelValues(values...).Observe(v)
 		}))
 		defer timer.ObserveDuration()
 
 		ww := response.WrapWriter{ResponseWriter: w}
 		h.ServeHTTP(&ww, r)
-		opsCounter.WithLabelValues(path, method, strconv.Itoa(ww.StatusCode)).Inc()
+
+		reqSizeSummary.WithLabelValues(values...).Observe(float64(request.RequestSize(r)))
+		respSizeSummary.WithLabelValues(values...).Observe(float64(ww.Size))
+		reqTotalCounter.WithLabelValues(r.Host, strconv.Itoa(ww.StatusCode)).Inc()
 	})
 }
 
