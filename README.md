@@ -83,11 +83,35 @@ $ make docker tag=xxx/xxx:v0.0.1
 
 <details>
   <summary> Jaeger </summary>
-  
+
+> 浏览器访问:http://localhost:16686/
 ```bash
 $ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
 ```
-浏览器访问:http://localhost:16686/
+
+</details>
+
+<details>
+  <summary> Prometheus </summary>
+
+> 浏览器访问:http://localhost:9090/
+
+> `prometheus.yml`参考`gateway`插件`[metrics/prometheus.yml](/gateway/plugin/metrics/prometheus.yml)
+```bash
+docker run -d --name prometheus -p 9090:9090 -v ~/tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+```
+
+</details>
+
+<details>
+  <summary> Grafana </summary>
+
+> 浏览器访问:http://localhost:3000/
+
+> `Grafana`仪表盘`import`[metrics/grafan.json](/gateway/plugin/metrics/grafan.json)
+```bash
+docker run --name grafana -d -p 3000:3000 grafana/grafana
+```
 
 </details>
 
