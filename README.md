@@ -4,9 +4,88 @@
 
 ## 目录
 
+- [快速开始](#快速开始)
 - [目标](#目标)
 - [架构设计](#架构设计)
-- [快速开始](#快速开始)
+- [部署](#部署)
+
+## 快速开始
+
+### 运行网关
+
+自定义`micro`工具，[网关插件](/gateway/plugin.go)
+
+```bash
+$ cd gateway
+
+# 编译
+$ make build
+
+# API网关(二选一)
+$ make run_api                                  # 默认mdns + http
+$ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
+
+# Web网关(二选一)
+$ make run_web                                  # 默认mdns + http
+$ make run_web registry=etcd transport=tcp      # 使用etcd + tcp
+```
+
+### 运行服务
+- Web应用
+	- `app/console/web`控制台
+- 聚合API
+	- `app/console/api`控制台
+- 基础服务
+	- `srv/account`账户
+	
+> 注意`registry`、`transport`选择与网管一致
+```bash
+$ cd {指定服务目录}
+
+# 运行服务(二选一)
+$ make build run                                # 默认mdns + http
+$ make build run registry=etcd transport=tcp    # 使用etcd + tcp
+```
+
+### 服务测试
+> `console API`由于有`认证`不能直接访问
+- gateway
+	- http://localhost:8080/
+	- http://localhost:8080/metrics
+	- http://localhost:8082/
+	- http://localhost:8082/metrics
+- console
+	- http://localhost:8082/console
+	- Web API
+		- http://localhost:8082/console/v1/echo/
+		- http://localhost:8082/console/v1/gin/
+		- http://localhost:8082/console/v1/iris/
+	- API
+        - http://localhost:8080/account/login
+        - http://localhost:8080/account/info
+        - http://localhost:8080/account/logout
+
+### Makefile
+```bash
+$ make build                                    # 编译
+$ make run                                      # 运行
+$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
+
+$ make build run                                # 编译&运行
+$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
+
+$ make vue statik                               # 前端编译，并打包statik.go文件
+
+$ make docker tag=xxx/xxx:v0.0.1
+```
+
+### 可选服务
+
+**Jaeger**
+http://localhost:16686/
+```bash
+$ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
+```
 
 ## 目标
 
@@ -107,71 +186,6 @@
 - [基于 DDD 的微服务设计和开发实战](https://www.infoq.cn/article/s_LFUlU6ZQODd030RbH9)
 - [当中台遇上 DDD，我们该如何设计微服务？](https://www.infoq.cn/article/7QgXyp4Jh3-5Pk6LydWw)
 
-## 快速开始
+## 部署
 
 [Kubernetes环境](/deploy/k8s)
-
-### 依赖服务
-#### Jaeger
-http://localhost:16686/
-```bash
-$ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
-```
-
-### 运行网关
-
-自定义`micro`工具，[网关插件](/gateway/plugin.go)
-
-#### 编译及运行
-
-[gateway](/gateway)
-
-#### Docker运行
-
-*TODO*
-
-### 运行服务
-- Web应用
-	- `app/console/web`控制台
-- 聚合API
-	- `app/console/api`控制台
-- 基础服务
-	- `srv/account`账户
-	
-```bash
-$ cd {指定服务目录}
-
-# 默认mdns注册中心
-$ make build run
-
-# 使用etcd注册中心
-$ make build run registry=etcd
-```
-
-### 服务测试
-- gateway
-	- http://localhost:8080/
-	- http://localhost:8080/metrics
-	- http://localhost:8082/
-	- http://localhost:8082/metrics
-- console
-	- http://localhost:8082/console
-	- Web API
-		- http://localhost:8082/console/v1/echo/
-		- http://localhost:8082/console/v1/gin/
-		- http://localhost:8082/console/v1/iris/
-	- API
-        - http://localhost:8080/account/login
-        - http://localhost:8080/account/info
-        - http://localhost:8080/account/logout
-
-### Makefile
-```bash
-$ make build                                    # 编译
-$ make run                                      # 运行
-$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
-$ make build run                                # 编译&运行
-$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
-
-$ make docker tag=xxx/xxx:v0.0.1
-```
