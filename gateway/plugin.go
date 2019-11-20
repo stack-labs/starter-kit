@@ -83,7 +83,15 @@ func initAuth() {
 		}),
 	)
 	api.Register(authPlugin)
-	// web.Register(authPlugin)
+
+	webAuthPlugin := auth.NewPlugin(
+		auth.WithResponseHandler(response.DefaultResponseHandler),
+		auth.WithSkipperFunc(func(r *http.Request) bool {
+			// 自定义skipper规则
+			return true
+		}),
+	)
+	web.Register(webAuthPlugin)
 }
 
 func initMetrics() {
@@ -99,6 +107,7 @@ func initMetrics() {
 		metrics.WithNamespace("gateway"),
 		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
+			// 过滤micro web服务的前缀，便于设置统一规则，如/console/v1/* => /v1/*
 			path := r.URL.Path
 			idx := strings.Index(path[1:], "/")
 			if idx > 0 {
