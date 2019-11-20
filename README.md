@@ -13,7 +13,7 @@
 
 ### 运行网关
 
-自定义`micro`工具，[网关插件](/gateway/plugin.go)
+自定义`micro`[网关](gateway)
 
 ```bash
 $ cd gateway
@@ -38,7 +38,7 @@ $ make run_web registry=etcd transport=tcp      # 使用etcd + tcp
 - 基础服务
 	- `srv/account`账户
 	
-> 注意`registry`、`transport`选择与网管一致
+> 注：`registry`、`transport`选择与网关一致
 ```bash
 $ cd {指定服务目录}
 
@@ -48,7 +48,7 @@ $ make build run registry=etcd transport=tcp    # 使用etcd + tcp
 ```
 
 ### 服务测试
-> `console API`由于有`认证`不能直接访问
+> 注：`console API`由于有`认证`不能直接访问
 - gateway
 	- http://localhost:8080/
 	- http://localhost:8080/metrics
@@ -65,7 +65,7 @@ $ make build run registry=etcd transport=tcp    # 使用etcd + tcp
         - http://localhost:8080/account/info
         - http://localhost:8080/account/logout
 
-### Makefile
+### Makefile说明
 ```bash
 $ make build                                    # 编译
 $ make run                                      # 运行
@@ -81,11 +81,13 @@ $ make docker tag=xxx/xxx:v0.0.1
 
 ### 可选服务
 
-**Jaeger**
-http://localhost:16686/
+<details>
+  <summary> Jaeger </summary>
 ```bash
 $ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
 ```
+浏览器访问:http://localhost:16686/
+</details>
 
 ## 目标
 
