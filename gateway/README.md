@@ -13,12 +13,12 @@
 $ make build
 
 # API
-$ make run_api
-$ make run_api registry=etcd transport=tcp    # 指定registry
+$ make run_api                                  # 默认mdns + http
+$ make run_api registry=etcd transport=tcp      # 指定etcd + tcp
 
 # Web
-$ make run_web
-$ make run_web registry=etcd transport=tcp    # 指定registry
+$ make run_web                                  # 默认mdns + http
+$ make run_web registry=etcd transport=tcp      # 指定etcd + tcp
 ```
 
 ## Docker
