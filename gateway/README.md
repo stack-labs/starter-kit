@@ -1,6 +1,6 @@
 # Gateway
 
-自定义micro工具，增加`Auth`、`CORS`等插件
+[x-gateway](https://github.com/micro-in-cn/x-gateway).，增加`Auth`、`CORS`等插件
 
 - 认证&鉴权`JWT`+`Casbin` [Auth](/gateway/plugin/auth)
 - 跨域支持 [CORS](/gateway/plugin/cors)
