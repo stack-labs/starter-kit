@@ -8,40 +8,59 @@ import (
 
 type userRepository struct {
 	mu    *sync.Mutex
-	users map[string]*User
+	users []*model.User
 }
 
 func NewUserRepository() *userRepository {
+	users := make([]*model.User, 0)
+	users[1] = &model.User{
+		Id:       1,
+		Name:     "admin",
+		Password: "123456",
+	}
+
 	return &userRepository{
 		mu:    &sync.Mutex{},
-		users: map[string]*User{},
+		users: users,
 	}
 }
 
-func (r *userRepository) FindByName(email string) (*model.User, error) {
+func (r *userRepository) FindById(id int64) (*model.User, error) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
 	for _, user := range r.users {
-		if user.Name == email {
-			return model.NewUser(user.ID, user.Name), nil
+		if user.Id == id {
+			return user, nil
 		}
 	}
 	return nil, nil
 }
 
-func (r *userRepository) Save(user *model.User) error {
+func (r *userRepository) FindByName(name string) (*model.User, error) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	r.users[user.GetID()] = &User{
-		ID:   user.GetID(),
-		Name: user.GetName(),
+	for _, user := range r.users {
+		if user.Name == name {
+			return user, nil
+		}
 	}
+	return nil, nil
+}
+
+func (r *userRepository) Add(user *model.User) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	id := int64(len(r.users) + 1)
+	user.Id = id
+
+	r.users = append(r.users, user)
+
 	return nil
 }
 
-type User struct {
-	ID   string
-	Name string
+func (r *userRepository) List(page, size int) ([]*model.User, error) {
+	return nil, nil
 }

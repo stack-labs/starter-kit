@@ -4,6 +4,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/trace/opentracing"
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/web"
 	"github.com/rakyll/statik/fs"
@@ -12,7 +13,6 @@ import (
 	"github.com/micro-in-cn/starter-kit/app/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/app/console/web/iris"
 	_ "github.com/micro-in-cn/starter-kit/app/console/web/statik"
-	"github.com/micro-in-cn/starter-kit/gateway/plugin/trace/opentracing"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
 

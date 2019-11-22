@@ -62,7 +62,7 @@ func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response)
 
 	// make request
 	response, err := ac.Logout(ctx, &account.Request{
-		Id: "admin",
+		Id: 0,
 	})
 	if err != nil {
 		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
@@ -91,7 +91,7 @@ func (*Account) Info(ctx context.Context, req *api.Request, rsp *api.Response) e
 
 	// make request
 	response, err := ac.Info(ctx, &account.Request{
-		Id: "admin",
+		Id: 0,
 	})
 	if err != nil {
 		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())

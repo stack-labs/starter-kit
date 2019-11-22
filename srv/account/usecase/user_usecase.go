@@ -1,15 +1,16 @@
 package usecase
 
 import (
-	"github.com/google/uuid"
-	"github.com/micro-in-cn/starter-kit/srv/account/domain/model"
+	"github.com/hb-go/pkg/conv"
 	"github.com/micro-in-cn/starter-kit/srv/account/domain/repository"
 	"github.com/micro-in-cn/starter-kit/srv/account/domain/service"
 )
 
 type UserUsecase interface {
 	LoginUser(name, pwd string) (*User, error)
-	RegisterUser(email string) error
+	RegisterUser(name, pwd string) (*User, error)
+	GetUser(id int64) (*User, error)
+	GetUserList(page, size int) ([]*User, error)
 }
 
 type userUsecase struct {
@@ -24,8 +25,32 @@ func NewUserUsecase(repo repository.UserRepository, service *service.UserService
 	}
 }
 
-func (u *userUsecase) LoginUser(name, pwd string) (*User, error) {
-	user, err := u.repo.FindByName(name)
+func (this *userUsecase) LoginUser(name, pwd string) (*User, error) {
+	user, err := this.service.Login(name, pwd)
+	if err != nil {
+		return nil, err
+	} else if user == nil {
+		return nil, nil
+	}
+
+	u := &User{}
+	conv.StructToStruct(user, u)
+	return u, nil
+}
+
+func (this *userUsecase) RegisterUser(name, pwd string) (*User, error) {
+	user, err := this.service.Register(name, pwd)
+	if err != nil {
+		return nil, err
+	}
+
+	u := &User{}
+	conv.StructToStruct(user, u)
+	return u, nil
+}
+
+func (this *userUsecase) GetUser(id int64) (*User, error) {
+	user, err := this.repo.FindById(id)
 	if err != nil {
 		return nil, err
 	} else if user == nil {
@@ -33,38 +58,28 @@ func (u *userUsecase) LoginUser(name, pwd string) (*User, error) {
 	}
 
 	return &User{
-		ID:   user.GetID(),
-		Name: user.GetName(),
+		Id:   user.Id,
+		Name: user.Name,
 	}, nil
 }
 
-func (u *userUsecase) RegisterUser(name string) error {
-	uid, err := uuid.NewRandom()
+func (this *userUsecase) GetUserList(page, size int) ([]*User, error) {
+	list, err := this.repo.List(page, size)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	if err := u.service.Duplicated(name); err != nil {
-		return err
+
+	users := make([]*User, 0, len(list))
+	for _, u := range list {
+		user := &User{}
+		conv.StructToStruct(u, user)
+		users = append(users, user)
 	}
-	user := model.NewUser(uid.String(), name)
-	if err := u.repo.Save(user); err != nil {
-		return err
-	}
-	return nil
+
+	return users, nil
 }
 
 type User struct {
-	ID   string
-	Name string
-}
-
-func toUser(users []*model.User) []*User {
-	res := make([]*User, len(users))
-	for i, user := range users {
-		res[i] = &User{
-			ID:   user.GetID(),
-			Name: user.GetName(),
-		}
-	}
-	return res
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
 }
