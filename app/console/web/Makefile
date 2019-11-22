@@ -20,7 +20,7 @@ docker: build_linux
 
 .PHONY: vue
 vue:
-	cd vue && npm run build:prod
+	cd vue && npm install  && npm run build:prod
 
 .PHONY: statik
 statik:

@@ -13,7 +13,7 @@
 
 ### 运行网关
 
-自定义`micro`[网关](gateway)
+`micro api`[网关](gateway) 
 
 ```bash
 $ cd gateway
