@@ -17,12 +17,12 @@ import (
 	"github.com/casbin/casbin/v2/persist/file-adapter"
 	"github.com/micro/go-micro/util/log"
 
-	"github.com/micro-in-cn/starter-kit/gateway/plugin/auth"
-	"github.com/micro-in-cn/starter-kit/gateway/plugin/cors"
-	"github.com/micro-in-cn/starter-kit/gateway/plugin/metrics"
-	"github.com/micro-in-cn/starter-kit/gateway/plugin/trace/opentracing"
-	"github.com/micro-in-cn/starter-kit/gateway/plugin/util/response"
-	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	tracer "github.com/micro-in-cn/x-gateway/pkg/opentracing"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/auth"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/cors"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/metrics"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/trace/opentracing"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/util/response"
 )
 
 var apiTracerCloser, webTracerCloser io.Closer

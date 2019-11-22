@@ -98,7 +98,7 @@ $ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp
 
 > `prometheus.yml`参考`gateway`插件`[metrics/prometheus.yml](/gateway/plugin/metrics/prometheus.yml)
 ```bash
-docker run -d --name prometheus -p 9090:9090 -v ~/tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+$ docker run -d --name prometheus -p 9090:9090 -v ~/tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
 ```
 
 </details>
@@ -110,7 +110,7 @@ docker run -d --name prometheus -p 9090:9090 -v ~/tmp/prometheus.yml:/etc/promet
 
 > `Grafana`仪表盘`import`[metrics/grafan.json](/gateway/plugin/metrics/grafan.json)
 ```bash
-docker run --name grafana -d -p 3000:3000 grafana/grafana
+$ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ```
 
 </details>
@@ -155,6 +155,7 @@ docker run --name grafana -d -p 3000:3000 grafana/grafana
 	- [ ] Docker
 - 安全
 - CICD
+	- [ ] Drone
 	- [ ] Jenkins
 - 基础服务
 	- [ ] 日志收集
