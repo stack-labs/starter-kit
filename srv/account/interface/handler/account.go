@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"github.com/micro/go-micro/errors"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -26,9 +27,11 @@ func NewAccountService(userUsecase usecase.UserUsecase) *Account {
 func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *account.LoginResponse) error {
 	log.Log("Received Example.Call request")
 
-	_, err := a.userUsecase.LoginUser(req.Username, req.Password)
+	user, err := a.userUsecase.LoginUser(req.Username, req.Password)
 	if err != nil {
 		return err
+	} else if user == nil {
+		return errors.New("go.micro.srv.account", "用户名或密码错误", 200)
 	}
 
 	claims := jwt.StandardClaims{

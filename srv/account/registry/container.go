@@ -1,9 +1,13 @@
 package registry
 
 import (
+	"github.com/micro-in-cn/starter-kit/srv/account/conf"
 	"github.com/micro-in-cn/starter-kit/srv/account/domain/service"
 	"github.com/micro-in-cn/starter-kit/srv/account/interface/persistence/memory"
+	"github.com/micro-in-cn/starter-kit/srv/account/interface/persistence/xorm"
 	"github.com/micro-in-cn/starter-kit/srv/account/usecase"
+	"github.com/micro/go-micro/config"
+	"github.com/micro/go-micro/util/log"
 	"github.com/sarulabs/di"
 )
 
@@ -40,7 +44,22 @@ func (c *Container) Clean() error {
 }
 
 func buildUserUsecase(ctn di.Container) (interface{}, error) {
-	repo := memory.NewUserRepository()
-	service := service.NewUserService(repo)
-	return usecase.NewUserUsecase(repo, service), nil
+	dbConf := conf.Database{}
+	err := config.Get("database").Scan(&dbConf)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	// TODO ORM选择，gorm、xorm...
+	if dbConf.Engine == "mysql" {
+		repo := xorm.NewUserRepository()
+		service := service.NewUserService(repo)
+		return usecase.NewUserUsecase(repo, service), nil
+	} else {
+		// 默认memory作为mock
+		repo := memory.NewUserRepository()
+		service := service.NewUserService(repo)
+		return usecase.NewUserUsecase(repo, service), nil
+	}
 }

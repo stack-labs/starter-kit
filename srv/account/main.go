@@ -1,14 +1,25 @@
 package main
 
 import (
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/util/log"
 
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 	"github.com/micro-in-cn/starter-kit/srv/account/interface/handler"
+	"github.com/micro-in-cn/starter-kit/srv/account/interface/persistence/xorm"
 	"github.com/micro-in-cn/starter-kit/srv/account/registry"
 )
+
+func init() {
+	// 配置加载
+	err := config.LoadFile("./conf/config.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	// New Service
@@ -28,6 +39,9 @@ func main() {
 		micro.WrapCall(opentracing.NewCallWrapper(t)),
 		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),
 	)
+
+	// DB初始化
+	xorm.InitDB()
 
 	// Initialise service
 	service.Init()

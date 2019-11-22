@@ -23,7 +23,6 @@ require (
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/protobuf v1.3.2
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
-	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.5 // indirect
 	github.com/hashicorp/go-hclog v0.9.2 // indirect
@@ -32,13 +31,14 @@ require (
 	github.com/hashicorp/raft v1.1.1 // indirect
 	github.com/hashicorp/serf v0.8.3 // indirect
 	github.com/hashicorp/vault v1.1.4 // indirect
+	github.com/hb-go/pkg v0.0.2
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jcmturner/gofork v1.0.0 // indirect
 	github.com/jinzhu/gorm v1.9.11
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
-	github.com/micro-in-cn/x-gateway v0.0.0-20191122132020-660d41014a20
+	github.com/micro-in-cn/x-gateway v0.0.2-0.20191122132020-660d41014a20
 	github.com/micro/go-micro v1.16.1-0.20191121173113-8dc3fb964eaa
 	github.com/micro/go-plugins v1.5.1
 	github.com/micro/micro v1.16.1-0.20191121175420-186c72c1941d
@@ -69,6 +69,7 @@ require (
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	gopkg.in/jcmturner/gokrb5.v7 v7.3.0 // indirect
 	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible // indirect
+	xorm.io/xorm v0.8.0
 )
 
 replace github.com/gogo/protobuf v0.0.0-20190410021324-65acae22fc9 => github.com/gogo/protobuf v0.0.0-20190723190241-65acae22fc9d
