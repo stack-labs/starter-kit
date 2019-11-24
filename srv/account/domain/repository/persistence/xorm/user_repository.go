@@ -13,7 +13,7 @@ func NewUserRepository() *userRepository {
 
 func (r *userRepository) FindById(id int64) (*model.User, error) {
 	user := model.User{}
-	if ok, err := DB().Where("id = ?", id).Get(&user); ok && err == nil {
+	if ok, err := db.Where("id = ?", id).Get(&user); ok && err == nil {
 		return &user, nil
 	} else {
 		return nil, err
@@ -22,7 +22,7 @@ func (r *userRepository) FindById(id int64) (*model.User, error) {
 
 func (r *userRepository) FindByName(name string) (*model.User, error) {
 	user := model.User{}
-	if has, err := DB().Where("name = ?", name).Get(&user); err == nil && has {
+	if has, err := db.Where("name = ?", name).Get(&user); err == nil && has {
 		return &user, nil
 	} else {
 		return nil, err
@@ -30,7 +30,7 @@ func (r *userRepository) FindByName(name string) (*model.User, error) {
 }
 
 func (r *userRepository) Add(user *model.User) error {
-	id, err := DB().Insert(user)
+	id, err := db.Insert(user)
 	if err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func (r *userRepository) Add(user *model.User) error {
 
 func (r *userRepository) List(page, size int) ([]*model.User, error) {
 	list := make([]*model.User, 0)
-	session := DB().Desc("id")
+	session := db.Desc("id")
 	err := session.Limit(size, (page-1)*size).Find(&list)
 
 	return list, err

@@ -1,14 +1,16 @@
 package registry
 
 import (
-	"github.com/micro-in-cn/starter-kit/srv/account/conf"
-	"github.com/micro-in-cn/starter-kit/srv/account/domain/service"
-	"github.com/micro-in-cn/starter-kit/srv/account/interface/persistence/memory"
-	"github.com/micro-in-cn/starter-kit/srv/account/interface/persistence/xorm"
-	"github.com/micro-in-cn/starter-kit/srv/account/usecase"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/micro/go-micro/config"
-	"github.com/micro/go-micro/util/log"
 	"github.com/sarulabs/di"
+
+	"github.com/micro-in-cn/starter-kit/srv/account/domain/repository"
+	"github.com/micro-in-cn/starter-kit/srv/account/domain/repository/persistence/gorm"
+	"github.com/micro-in-cn/starter-kit/srv/account/domain/repository/persistence/memory"
+	"github.com/micro-in-cn/starter-kit/srv/account/domain/repository/persistence/xorm"
+	"github.com/micro-in-cn/starter-kit/srv/account/domain/service"
+	"github.com/micro-in-cn/starter-kit/srv/account/usecase"
 )
 
 type Container struct {
@@ -16,6 +18,10 @@ type Container struct {
 }
 
 func NewContainer() (*Container, error) {
+	// DB初始化
+	xorm.InitDB()
+	gorm.InitDB()
+
 	builder, err := di.NewBuilder()
 	if err != nil {
 		return nil, err
@@ -44,22 +50,20 @@ func (c *Container) Clean() error {
 }
 
 func buildUserUsecase(ctn di.Container) (interface{}, error) {
-	dbConf := conf.Database{}
-	err := config.Get("database").Scan(&dbConf)
-	if err != nil {
-		log.Error(err)
-		return nil, err
+	persistence := config.Get("persistence").String("")
+
+	// ORM选择，gorm、xorm...
+	var repo repository.UserRepository
+	switch persistence {
+	case "xorm":
+		repo = xorm.NewUserRepository()
+	case "gorm":
+		repo = gorm.NewUserRepository()
+	default:
+		// 默认memory作为mock
+		repo = memory.NewUserRepository()
 	}
 
-	// TODO ORM选择，gorm、xorm...
-	if dbConf.Engine == "mysql" {
-		repo := xorm.NewUserRepository()
-		service := service.NewUserService(repo)
-		return usecase.NewUserUsecase(repo, service), nil
-	} else {
-		// 默认memory作为mock
-		repo := memory.NewUserRepository()
-		service := service.NewUserService(repo)
-		return usecase.NewUserUsecase(repo, service), nil
-	}
+	service := service.NewUserService(repo)
+	return usecase.NewUserUsecase(repo, service), nil
 }
