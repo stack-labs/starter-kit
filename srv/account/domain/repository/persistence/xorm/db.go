@@ -12,9 +12,11 @@ import (
 	"github.com/micro-in-cn/starter-kit/srv/account/conf"
 )
 
-var dbConf conf.Database
-var db *xorm.Engine
-var once sync.Once
+var (
+	dbConf conf.Database
+	db     *xorm.Engine
+	once   sync.Once
+)
 
 func InitDB() {
 	once.Do(func() {
@@ -23,6 +25,8 @@ func InitDB() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		log.Infof("ConnMaxLifetime: %v", dbConf.ConnMaxLifetime)
 
 		db, err = xorm.NewEngine("mysql", fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
 			dbConf.User,
@@ -34,6 +38,10 @@ func InitDB() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		db.SetMaxOpenConns(dbConf.MaxOpenConns)
+		db.SetMaxIdleConns(dbConf.MaxIdleConns)
+		db.SetConnMaxLifetime(dbConf.ConnMaxLifetime)
 
 		// TODO xorm migrate问题，mysql创建migrations表出错
 		// Specified key was too long; max key length is 767 bytes
@@ -55,11 +63,4 @@ func InitDB() {
 			panic(err)
 		}
 	})
-}
-
-func DB() *xorm.Engine {
-	if db == nil {
-		InitDB()
-	}
-	return db
 }
