@@ -2,17 +2,14 @@ package main
 
 //go:generate statik -src=./vue/dist -dest=./ -f
 import (
-	"net/http"
-
 	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/trace/opentracing"
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/web"
-	"github.com/rakyll/statik/fs"
 
 	"github.com/micro-in-cn/starter-kit/app/console/web/echo"
 	"github.com/micro-in-cn/starter-kit/app/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/app/console/web/iris"
-	_ "github.com/micro-in-cn/starter-kit/app/console/web/statik"
+	"github.com/micro-in-cn/starter-kit/app/console/web/statik"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
 
@@ -63,13 +60,9 @@ func main() {
 	}
 	service.Handle("/v1/iris/", h(irisHandler))
 
-	statikFS, err := fs.New()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// register html handler
-	service.Handle("/", http.FileServer(statikFS))
+	// register static file handler
+	// 使用statik打包需要:make statik，编译时增加`-tags "statik"`标签
+	service.Handle("/", statik.Handler())
 
 	// run service
 	if err := service.Run(); err != nil {
