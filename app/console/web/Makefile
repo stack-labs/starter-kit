@@ -3,12 +3,14 @@ GOPATH:=$(shell go env GOPATH)
 
 
 .PHONY: build
-build: vue statik
+build: vue
 	go build -o ./bin/console-web main.go plugin.go
+	# go build -o ./bin/console-web -tags "statik" main.go plugin.go
 
 .PHONY: build_linux
-build_linux: vue statik
+build_linux: vue
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web main.go plugin.go
+	# CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web -tags "statik" main.go plugin.go
 
 .PHONY: test
 test:
