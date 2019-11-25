@@ -18,11 +18,11 @@ import (
 	"github.com/micro/go-micro/util/log"
 
 	tracer "github.com/micro-in-cn/x-gateway/pkg/opentracing"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/auth"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/cors"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/metrics"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/trace/opentracing"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/wrapper/util/response"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/auth"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/cors"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/metrics"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/trace/opentracing"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/util/response"
 )
 
 var apiTracerCloser, webTracerCloser io.Closer

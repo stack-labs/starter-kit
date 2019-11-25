@@ -20,6 +20,7 @@ require (
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32 // indirect
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
 	github.com/gin-gonic/gin v1.3.0
+	github.com/go-sql-driver/mysql v1.4.1
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/protobuf v1.3.2
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
@@ -38,7 +39,7 @@ require (
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
-	github.com/micro-in-cn/x-gateway v0.0.2-0.20191122132020-660d41014a20
+	github.com/micro-in-cn/x-gateway v0.0.2-0.20191125115143-ad9ba9078b69
 	github.com/micro/go-micro v1.16.1-0.20191121173113-8dc3fb964eaa
 	github.com/micro/go-plugins v1.5.1
 	github.com/micro/micro v1.16.1-0.20191121175420-186c72c1941d
