@@ -144,8 +144,8 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 - 领域驱动
 	- [x] 整洁架构
 - ORM
-	- [ ] gorm
-	- [ ] xorm
+	- [x] gorm
+	- [x] xorm
 - 发布
 	- [ ] 灰度
 	- [ ] 蓝绿
@@ -218,3 +218,12 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ## 部署
 
 [Kubernetes环境](/deploy/k8s)
+
+## 贡献
+
+### 代码格式
+- IDE IDEA/Goland，`Go->imports` 设置
+    - Sorting type `gofmt`
+    - [x] `Group stdlib imports`
+        - [x] `Move all stdlib imports in a single group`
+    - [x] `Move all imports in a single declaration`
