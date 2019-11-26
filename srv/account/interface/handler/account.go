@@ -2,11 +2,11 @@ package handler
 
 import (
 	"context"
-	"github.com/micro/go-micro/errors"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/test"
+	"github.com/micro/go-micro/errors"
 	"github.com/micro/go-micro/util/log"
 
 	"github.com/micro-in-cn/starter-kit/srv/account/usecase"

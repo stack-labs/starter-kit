@@ -9,12 +9,9 @@ import (
 	microerr "github.com/micro/go-micro/errors"
 	"github.com/micro/go-micro/registry/memory"
 	"github.com/micro/go-micro/server"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/mocktracer"
 	"github.com/stretchr/testify/assert"
-
-	cli "github.com/micro/go-micro/client"
-	srv "github.com/micro/go-micro/server"
 )
 
 type Test interface {
@@ -72,12 +69,12 @@ func TestClient(t *testing.T) {
 			serverID := "id-1234567890"
 			serverVersion := "1.0.0"
 
-			c := cli.NewClient(
+			c := client.NewClient(
 				client.Selector(sel),
 				client.WrapCall(NewCallWrapper(tracer)),
 			)
 
-			s := srv.NewServer(
+			s := server.NewServer(
 				server.Name(serverName),
 				server.Version(serverVersion),
 				server.Id(serverID),

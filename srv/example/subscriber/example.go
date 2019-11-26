@@ -2,6 +2,7 @@ package subscriber
 
 import (
 	"context"
+
 	"github.com/micro/go-micro/util/log"
 
 	example "github.com/micro-in-cn/starter-kit/srv/example/proto/example"
