@@ -21,8 +21,7 @@ steps:
     REPO: github.com/micro-in-cn/starter-kit
   commands:
     - pwd
-    - ls
     - go version
     - cd gateway
-    - make build
+    - go build -o ./bin/micro main.go plugin.go
     - ./bin/micro --version
