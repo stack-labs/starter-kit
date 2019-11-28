@@ -10,5 +10,14 @@ platform:
 steps:
 - name: build
   image: golang:1.13-alpine
+  environment:
+    GOOS: linux
+    GOARCH: amd64
+    CGO_ENABLED: 0
+    GOPROXY: https://mirrors.aliyun.com/goproxy/
   commands:
-  - go version
+    - pwd
+    - go version
+    - cd gateway
+    - make build
+    - ./bin/micro --version
