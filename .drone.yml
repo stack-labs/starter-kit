@@ -18,7 +18,6 @@ steps:
     GOARCH: amd64
     CGO_ENABLED: 0
     GOPROXY: https://mirrors.aliyun.com/goproxy/
-    REPO: github.com/micro-in-cn/starter-kit
   commands:
     - pwd
     - go version
