@@ -1,0 +1,26 @@
+---
+kind: pipeline
+type: docker
+name: linux-amd64
+
+platform:
+  arch: amd64
+  os: linux
+
+workspace:
+  path: github.com/micro-in-cn/starter-kit
+
+steps:
+- name: build
+  image: golang:1.13-alpine
+  environment:
+    GOOS: linux
+    GOARCH: amd64
+    CGO_ENABLED: 0
+    GOPROXY: https://mirrors.aliyun.com/goproxy/
+  commands:
+    - pwd
+    - go version
+    - cd gateway
+    - go build -o ./bin/micro main.go plugin.go
+    - ./bin/micro --version
