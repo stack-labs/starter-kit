@@ -7,6 +7,11 @@ platform:
   arch: amd64
   os: linux
 
+clone:
+  depth: 50
+  recursive: true
+  path: github.com/micro-in-cn/starter-kit
+
 steps:
 - name: build
   image: golang:1.13-alpine
@@ -17,6 +22,7 @@ steps:
     GOPROXY: https://mirrors.aliyun.com/goproxy/
     REPO: github.com/micro-in-cn/starter-kit
   commands:
+    - pwd
     - ls
     - go version
     - cd gateway
