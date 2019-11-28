@@ -15,8 +15,9 @@ steps:
     GOARCH: amd64
     CGO_ENABLED: 0
     GOPROXY: https://mirrors.aliyun.com/goproxy/
+    REPO: github.com/micro-in-cn/starter-kit
   commands:
-    - pwd
+    - tree -L 2
     - go version
     - cd gateway
     - make build
