@@ -17,7 +17,7 @@ steps:
     GOPROXY: https://mirrors.aliyun.com/goproxy/
     REPO: github.com/micro-in-cn/starter-kit
   commands:
-    - tree -L 2
+    - ls
     - go version
     - cd gateway
     - make build
