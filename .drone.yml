@@ -1,0 +1,19 @@
+workspace:
+  base: /srv/github.com/micro-in-cn/starter-kit
+  path: .
+
+pipeline:
+  build:
+    image: golang:1.13-alpine
+    # pull: true
+    environment:
+      - GOOS=linux
+      - GOARCH=amd64
+      - CGO_ENABLED=0
+      - GOPROXY=https://mirrors.aliyun.com/goproxy/
+    commands:
+      - pwd
+      - ls
+      - cd gateway
+      - make build
+      - ./bin/micro --version
