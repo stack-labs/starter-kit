@@ -12,8 +12,8 @@ pipeline:
       - CGO_ENABLED=0
       - GOPROXY=https://mirrors.aliyun.com/goproxy/
     commands:
+      - go version
       - pwd
-      - ls
       - cd gateway
       - make build
       - ./bin/micro --version
