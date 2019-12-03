@@ -8,7 +8,7 @@ proto:
 
 .PHONY: build
 build: proto
-	go build -o example-srv main.go plugin.go
+	go build -o ./bin/example-srv main.go plugin.go
 
 .PHONY: build_linux
 build_linux: proto
