@@ -6,6 +6,7 @@ require (
 	github.com/Azure/azure-amqp-common-go v1.1.4 // indirect
 	github.com/Azure/azure-pipeline-go v0.2.2 // indirect
 	github.com/Azure/azure-storage-blob-go v0.7.0 // indirect
+	github.com/astaxie/beego v1.12.0
 	github.com/Azure/go-autorest/autorest/adal v0.6.0 // indirect
 	github.com/DataDog/zstd v1.4.1 // indirect
 	github.com/ajg/form v1.5.1 // indirect
