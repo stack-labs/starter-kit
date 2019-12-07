@@ -11,7 +11,7 @@ import (
 //New return a beego handler
 func New() (http.Handler, error) {
 
-	beego.GET("/", (ctx *bctx.Context) {
+	beego.Get("/demo", func (ctx *bctx.Context) {
 		log.Info("Received Get Request")
 		ctx.Output.JSON(map[string]string{
 			"message": "BeeGo Here",
