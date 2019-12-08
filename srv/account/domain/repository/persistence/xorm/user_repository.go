@@ -30,11 +30,10 @@ func (r *userRepository) FindByName(name string) (*model.User, error) {
 }
 
 func (r *userRepository) Add(user *model.User) error {
-	id, err := db.Insert(user)
+	_, err := db.Insert(user)
 	if err != nil {
 		return err
 	}
-	user.Id = id
 	return nil
 }
 
