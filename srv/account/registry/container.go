@@ -18,10 +18,6 @@ type Container struct {
 }
 
 func NewContainer() (*Container, error) {
-	// DB初始化
-	xorm.InitDB()
-	gorm.InitDB()
-
 	builder, err := di.NewBuilder()
 	if err != nil {
 		return nil, err
@@ -56,8 +52,12 @@ func buildUserUsecase(ctn di.Container) (interface{}, error) {
 	var repo repository.UserRepository
 	switch persistence {
 	case "xorm":
+		// DB初始化
+		xorm.InitDB()
 		repo = xorm.NewUserRepository()
 	case "gorm":
+		// DB初始化
+		gorm.InitDB()
 		repo = gorm.NewUserRepository()
 	default:
 		// 默认memory作为mock
