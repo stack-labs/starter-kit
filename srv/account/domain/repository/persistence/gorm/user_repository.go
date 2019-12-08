@@ -13,10 +13,12 @@ func NewUserRepository() *userRepository {
 
 func (r *userRepository) FindById(id int64) (*model.User, error) {
 	user := model.User{}
-	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
-		return nil, err
-	} else if user.Id == 0 {
-		return nil, nil
+	if result := db.Where("id = ?", id).First(&user); result.Error != nil {
+		if result.RecordNotFound() {
+			return nil, nil
+		} else {
+			return nil, result.Error
+		}
 	} else {
 		return &user, nil
 	}
@@ -24,10 +26,12 @@ func (r *userRepository) FindById(id int64) (*model.User, error) {
 
 func (r *userRepository) FindByName(name string) (*model.User, error) {
 	user := model.User{}
-	if err := db.Where("name = ?", name).First(&user).Error; err == nil {
-		return &user, nil
-	} else if user.Id == 0 {
-		return nil, nil
+	if result := db.Where("name = ?", name).First(&user); result.Error != nil {
+		if result.RecordNotFound() {
+			return nil, nil
+		} else {
+			return nil, result.Error
+		}
 	} else {
 		return &user, nil
 	}
