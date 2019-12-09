@@ -147,8 +147,9 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 	- [x] gorm
 	- [x] xorm
 - 发布
-	- [ ] 灰度
-	- [ ] 蓝绿
+	- [x] 灰度
+	- [x] 蓝绿
+	- *注:由于micro默认的api和web网关均不支持服务筛选，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)*
 - 部署
 	- [ ] K8S
 		- [ ] helm

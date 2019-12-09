@@ -640,6 +640,7 @@ github.com/micro-in-cn/x-gateway v0.0.1 h1:Dlj5+0qc6pMabUX70pmjEiZNu+LbajPWXgl/x
 github.com/micro-in-cn/x-gateway v0.0.1/go.mod h1:MCZXijrPj9n4xeocN7WsGNJsOpr3dVDd/X13ol4l3rU=
 github.com/micro-in-cn/x-gateway v0.0.2-0.20191122132020-660d41014a20 h1:XwrVn9W1ur29tqofJuhfRCG3N5WcAjkSlYAn6hvJFXM=
 github.com/micro-in-cn/x-gateway v0.0.2-0.20191122132020-660d41014a20/go.mod h1:5FheOOZG7agb9tkrJX6F0bDZESMvE/FgM3B0jWxYjMs=
+github.com/micro-in-cn/x-gateway v0.0.2-0.20191125115143-ad9ba9078b69 h1:gZ6EMmeAul4HVoT+71q91lq5P57EBekomXx27kg0JZY=
 github.com/micro-in-cn/x-gateway v0.0.2-0.20191125115143-ad9ba9078b69/go.mod h1:5FheOOZG7agb9tkrJX6F0bDZESMvE/FgM3B0jWxYjMs=
 github.com/micro/cli v0.2.0 h1:ut3rV5JWqZjsXIa2MvGF+qMUP8DAUTvHX9Br5gO4afA=
 github.com/micro/cli v0.2.0/go.mod h1:jRT9gmfVKWSS6pkKcXQ8YhUyj6bzwxK8Fp5b0Y7qNnk=
@@ -649,6 +650,7 @@ github.com/micro/go-micro v1.14.0/go.mod h1:dgCyTf3scZCR1iQsbH/a/dT6VqHLN/3Uy8io
 github.com/micro/go-micro v1.15.1/go.mod h1:A0F58bHLh2m0LAI9QyhvmbN8c1cxhAZo3cM6s+iDsrM=
 github.com/micro/go-micro v1.16.0 h1:0UQS5Of9EJ96hBqmJgXQYIBQgkvFrSN4quMX8th7cok=
 github.com/micro/go-micro v1.16.0/go.mod h1:A0F58bHLh2m0LAI9QyhvmbN8c1cxhAZo3cM6s+iDsrM=
+github.com/micro/go-micro v1.16.1-0.20191114142621-383658edf28e/go.mod h1:74ZHKqTq2VdCCBhV+2ohfeJmn+zfbC+cTum7agON4TA=
 github.com/micro/go-micro v1.16.1-0.20191121173113-8dc3fb964eaa h1:1WBfdbO+C4bMFamEr2qtMZtnfW5xD3P23pamPjDsjeA=
 github.com/micro/go-micro v1.16.1-0.20191121173113-8dc3fb964eaa/go.mod h1:QQ6eNEzMeFdFVl19tfppbzo4n14uaLZWxNjh1rdIDeA=
 github.com/micro/go-plugins v1.4.0 h1:oLdSBuuuBgU/O9Z74qe+JWA6UkTbm09iWDhUEp/D1iw=
