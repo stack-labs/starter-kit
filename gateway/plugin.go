@@ -17,6 +17,7 @@ import (
 	"github.com/casbin/casbin/v2/persist/file-adapter"
 	"github.com/micro/go-micro/util/log"
 
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
 	tracer "github.com/micro-in-cn/x-gateway/pkg/opentracing"
 	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/auth"
 	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/cors"
@@ -48,6 +49,10 @@ func init() {
 
 	// 链路追踪
 	initTrace()
+
+	// 流量染色
+	initChain()
+
 }
 
 func initCors() {
@@ -161,4 +166,14 @@ func initTrace() {
 			return true
 		}),
 	))
+}
+
+func initChain() {
+	api.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
+		return []string{"gray"}
+	})))
+
+	web.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
+		return []string{"gray"}
+	})))
 }

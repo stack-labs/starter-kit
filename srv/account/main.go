@@ -4,8 +4,9 @@ import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/util/log"
-
+	
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 	"github.com/micro-in-cn/starter-kit/srv/account/interface/handler"
 	"github.com/micro-in-cn/starter-kit/srv/account/registry"
@@ -20,10 +21,14 @@ func init() {
 }
 
 func main() {
+	md := make(map[string]string)
+	md["chain"] = "gray"
+
 	// New Service
 	service := micro.NewService(
 		micro.Name("go.micro.srv.account"),
 		micro.Version("latest"),
+		micro.Metadata(md),
 	)
 
 	// 链路追踪
@@ -36,6 +41,7 @@ func main() {
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 		micro.WrapCall(opentracing.NewCallWrapper(t)),
 		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),
+		micro.WrapClient(chain.NewClientWrapper()),
 	)
 
 	// Initialise service

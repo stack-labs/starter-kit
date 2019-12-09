@@ -7,14 +7,19 @@ import (
 	"github.com/micro-in-cn/starter-kit/app/console/api/client"
 	"github.com/micro-in-cn/starter-kit/app/console/api/handler"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 )
 
 func main() {
+	md := make(map[string]string)
+	md["chain"] = "gray"
+
 	// New Service
 	service := micro.NewService(
 		micro.Name("go.micro.api.console"),
 		micro.Version("v1"),
+		micro.Metadata(md),
 	)
 
 	// 链路追踪
@@ -25,6 +30,9 @@ func main() {
 	defer closer.Close()
 
 	// Initialise service
+	service.Init(
+		micro.WrapClient(chain.NewClientWrapper()),
+	)
 	service.Init(
 		// create wrap for the Example srv client
 		micro.WrapHandler(client.AccountWrapper(service)),

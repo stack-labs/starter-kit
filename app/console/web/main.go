@@ -15,10 +15,14 @@ import (
 )
 
 func main() {
+	md := make(map[string]string)
+	md["chain"] = "gray"
+
 	// create new web service
 	service := web.NewService(
 		web.Name("go.micro.web.console"),
 		web.Version("latest"),
+		web.Metadata(md),
 	)
 
 	// initialise service

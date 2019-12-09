@@ -41,6 +41,7 @@ require (
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
 	github.com/micro-in-cn/x-gateway v0.0.2-0.20191125115143-ad9ba9078b69
+	github.com/micro/cli v0.2.0
 	github.com/micro/go-micro v1.16.1-0.20191121173113-8dc3fb964eaa
 	github.com/micro/go-plugins v1.5.1
 	github.com/micro/micro v1.16.1-0.20191121175420-186c72c1941d
