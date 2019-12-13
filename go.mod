@@ -6,12 +6,12 @@ require (
 	github.com/Azure/azure-amqp-common-go v1.1.4 // indirect
 	github.com/Azure/azure-pipeline-go v0.2.2 // indirect
 	github.com/Azure/azure-storage-blob-go v0.7.0 // indirect
-	github.com/astaxie/beego v1.12.0
 	github.com/Azure/go-autorest/autorest/adal v0.6.0 // indirect
 	github.com/DataDog/zstd v1.4.1 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
+	github.com/astaxie/beego v1.12.0
 	github.com/casbin/casbin/v2 v2.1.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/eapache/go-resiliency v1.2.0 // indirect
@@ -55,6 +55,7 @@ require (
 	github.com/rakyll/statik v0.1.6
 	github.com/rcrowley/go-metrics v0.0.0-20190706150252-9beb055b7962 // indirect
 	github.com/sarulabs/di v2.0.0+incompatible
+	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/stretchr/testify v1.4.0

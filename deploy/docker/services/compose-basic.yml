@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+  etcd:
+    image: "bitnami/etcd:3.4.3"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    environment:
+    - ETCD_NAME=default
+    - ETCD_DATA_DIR=default.etcd
+    - ALLOW_NONE_AUTHENTICATION=yes
+    - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+    #ports:
+    #- 2379:2379
+    #- 2380:2380
+    expose:
+    - 2379
+    - 2380
+    volumes:
+    - etcddata:/default.etcd
+    networks:
+    - micro-net
+
+  postgres:
+    image: "postgres:11.6-alpine"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    environment:
+    - POSTGRES_PASSWORD=123456
+    #ports:
+    #- 5432:5432
+    expose:
+    - 5432
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+    networks:
+    - micro-net
+
+  redis:
+    image: "redis:5.0-alpine"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    #ports:
+    #- 6379:6379
+    expose:
+    - 6379
+    volumes:
+    - redisdata:/var/lib/redis/data
+    networks:
+    - micro-net
+
+networks:
+  micro-net:
+    external: true
+
+volumes:
+  etcddata:
+  pgdata:
+  redisdata:

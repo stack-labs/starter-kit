@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  api:
+    #depends_on:
+    #- etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp api --address=:8080
+    image:  "hbchen/micro:v1.14.0_starter_kit"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    #volumes:
+    #- ./conf:/conf
+    ports:
+    - "8080:8080"
+    networks:
+    - micro-net
+
+  web:
+    #depends_on:
+    #- etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp web --address=:8082
+    image:  "hbchen/micro:v1.14.0_starter_kit"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    #volumes:
+    #- ./conf:/conf
+    ports:
+    - "8082:8082"
+    networks:
+    - micro-net
+
+networks:
+  micro-net:
+    external: true
+
+volumes:
+  etcddata:
+  pgdata:

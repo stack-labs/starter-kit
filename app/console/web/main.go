@@ -6,10 +6,10 @@ import (
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/web"
 
+	"github.com/micro-in-cn/starter-kit/app/console/web/beego"
 	"github.com/micro-in-cn/starter-kit/app/console/web/echo"
 	"github.com/micro-in-cn/starter-kit/app/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/app/console/web/iris"
-	"github.com/micro-in-cn/starter-kit/app/console/web/beego"
 	"github.com/micro-in-cn/starter-kit/app/console/web/statik"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
