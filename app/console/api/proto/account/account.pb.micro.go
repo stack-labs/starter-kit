@@ -5,7 +5,9 @@ package go_micro_api_console_account
 
 import (
 	fmt "fmt"
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	proto "github.com/golang/protobuf/proto"
+	_ "github.com/micro-in-cn/starter-kit/srv/pb/account"
 	proto1 "github.com/micro/go-micro/api/proto"
 	math "math"
 )
@@ -35,7 +37,7 @@ var _ server.Option
 // Client API for Account service
 
 type AccountService interface {
-	Login(ctx context.Context, in *proto1.Request, opts ...client.CallOption) (*proto1.Response, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*Response, error)
 	Logout(ctx context.Context, in *proto1.Request, opts ...client.CallOption) (*proto1.Response, error)
 	Info(ctx context.Context, in *proto1.Request, opts ...client.CallOption) (*proto1.Response, error)
 }
@@ -58,9 +60,9 @@ func NewAccountService(name string, c client.Client) AccountService {
 	}
 }
 
-func (c *accountService) Login(ctx context.Context, in *proto1.Request, opts ...client.CallOption) (*proto1.Response, error) {
+func (c *accountService) Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*Response, error) {
 	req := c.c.NewRequest(c.name, "Account.Login", in)
-	out := new(proto1.Response)
+	out := new(Response)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -91,36 +93,36 @@ func (c *accountService) Info(ctx context.Context, in *proto1.Request, opts ...c
 // Server API for Account service
 
 type AccountHandler interface {
-	Login(context.Context, *proto1.Request, *proto1.Response) error
+	Login(context.Context, *LoginRequest, *Response) error
 	Logout(context.Context, *proto1.Request, *proto1.Response) error
 	Info(context.Context, *proto1.Request, *proto1.Response) error
 }
 
 func RegisterAccountHandler(s server.Server, hdlr AccountHandler, opts ...server.HandlerOption) error {
-	type account interface {
-		Login(ctx context.Context, in *proto1.Request, out *proto1.Response) error
+	type account_ interface {
+		Login(ctx context.Context, in *LoginRequest, out *Response) error
 		Logout(ctx context.Context, in *proto1.Request, out *proto1.Response) error
 		Info(ctx context.Context, in *proto1.Request, out *proto1.Response) error
 	}
 	type Account struct {
-		account
+		account_
 	}
-	h := &accountHandler{hdlr}
+	h := &account_Handler{hdlr}
 	return s.Handle(s.NewHandler(&Account{h}, opts...))
 }
 
-type accountHandler struct {
+type account_Handler struct {
 	AccountHandler
 }
 
-func (h *accountHandler) Login(ctx context.Context, in *proto1.Request, out *proto1.Response) error {
+func (h *account_Handler) Login(ctx context.Context, in *LoginRequest, out *Response) error {
 	return h.AccountHandler.Login(ctx, in, out)
 }
 
-func (h *accountHandler) Logout(ctx context.Context, in *proto1.Request, out *proto1.Response) error {
+func (h *account_Handler) Logout(ctx context.Context, in *proto1.Request, out *proto1.Response) error {
 	return h.AccountHandler.Logout(ctx, in, out)
 }
 
-func (h *accountHandler) Info(ctx context.Context, in *proto1.Request, out *proto1.Response) error {
+func (h *account_Handler) Info(ctx context.Context, in *proto1.Request, out *proto1.Response) error {
 	return h.AccountHandler.Info(ctx, in, out)
 }

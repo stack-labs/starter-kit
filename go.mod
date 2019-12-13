@@ -15,6 +15,7 @@ require (
 	github.com/casbin/casbin/v2 v2.1.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/eapache/go-resiliency v1.2.0 // indirect
+	github.com/envoyproxy/protoc-gen-validate v0.1.0
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/franela/goblin v0.0.0-20181003173013-ead4ad1d2727 // indirect
 	github.com/garyburd/redigo v1.6.0 // indirect
