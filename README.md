@@ -11,6 +11,14 @@
 
 ## 快速开始
 
+### Go环境
+`go 1.13`
+
+```bash
+export GOSUMDB=off
+export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
+```
+
 ### 运行网关
 
 `micro api`[网关](gateway) 
