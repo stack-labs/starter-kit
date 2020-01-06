@@ -7,8 +7,11 @@ import "github.com/micro-in-cn/starter-kit/srv/pb/account/account.proto";
 import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
 
 service Account {
+    // rpc模式handler
+    // 可以在proto中定义validate，https://github.com/envoyproxy/protoc-gen-validate
     rpc Login (LoginRequest) returns (Response) {
     }
+    // api模式handler
     rpc Logout (go.api.Request) returns (go.api.Response) {
     }
     rpc Info (go.api.Request) returns (go.api.Response) {

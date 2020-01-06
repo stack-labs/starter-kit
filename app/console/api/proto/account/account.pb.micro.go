@@ -37,7 +37,10 @@ var _ server.Option
 // Client API for Account service
 
 type AccountService interface {
+	// rpc模式handler
+	// 可以在proto中定义validate，https://github.com/envoyproxy/protoc-gen-validate
 	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*Response, error)
+	// api模式handler
 	Logout(ctx context.Context, in *proto1.Request, opts ...client.CallOption) (*proto1.Response, error)
 	Info(ctx context.Context, in *proto1.Request, opts ...client.CallOption) (*proto1.Response, error)
 }
@@ -93,7 +96,10 @@ func (c *accountService) Info(ctx context.Context, in *proto1.Request, opts ...c
 // Server API for Account service
 
 type AccountHandler interface {
+	// rpc模式handler
+	// 可以在proto中定义validate，https://github.com/envoyproxy/protoc-gen-validate
 	Login(context.Context, *LoginRequest, *Response) error
+	// api模式handler
 	Logout(context.Context, *proto1.Request, *proto1.Response) error
 	Info(context.Context, *proto1.Request, *proto1.Response) error
 }
