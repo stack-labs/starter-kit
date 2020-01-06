@@ -150,9 +150,9 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
 - 参数验证
-	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)
-	    - [规则](/app/console/api/proto/account/account.proto#L21)
-	    - [验证](/app/console/api/handler/account.go#L26)
+	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)，适用于API`handler=rpc`的模式
+	    - 规则配置[account.proto](/app/console/api/proto/account/account.proto#L21)
+	    - 参数验证[account.go](/app/console/api/handler/account.go#L26)
 - 领域驱动
 	- [x] 整洁架构
 - ORM
