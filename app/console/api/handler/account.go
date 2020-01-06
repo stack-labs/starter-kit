@@ -2,10 +2,11 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 
+	"github.com/hb-go/pkg/conv"
 	mApi "github.com/micro/go-micro/api"
 	hApi "github.com/micro/go-micro/api/handler/api"
+	"github.com/micro/go-micro/api/handler/rpc"
 	api "github.com/micro/go-micro/api/proto"
 	"github.com/micro/go-micro/errors"
 	"github.com/micro/go-micro/server"
@@ -19,8 +20,12 @@ import (
 type Account struct{}
 
 // Example.Call is called by the API as /example/call with post body {"name": "foo"}
-func (*Account) Login(ctx context.Context, req *api.Request, rsp *api.Response) error {
+func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Response) error {
 	log.Log("Received Example.Call request")
+
+	if err := req.Validate(); err != nil {
+		return errors.BadRequest("go.micro.api.example.example.call", err.Error())
+	}
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
@@ -30,22 +35,14 @@ func (*Account) Login(ctx context.Context, req *api.Request, rsp *api.Response) 
 
 	// make request
 	r := &account.LoginRequest{}
-	if err := json.Unmarshal([]byte(req.GetBody()), r); err != nil {
-		return err
-	}
-
+	conv.StructToStruct(req, r)
 	response, err := ac.Login(ctx, r)
 	if err != nil {
 		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
 	}
 
-	b, err := ResponseBody(20000, response)
-	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
-	}
-	log.Log(b)
-	rsp.StatusCode = 200
-	rsp.Body = b
+	rsp.Code = 20000
+	rsp.Data = response
 
 	return nil
 }
@@ -118,7 +115,7 @@ func registerAccount(server server.Server) {
 			// The HTTP Methods for this endpoint
 			Method: []string{"POST"},
 			// The API handler to use
-			Handler: hApi.Handler,
+			Handler: rpc.Handler,
 		}),
 		mApi.WithEndpoint(&mApi.Endpoint{
 			// The RPC method

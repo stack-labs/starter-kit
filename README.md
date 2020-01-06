@@ -135,13 +135,15 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 	- ...
 - 网关选择
 	- micro api
-		- [x] endpoint
-		- [ ] proxy
-		- [ ] rpc
+		- [x] api
+		- [x] rpc
+		- proxy/http/web
+		    - 参考micro web的
 	- micro web
 		- [x] [echo](/app/console/web/echo)
 		- [x] [gin](/app/console/web/gin)
 		- [x] [iris](/app/console/web/iris)
+		- [x] [beego](/app/console/web/beego)
 - 配置中心
 - 前后端分离`console`
 	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
