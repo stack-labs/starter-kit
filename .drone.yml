@@ -25,7 +25,7 @@ steps:
   - go build -o ./bin/linux_amd64/micro main.go plugin.go
   - ./bin/linux_amd64/micro --version
 - name: publish
-  image: plugins/docker:18
+  image: plugins/docker
   settings:
     auto_tag: true
     auto_tag_suffix: linux-amd64
