@@ -48,17 +48,8 @@ Selector labels
 */}}
 
 {{- define "gateway.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "gateway.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end -}}
-
-{{- define "gateway.selectorLabels.api" -}}
-app.kubernetes.io/name: {{ include "gateway.name" . }}-api
-{{ include "gateway.selectorLabels" . }}
-{{- end -}}
-
-{{- define "gateway.selectorLabels.web" -}}
-app.kubernetes.io/name: {{ include "gateway.name" . }}-web
-{{ include "gateway.selectorLabels" . }}
 {{- end -}}
 
 {{/*
@@ -75,12 +66,12 @@ Create the name of the service account to use
 {{/*
 Gateway command options
 */}}
-{{- define "gateway.command.api" -}}
-"micro",
+{{- define "gateway.command" -}}
+{{ default "micro" .Values.micro.command.basic }},
 {{- range .Values.micro.globalOptions }}
 "{{ . }}",
 {{- end }}
-"api",
+{{ default "api" .Values.micro.command.gateway }},
 {{- range .Values.micro.commandOptions }}
 "{{ . }}",
 {{- end -}}

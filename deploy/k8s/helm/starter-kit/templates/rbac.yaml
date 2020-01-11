@@ -1,9 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "gateway.fullname" . }}-registry
+  name: {{ include "starter-kit.fullname" . }}-registry
   labels:
-    {{- include "gateway.labels" . | nindent 4 }}
+    {{- include "starter-kit.labels" . | nindent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -17,14 +17,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ include "gateway.fullname" . }}-registry
+  name: {{ include "starter-kit.fullname" . }}-registry
   labels:
-    {{- include "gateway.labels" . | nindent 4 }}
+    {{- include "starter-kit.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "gateway.fullname" . }}-registry
+  name: {{ include "starter-kit.fullname" . }}-registry
 subjects:
 - kind: ServiceAccount
-  name: {{ include "gateway.serviceAccountName" . }}
+  name: {{ include "starter-kit.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
