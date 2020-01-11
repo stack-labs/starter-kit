@@ -19,8 +19,23 @@ steps:
     CGO_ENABLED: 0
     GOPROXY: https://mirrors.aliyun.com/goproxy/
   commands:
-    - pwd
-    - go version
-    - cd gateway
-    - go build -o ./bin/micro main.go plugin.go
-    - ./bin/micro --version
+  - pwd
+  - go version
+  - cd gateway
+  - go build -o ./bin/linux_amd64/micro main.go plugin.go
+  - ./bin/linux_amd64/micro --version
+- name: publish
+  image: plugins/docker
+  settings:
+    auto_tag: true
+    dockerfile: gateway/Dockerfile
+    context: ./gateway
+    repo: hbchen/starter-kit-gateway
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    event:
+    - push
+    - tag

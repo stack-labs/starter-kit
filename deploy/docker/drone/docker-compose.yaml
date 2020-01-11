@@ -4,30 +4,30 @@ services:
   drone-server:
     image: drone/drone:1.6
     ports:
-      - 80:80
+    - 80:80
     volumes:
-      - /var/lib/drone/:/var/lib/drone/
+    - /var/lib/drone/:/var/lib/drone/
     restart: always
     environment:
-      - DRONE_AGENTS_ENABLED=true
-      - DRONE_GITHUB_SERVER=https://github.com
-      - DRONE_GITHUB_CLIENT_ID={GITHUB_CLIENT_ID}
-      - DRONE_GITHUB_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
-      - DRONE_GITHUB_SKIP_VERIFY=true
-      - DRONE_SERVER_HOST={SERVER_HOST}
-      - DRONE_SERVER_PROTO=http
-      - DRONE_RPC_SECRET={RPC_SECRET}
+    - DRONE_AGENTS_ENABLED=true
+    - DRONE_GITHUB_SERVER=https://github.com
+    - DRONE_GITHUB_CLIENT_ID={GITHUB_CLIENT_ID}
+    - DRONE_GITHUB_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
+    - DRONE_GITHUB_SKIP_VERIFY=true
+    - DRONE_SERVER_HOST={SERVER_HOST}
+    - DRONE_SERVER_PROTO=http
+    - DRONE_RPC_SECRET={RPC_SECRET}
 
   drone-agent:
     image: drone/agent:1.6
     restart: always
     depends_on:
-      - drone-server
+    - drone-server
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_RPC_HOST=drone-server
-      - DRONE_RPC_PROTO=http
-      - DRONE_RPC_SECRET={RPC_SECRET}
-      - DRONE_RUNNER_NAME=agent
-      - DRONE_RUNNER_CAPACITY=2
+    - DRONE_RPC_HOST=drone-server
+    - DRONE_RPC_PROTO=http
+    - DRONE_RPC_SECRET={RPC_SECRET}
+    - DRONE_RUNNER_NAME=agent
+    - DRONE_RUNNER_CAPACITY=2
