@@ -30,6 +30,7 @@ steps:
     auto_tag: true
     auto_tag_suffix: linux-amd64
     dockerfile: gateway/Dockerfile
+    context: ./gateway
     repo: hbchen/starter-kit-gateway
     username:
       from_secret: docker_username
