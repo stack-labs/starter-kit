@@ -168,7 +168,7 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 	- [ ] Docker
 - 安全
 - CICD
-	- [ ] Drone
+	- [x] [Drone](https://drone.io/) [README](/deploy/docker/drone)
 	- [ ] Jenkins
 - 基础服务
 	- [ ] 日志收集
