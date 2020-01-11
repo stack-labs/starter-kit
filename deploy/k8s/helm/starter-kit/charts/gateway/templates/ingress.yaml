@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: ingress-{{ include "gateway.fullname" . }}
+  labels:
+    {{- include "gateway.labels" . | nindent 4 }}
+spec:
+  rules:
+  - host: {{ .Values.micro.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "gateway.fullname" . }}
+          servicePort: {{ .Values.service.port }}
+---

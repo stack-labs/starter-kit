@@ -2,20 +2,20 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ include "gateway.fullname" . }}-api
+  name: {{ include "chart.fullname" . }}
   labels:
-    {{- include "gateway.labels" . | nindent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "gateway.selectorLabels.api" . | nindent 6 }}
+      {{- include "chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "gateway.selectorLabels.api" . | nindent 8 }}
+        {{- include "chart.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ include "gateway.serviceAccountName" . }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
       containers:
       - name: api
         image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
@@ -24,8 +24,8 @@ spec:
           limits:
             cpu: "25m"
         command: [
-          {{- include "gateway.command.api" . | nindent 10 }}
+          {{- include "chart.command" . | nindent 10 }}
         ]
         ports:
         - containerPort: {{ .Values.service.port }}
-          name: api-port
+          name: service-port

@@ -2,30 +2,30 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ include "gateway.fullname" . }}-web
+  name: {{ include "gateway.fullname" . }}
   labels:
     {{- include "gateway.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "gateway.selectorLabels.web" . | nindent 6 }}
+      {{- include "gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "gateway.selectorLabels.web" . | nindent 8 }}
+        {{- include "gateway.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "gateway.serviceAccountName" . }}
       containers:
-      - name: web
+      - name: gateway
         image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
           limits:
             cpu: "25m"
         command: [
-          {{- include "gateway.command.web" . | nindent 10 }}
+          {{- include "gateway.command" . | nindent 10 }}
         ]
         ports:
         - containerPort: {{ .Values.service.port }}
-          name: web-port
+          name: gateway-port
