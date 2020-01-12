@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go v0.45.1
+	contrib.go.opencensus.io/exporter/jaeger v0.2.0
 	contrib.go.opencensus.io/exporter/stackdriver v0.12.1
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878 // indirect
