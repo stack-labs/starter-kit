@@ -3,6 +3,8 @@ module github.com/micro-in-cn/starter-kit
 go 1.13
 
 require (
+	cloud.google.com/go v0.45.1
+	contrib.go.opencensus.io/exporter/stackdriver v0.12.1
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878 // indirect
 	github.com/astaxie/beego v1.12.0
@@ -18,6 +20,7 @@ require (
 	github.com/golang/protobuf v1.3.2
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
+	github.com/gorilla/mux v1.7.3
 	github.com/grpc-ecosystem/grpc-gateway v1.9.5 // indirect
 	github.com/hashicorp/go-immutable-radix v1.1.0 // indirect
 	github.com/hashicorp/go-msgpack v0.5.5 // indirect
@@ -35,10 +38,12 @@ require (
 	github.com/micro/micro v1.18.0
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
+	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v1.2.1
 	github.com/rakyll/statik v0.1.6
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
+	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/stretchr/testify v1.4.0
@@ -49,7 +54,10 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
+	go.opencensus.io v0.22.2
+	golang.org/x/net v0.0.0-20191112182307-2180aed22343
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
+	google.golang.org/grpc v1.25.1
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	xorm.io/xorm v0.8.0
 )
