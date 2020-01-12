@@ -3,7 +3,7 @@ GOPATH:=$(shell go env GOPATH)
 
 
 .PHONY: build
-build: vue
+build:
 	go build -o ./bin/console-web main.go plugin.go
 	# go build -o ./bin/console-web -tags "statik" main.go plugin.go
 

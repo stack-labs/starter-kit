@@ -223,6 +223,8 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ### 业务架构图
 *TODO*
 
+- [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
+
 **领域模型&整洁架构参考**
 - [Clean Architecture in go](https://medium.com/@hatajoe/clean-architecture-in-go-4030f11ec1b1)
 - [基于 DDD 的微服务设计和开发实战](https://www.infoq.cn/article/s_LFUlU6ZQODd030RbH9)
