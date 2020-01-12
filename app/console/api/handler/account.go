@@ -111,7 +111,7 @@ func registerAccount(server server.Server) {
 			// The RPC method
 			Name: "Account.Login",
 			// The HTTP paths. This can be a POSIX regex
-			Path: []string{"/account/login"},
+			Path: []string{"^/account/login$"},
 			// The HTTP Methods for this endpoint
 			Method: []string{"POST"},
 			// The API handler to use
@@ -121,7 +121,7 @@ func registerAccount(server server.Server) {
 			// The RPC method
 			Name: "Account.Logout",
 			// The HTTP paths. This can be a POSIX regex
-			Path: []string{"/account/logout"},
+			Path: []string{"^/account/logout$"},
 			// The HTTP Methods for this endpoint
 			Method: []string{"POST"},
 			// The API handler to use
@@ -131,7 +131,7 @@ func registerAccount(server server.Server) {
 			// The RPC method
 			Name: "Account.Info",
 			// The HTTP paths. This can be a POSIX regex
-			Path: []string{"/account/info"},
+			Path: []string{"^/account/info$"},
 			// The HTTP Methods for this endpoint
 			Method: []string{"GET"},
 			// The API handler to use
