@@ -15,7 +15,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -25,14 +24,16 @@ import (
 	"contrib.go.opencensus.io/exporter/jaeger"
 	"contrib.go.opencensus.io/exporter/stackdriver"
 	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
+	"github.com/hb-go/micro-plugins/web"
+	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/trace/opentracing"
+	"github.com/micro/go-micro/api"
 	"github.com/sirupsen/logrus"
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/plugin/ochttp"
-	"go.opencensus.io/plugin/ochttp/propagation/b3"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
-	"google.golang.org/grpc"
+
+	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
 
 const (
@@ -59,29 +60,21 @@ type ctxKeySessionID struct{}
 
 type frontendServer struct {
 	productCatalogSvcAddr string
-	productCatalogSvcConn *grpc.ClientConn
 
 	currencySvcAddr string
-	currencySvcConn *grpc.ClientConn
 
 	cartSvcAddr string
-	cartSvcConn *grpc.ClientConn
 
 	recommendationSvcAddr string
-	recommendationSvcConn *grpc.ClientConn
 
 	checkoutSvcAddr string
-	checkoutSvcConn *grpc.ClientConn
 
 	shippingSvcAddr string
-	shippingSvcConn *grpc.ClientConn
 
 	adSvcAddr string
-	adSvcConn *grpc.ClientConn
 }
 
 func main() {
-	ctx := context.Background()
 	log := logrus.New()
 	log.Level = logrus.DebugLevel
 	log.Formatter = &logrus.JSONFormatter{
@@ -94,32 +87,20 @@ func main() {
 	}
 	log.Out = os.Stdout
 
-	go initProfiling(log, "frontend", "1.0.0")
-	go initTracing(log)
+	//go initProfiling(log, "frontend", "1.0.0")
+	//go initTracing(log)
 
-	srvPort := port
-	if os.Getenv("PORT") != "" {
-		srvPort = os.Getenv("PORT")
-	}
-	addr := os.Getenv("LISTEN_ADDR")
 	svc := new(frontendServer)
-	mustMapEnv(&svc.productCatalogSvcAddr, "PRODUCT_CATALOG_SERVICE_ADDR")
-	mustMapEnv(&svc.currencySvcAddr, "CURRENCY_SERVICE_ADDR")
-	mustMapEnv(&svc.cartSvcAddr, "CART_SERVICE_ADDR")
-	mustMapEnv(&svc.recommendationSvcAddr, "RECOMMENDATION_SERVICE_ADDR")
-	mustMapEnv(&svc.checkoutSvcAddr, "CHECKOUT_SERVICE_ADDR")
-	mustMapEnv(&svc.shippingSvcAddr, "SHIPPING_SERVICE_ADDR")
-	mustMapEnv(&svc.adSvcAddr, "AD_SERVICE_ADDR")
+	svc.productCatalogSvcAddr = "go.micro.srv.hipstershop.productcatalog"
+	svc.currencySvcAddr = "go.micro.srv.hipstershop.currency"
+	svc.cartSvcAddr = "go.micro.srv.hipstershop.cart"
+	svc.recommendationSvcAddr = "go.micro.srv.hipstershop.recommendation"
+	svc.checkoutSvcAddr = "go.micro.srv.hipstershop.checkout"
+	svc.shippingSvcAddr = "go.micro.srv.hipstershop.shipping"
+	svc.adSvcAddr = "go.micro.srv.hipstershop.ad"
 
-	mustConnGRPC(ctx, &svc.currencySvcConn, svc.currencySvcAddr)
-	mustConnGRPC(ctx, &svc.productCatalogSvcConn, svc.productCatalogSvcAddr)
-	mustConnGRPC(ctx, &svc.cartSvcConn, svc.cartSvcAddr)
-	mustConnGRPC(ctx, &svc.recommendationSvcConn, svc.recommendationSvcAddr)
-	mustConnGRPC(ctx, &svc.shippingSvcConn, svc.shippingSvcAddr)
-	mustConnGRPC(ctx, &svc.checkoutSvcConn, svc.checkoutSvcAddr)
-	mustConnGRPC(ctx, &svc.adSvcConn, svc.adSvcAddr)
-
-	r := mux.NewRouter()
+	router := mux.NewRouter()
+	r := router.PathPrefix("/hipstershop").Subrouter()
 	r.HandleFunc("/", svc.homeHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/product/{id}", svc.productHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/cart", svc.viewCartHandler).Methods(http.MethodGet, http.MethodHead)
@@ -135,12 +116,48 @@ func main() {
 	var handler http.Handler = r
 	handler = &logHandler{log: log, next: handler} // add logging
 	handler = ensureSessionID(handler)             // add session ID
-	handler = &ochttp.Handler{                     // add opencensus instrumentation
-		Handler:     handler,
-		Propagation: &b3.HTTPFormat{}}
+	//handler = &ochttp.Handler{ // add opencensus instrumentation
+	//	Handler:     handler,
+	//	Propagation: &b3.HTTPFormat{}}
 
-	log.Infof("starting server on " + addr + ":" + srvPort)
-	log.Fatal(http.ListenAndServe(addr+":"+srvPort, handler))
+	// create new web service
+	web.NewService()
+	service := web.NewService(
+		web.Name("go.micro.api.hipstershop"),
+		web.Version("latest"),
+	)
+
+	// initialise service
+	if err := service.Init(); err != nil {
+		log.Fatal(err)
+	}
+
+	// 链路追踪
+	t, closer, err := tracer.NewJaegerTracer("go.micro.api.hipstershop", "127.0.0.1:6831")
+	if err != nil {
+		log.Fatalf("opentracing tracer create error:%v", err)
+	}
+	defer closer.Close()
+
+	// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
+	h := opentracing.NewPlugin(
+		opentracing.WithTracer(t),
+		opentracing.WithAutoStart(false),
+	).Handler()
+
+	// register handler
+	service.Handle("/", h(handler), &api.Endpoint{
+		Name:    "hipstershop",
+		Host:    []string{"localhost:8080"},
+		Path:    []string{"^/hipstershop"},
+		Method:  []string{"POST", "GET", "DELETE"},
+		Handler: "proxy",
+	})
+
+	// run service
+	if err := service.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func initJaegerTracing(log logrus.FieldLogger) {
@@ -240,23 +257,4 @@ func initProfiling(log logrus.FieldLogger, service, version string) {
 		time.Sleep(d)
 	}
 	log.Warn("warning: could not initialize Stackdriver profiler after retrying, giving up")
-}
-
-func mustMapEnv(target *string, envKey string) {
-	v := os.Getenv(envKey)
-	if v == "" {
-		panic(fmt.Sprintf("environment variable %q not set", envKey))
-	}
-	*target = v
-}
-
-func mustConnGRPC(ctx context.Context, conn **grpc.ClientConn, addr string) {
-	var err error
-	*conn, err = grpc.DialContext(ctx, addr,
-		grpc.WithInsecure(),
-		grpc.WithTimeout(time.Second*3),
-		grpc.WithStatsHandler(&ocgrpc.ClientHandler{}))
-	if err != nil {
-		panic(errors.Wrapf(err, "grpc: failed to connect %s", addr))
-	}
 }

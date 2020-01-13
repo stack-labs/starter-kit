@@ -29,7 +29,7 @@ const (
 )
 
 func (fe *frontendServer) getCurrencies(ctx context.Context) ([]string, error) {
-	currs, err := pb.NewCurrencyService("", client.DefaultClient).
+	currs, err := pb.NewCurrencyService(fe.currencySvcAddr, client.DefaultClient).
 		GetSupportedCurrencies(ctx, &pb.Empty{})
 	if err != nil {
 		return nil, err
@@ -44,24 +44,24 @@ func (fe *frontendServer) getCurrencies(ctx context.Context) ([]string, error) {
 }
 
 func (fe *frontendServer) getProducts(ctx context.Context) ([]*pb.Product, error) {
-	resp, err := pb.NewProductCatalogService("", client.DefaultClient).
+	resp, err := pb.NewProductCatalogService(fe.productCatalogSvcAddr, client.DefaultClient).
 		ListProducts(ctx, &pb.Empty{})
 	return resp.GetProducts(), err
 }
 
 func (fe *frontendServer) getProduct(ctx context.Context, id string) (*pb.Product, error) {
-	resp, err := pb.NewProductCatalogService("", client.DefaultClient).
+	resp, err := pb.NewProductCatalogService(fe.productCatalogSvcAddr, client.DefaultClient).
 		GetProduct(ctx, &pb.GetProductRequest{Id: id})
 	return resp, err
 }
 
 func (fe *frontendServer) getCart(ctx context.Context, userID string) ([]*pb.CartItem, error) {
-	resp, err := pb.NewCartService("", client.DefaultClient).GetCart(ctx, &pb.GetCartRequest{UserId: userID})
+	resp, err := pb.NewCartService(fe.cartSvcAddr, client.DefaultClient).GetCart(ctx, &pb.GetCartRequest{UserId: userID})
 	return resp.GetItems(), err
 }
 
 func (fe *frontendServer) emptyCart(ctx context.Context, userID string) error {
-	_, err := pb.NewCartService("", client.DefaultClient).EmptyCart(ctx, &pb.EmptyCartRequest{UserId: userID})
+	_, err := pb.NewCartService(fe.cartSvcAddr, client.DefaultClient).EmptyCart(ctx, &pb.EmptyCartRequest{UserId: userID})
 	return err
 }
 
@@ -79,14 +79,14 @@ func (fe *frontendServer) convertCurrency(ctx context.Context, money *pb.Money, 
 	if avoidNoopCurrencyConversionRPC && money.GetCurrencyCode() == currency {
 		return money, nil
 	}
-	return pb.NewCurrencyService("", client.DefaultClient).
+	return pb.NewCurrencyService(fe.currencySvcAddr, client.DefaultClient).
 		Convert(ctx, &pb.CurrencyConversionRequest{
 			From:   money,
 			ToCode: currency})
 }
 
 func (fe *frontendServer) getShippingQuote(ctx context.Context, items []*pb.CartItem, currency string) (*pb.Money, error) {
-	quote, err := pb.NewShippingService("", client.DefaultClient).GetQuote(ctx,
+	quote, err := pb.NewShippingService(fe.shippingSvcAddr, client.DefaultClient).GetQuote(ctx,
 		&pb.GetQuoteRequest{
 			Address: nil,
 			Items:   items})
@@ -98,7 +98,7 @@ func (fe *frontendServer) getShippingQuote(ctx context.Context, items []*pb.Cart
 }
 
 func (fe *frontendServer) getRecommendations(ctx context.Context, userID string, productIDs []string) ([]*pb.Product, error) {
-	resp, err := pb.NewRecommendationService("", client.DefaultClient).ListRecommendations(ctx,
+	resp, err := pb.NewRecommendationService(fe.recommendationSvcAddr, client.DefaultClient).ListRecommendations(ctx,
 		&pb.ListRecommendationsRequest{UserId: userID, ProductIds: productIDs})
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (fe *frontendServer) getAd(ctx context.Context, ctxKeys []string) ([]*pb.Ad
 	ctx, cancel := context.WithTimeout(ctx, time.Millisecond*100)
 	defer cancel()
 
-	resp, err := pb.NewAdService("", client.DefaultClient).GetAds(ctx, &pb.AdRequest{
+	resp, err := pb.NewAdService(fe.adSvcAddr, client.DefaultClient).GetAds(ctx, &pb.AdRequest{
 		ContextKeys: ctxKeys,
 	})
 	return resp.GetAds(), errors.Wrap(err, "failed to get ads")

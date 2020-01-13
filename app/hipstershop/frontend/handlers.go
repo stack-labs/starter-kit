@@ -25,11 +25,12 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/micro/go-micro/client"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	pb "github.com/micro-in-cn/starter-kit/app/hipstershop/frontend/genproto"
 	"github.com/micro-in-cn/starter-kit/app/hipstershop/frontend/money"
+	pb "github.com/micro-in-cn/starter-kit/srv/pb/hipstershop"
 )
 
 var (
@@ -268,7 +269,7 @@ func (fe *frontendServer) placeOrderHandler(w http.ResponseWriter, r *http.Reque
 		ccCVV, _      = strconv.ParseInt(r.FormValue("credit_card_cvv"), 10, 32)
 	)
 
-	order, err := pb.NewCheckoutServiceClient(fe.checkoutSvcConn).
+	order, err := pb.NewCheckoutService(fe.checkoutSvcAddr, client.DefaultClient).
 		PlaceOrder(r.Context(), &pb.PlaceOrderRequest{
 			Email: email,
 			CreditCard: &pb.CreditCardInfo{

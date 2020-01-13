@@ -142,6 +142,7 @@ github.com/bwmarrin/discordgo v0.20.1 h1:Ihh3/mVoRwy3otmaoPDUioILBJq4fdWkpsi83oj
 github.com/bwmarrin/discordgo v0.20.1/go.mod h1:O9S4p+ofTFwB02em7jkpkV8M3R0/PUVOwN61zSZ0r4Q=
 github.com/casbin/casbin v1.7.0 h1:PuzlE8w0JBg/DhIqnkF1Dewf3z+qmUZMVN07PonvVUQ=
 github.com/casbin/casbin v1.7.0/go.mod h1:c67qKN6Oum3UF5Q1+BByfFxkwKvhwW57ITjqwtzR1KE=
+github.com/casbin/casbin/v2 v2.1.0/go.mod h1:YcPU1XXisHhLzuxH9coDNf2FbKpjGlbCg3n9yuLkIJQ=
 github.com/casbin/casbin/v2 v2.1.1 h1:XFv8x5ImDFx4B42YaGtmkr6RUPldTxLvVMKfKQ6uS5I=
 github.com/casbin/casbin/v2 v2.1.1/go.mod h1:YcPU1XXisHhLzuxH9coDNf2FbKpjGlbCg3n9yuLkIJQ=
 github.com/cenkalti/backoff v2.2.1+incompatible h1:tNowT99t7UNflLxfYYSlKYsBpXdEet03Pg2g16Swow4=
@@ -466,6 +467,8 @@ github.com/hashicorp/vault/api v1.0.4/go.mod h1:gDcqh3WGcR1cpF5AJz/B1UFheUEneMoI
 github.com/hashicorp/vault/sdk v0.1.13/go.mod h1:B+hVj7TpuQY1Y/GPbCpffmgd+tSEwvhkWnjtSYCaS2M=
 github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
 github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
+github.com/hb-go/micro-plugins v1.18.0 h1:aPg9wj0jlECQ1aG4vCqRu25Cp0S0LTODkyGkQWgLVPY=
+github.com/hb-go/micro-plugins v1.18.0/go.mod h1:n3cG2QT3GLCYbBKPTAmbHvGNB1JQ/1fzdn0PY399Oio=
 github.com/hb-go/pkg v0.0.2 h1:4OcLqAXvNAQtIQ2APMP815Lvys8mLCIZphUz05Bvumc=
 github.com/hb-go/pkg v0.0.2/go.mod h1:AUpf9Xuz+1l+aqKluvg/FTBm93972ohD3YDT0MZwUj8=
 github.com/hpcloud/tail v1.0.0 h1:nfCOvKYfkgYP8hkirhJocXT2+zOD8yUNjXaWfTlyFKI=
@@ -603,6 +606,7 @@ github.com/micro-in-cn/x-gateway v0.0.0-20200106051953-c357ad43a475 h1:980vkttJM
 github.com/micro-in-cn/x-gateway v0.0.0-20200106051953-c357ad43a475/go.mod h1:WsESNt4969dEqiDGMIrq4+6p+WCFPpIuUpeKXirrapI=
 github.com/micro/cli v0.2.0 h1:ut3rV5JWqZjsXIa2MvGF+qMUP8DAUTvHX9Br5gO4afA=
 github.com/micro/cli v0.2.0/go.mod h1:jRT9gmfVKWSS6pkKcXQ8YhUyj6bzwxK8Fp5b0Y7qNnk=
+github.com/micro/go-log v0.1.0/go.mod h1:qaFBF6d6Jk01Gz4cbMkCA2vVuLk3FSaLLjmEGrMCreA=
 github.com/micro/go-micro v1.16.0/go.mod h1:A0F58bHLh2m0LAI9QyhvmbN8c1cxhAZo3cM6s+iDsrM=
 github.com/micro/go-micro v1.18.0 h1:gP70EZVHpJuUIT0YWth192JmlIci+qMOEByHm83XE9E=
 github.com/micro/go-micro v1.18.0/go.mod h1:klwUJL1gkdY1MHFyz+fFJXn52dKcty4hoe95Mp571AA=
