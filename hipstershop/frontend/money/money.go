@@ -17,7 +17,7 @@ package money
 import (
 	"errors"
 
-	pb "github.com/micro-in-cn/starter-kit/srv/pb/hipstershop"
+	pb "github.com/micro-in-cn/starter-kit/hipstershop/pb"
 )
 
 const (

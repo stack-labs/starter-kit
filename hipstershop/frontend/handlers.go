@@ -30,7 +30,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/micro-in-cn/starter-kit/hipstershop/frontend/money"
-	pb "github.com/micro-in-cn/starter-kit/srv/pb/hipstershop"
+	pb "github.com/micro-in-cn/starter-kit/hipstershop/pb"
 )
 
 var (
