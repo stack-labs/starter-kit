@@ -19,7 +19,7 @@ import (
 	"reflect"
 	"testing"
 
-	pb "github.com/micro-in-cn/starter-kit/app/hipstershop/frontend/genproto"
+	pb "github.com/micro-in-cn/starter-kit/hipstershop/frontend/genproto"
 )
 
 func mmc(u int64, n int32, c string) pb.Money { return pb.Money{Units: u, Nanos: n, CurrencyCode: c} }

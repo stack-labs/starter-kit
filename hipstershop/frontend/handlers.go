@@ -29,7 +29,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/micro-in-cn/starter-kit/app/hipstershop/frontend/money"
+	"github.com/micro-in-cn/starter-kit/hipstershop/frontend/money"
 	pb "github.com/micro-in-cn/starter-kit/srv/pb/hipstershop"
 )
 
