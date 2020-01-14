@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/micro/go-micro"
-	"github.com/micro/micro/cmd"
+	"github.com/micro-in-cn/x-gateway/cmd"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
 )
