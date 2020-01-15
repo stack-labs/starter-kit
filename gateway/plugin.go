@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/micro/micro/api"
-	"github.com/micro/micro/web"
+	"github.com/micro-in-cn/x-gateway/api"
+	"github.com/micro-in-cn/x-gateway/web"
 	"golang.org/x/time/rate"
 
 	// micro plugins
@@ -18,12 +18,13 @@ import (
 	"github.com/micro/go-micro/util/log"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
-	tracer "github.com/micro-in-cn/x-gateway/pkg/opentracing"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/auth"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/cors"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/metrics"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/trace/opentracing"
-	"github.com/micro-in-cn/x-gateway/pkg/plugin/micro/util/response"
+	tracer "github.com/micro-in-cn/x-gateway/plugin/pkg/trace"
+	"github.com/micro-in-cn/x-gateway/plugin/pkg/auth"
+	"github.com/micro-in-cn/x-gateway/plugin/pkg/cors"
+	"github.com/micro-in-cn/x-gateway/plugin/pkg/metrics"
+	"github.com/micro-in-cn/x-gateway/plugin/pkg/opentracing"
+	"github.com/micro-in-cn/x-gateway/utils/response"
+
 )
 
 var apiTracerCloser, webTracerCloser io.Closer
