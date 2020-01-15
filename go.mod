@@ -17,20 +17,24 @@ require (
 	github.com/gin-gonic/gin v1.3.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.3.2
+	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
-	github.com/grpc-ecosystem/grpc-gateway v1.9.5 // indirect
+	github.com/gorilla/mux v1.7.3
+	github.com/hb-go/micro-plugins v1.18.0
 	github.com/hb-go/pkg v0.0.2
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jinzhu/gorm v1.9.11
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
-	github.com/micro-in-cn/x-gateway v0.0.4
+	github.com/micro-in-cn/x-gateway v0.0.5-0.20200115034840-d9055f8e2002
 	github.com/micro/cli v0.2.0
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
 	github.com/micro/go-plugins v1.5.1
+	github.com/micro/micro v1.18.0
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
+	github.com/pkg/errors v0.8.1
 	github.com/rakyll/statik v0.1.6
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
@@ -45,9 +49,10 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	golang.org/x/sys v0.0.0-20191110163157-d32e6e3b99c4 // indirect
+	go.opencensus.io v0.22.2
+	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
-	google.golang.org/grpc v1.25.1
+	google.golang.org/grpc v1.26.0
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	xorm.io/xorm v0.8.0
 )

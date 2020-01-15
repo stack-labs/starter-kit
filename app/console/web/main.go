@@ -2,7 +2,7 @@ package main
 
 //go:generate statik -src=./vue/dist -dest=./ -f
 import (
-	"github.com/micro-in-cn/x-gateway/plugin/pkg/opentracing"
+	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/web"
 
