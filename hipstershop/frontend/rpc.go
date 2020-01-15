@@ -20,7 +20,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	pb "github.com/micro-in-cn/starter-kit/srv/pb/hipstershop"
+	pb "github.com/micro-in-cn/starter-kit/hipstershop/pb"
 	"github.com/micro/go-micro/client"
 )
 
