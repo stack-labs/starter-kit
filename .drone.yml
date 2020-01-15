@@ -18,6 +18,7 @@ steps:
       GOARCH: amd64
       CGO_ENABLED: 0
       GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOSUMDB: off
     commands:
       - pwd
       - go version
