@@ -58,6 +58,7 @@ docker-compose -p starter-kit-console up
 **重新编译并启动服务**
 
 > 例如要重启`api`服务
+> 注意：`web`服务前端没有自动编译，需要单独运行`make vue`更新前端
 
 **方法一:**
 使用`Makefile`的`make restart`命令，`p`项目名称，`s`服务名称
