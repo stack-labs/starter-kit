@@ -187,34 +187,29 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ### 目录结构
 
 ```bash
-├── app                 应用，API聚合、Web应用
-│   ├── console         控制台
-│   │   ├── api         go.micro.api.*，API
-│   │   └── web         go.micro.web.*，Web，集成gin、echo、iris等web框架
-│   ├── mobile          移动端
-│   └── openapi         开放API
+├── console             控制台示例
+│   ├── account         go.micro.srv.account，Account服务
+│   │   ├── domain              领域
+│   │   │   ├── model           模型
+│   │   │   ├── repository      存储接口
+│   │   │   │   └── persistence ①存储接口实现   
+│   │   │   └── service         领域服务
+│   │   ├── interface           接口
+│   │   │   ├── handler         micro handler接口
+│   │   │   └── persistence     ②存储接口实现
+│   │   ├── registry            依赖注入，根据使用习惯，一般Go中不怎么喜欢这种方式
+│   │   └── usecase             应用用例
+│   │       ├── event           消息事件
+│   │       └── service         应用服务
+│   ├── api             go.micro.api.console，API服务
+│   ├── pb              服务协议统一.proto
+│   └── web             go.micro.api.console，Web服务，集成gin、echo、iris等web框架
 ├── deploy              部署
 │   ├── docker
 │   └── k8s
 ├── doc                 文档资源
 ├── gateway             网关，自定义micro
-├── pkg                 公共资源包
-└── srv                 基础服务
-    ├── account         账户服务，领域模型整洁架构示例
-    │   ├── domain              领域
-    │   │   ├── model           模型
-    │   │   ├── repository      存储接口
-    │   │   │   └── persistence ①存储接口实现   
-    │   │   └── service         领域服务
-    │   ├── interface           接口
-    │   │   ├── handler         micro handler接口
-    │   │   └── persistence     ②存储接口实现
-    │   ├── registry            依赖注入，根据使用习惯，一般Go中不怎么喜欢这种方式
-    │   └── usecase             应用用例
-    │       ├── event           消息事件
-    │       ├── service         应用服务
-    ├── example         micro srv不同场景示例
-    └── pb              基础服务协议统一.proto
+└── pkg                 公共资源包
 ```
 
 ### 系统架构图
