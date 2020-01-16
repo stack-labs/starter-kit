@@ -5,7 +5,7 @@
 ## 目录
 
 - 快速开始
-    - [控制台示例](/console)
+    - [控制台示例](/console#目录)
     - [Hipster Shop示例](/hipstershop)
 - [目标](#目标)
 - [架构设计](#架构设计)
@@ -27,12 +27,11 @@
 		- [x] api
 		- [x] rpc
 		- proxy/http/web
-		    - 参考micro web的
-	- micro web
-		- [x] [echo](/app/console/web/echo)
-		- [x] [gin](/app/console/web/gin)
-		- [x] [iris](/app/console/web/iris)
-		- [x] [beego](/app/console/web/beego)
+		    - [x] [静态资源](/console/web/statik)
+            - [x] [echo](/console/web/echo)
+            - [x] [gin](/console/web/gin)
+            - [x] [iris](/console/web/iris)
+            - [x] [beego](/console/web/beego)
 - 配置中心
 - 前后端分离`console`
 	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)

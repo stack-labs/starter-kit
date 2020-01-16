@@ -7,19 +7,20 @@
 
 ## 目录
 
-- 快速开始
+- [快速开始](#快速开始)
     - [Docker Compose启动](#docker-compose启动)
     - [编译启动](#编译启动)
 - [服务测试](#服务测试)
 - [Proto管理](#Proto管理)
 
-## `docker-compose`启动
+## 快速开始
+### `docker-compose`启动
 
 使用`docker-compose`快速启动服务，适合搭建本地开发环境，省去每个服务去做启动管理的烦恼，服务启动后可以重新编译并启动单个服务。
 
 > [Compose命令说明](https://yeasy.gitbooks.io/docker_practice/content/compose/commands.html)
 
-**服务列表:**
+**Compose包含的服务列表:**
 - 注册中心Etcd
     - `etcd`，使用docker镜像`bitnami/etcd`
 - API网关
@@ -39,25 +40,27 @@ docker network create starter-kit-console
 ```
 
 2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务
-> 使用Dockerfile编译太慢，所以编译还是使用本机环境
+> 使用Dockerfile编译太慢，所以编译还是选择使用本机环境
 ```shell script
 make build
 ```
 
 3.启动服务
-> `p`参数项目名称，可以自己定义
+> `p`参数为项目名称，可以自己定义
 ```shell script
 make start p=starter-kit-console
 # 或
 docker-compose -p starter-kit-console up
 ```
 
+[服务测试](#服务测试)
+
 **重新编译并启动服务**
 
-> 如重启`api`服务
+> 例如要重启`api`服务
 
 **方法一:**
-使用Makefile的`make restart`命令，`p`项目名称，`s`服务名称
+使用`Makefile`的`make restart`命令，`p`项目名称，`s`服务名称
 ```shell script
  make restart p=starter-kit-console s=api
 ```
@@ -71,7 +74,7 @@ docker-compose -p starter-kit-console build api
 docker-compose -p starter-kit-console up -d --no-deps --force-recreate api
 ```
 
-## 编译启动
+### 编译启动
 
 **1.运行网关**
 
@@ -119,7 +122,7 @@ $ make vue statik                               # 前端编译，并打包statik
 $ make docker tag=xxx/xxx:v0.0.1
 ```
 
-## 服务测试
+### 服务测试
 > 注：`console API`由于有`认证`不能直接访问
 - gateway
 	- http://localhost:8080/
@@ -139,7 +142,12 @@ $ make docker tag=xxx/xxx:v0.0.1
 ## Proto管理
 项目`.proto`文件统一在`pb`目录下，协议生成的`out`输出到指定子项目位置`gen=path`
 ```shell script
+# console目录运行make proto输出到子项目的genproto
 make proto gen=api/genproto
 make proto gen=account/genproto
+
+# 或在子项目目录运行make proto，实际仍是调用console下的make proto
+cd api
+make proto
 ```
 
