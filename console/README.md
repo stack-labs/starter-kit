@@ -8,20 +8,20 @@
 ## 目录
 
 - [快速开始](#快速开始)
-    - [Docker Compose启动](#docker-compose启动)
+    - [Docker Compose启动](#Docker Compose启动)`推荐`
     - [编译启动](#编译启动)
 - [服务测试](#服务测试)
 - [Proto管理](#Proto管理)
 
 ## 快速开始
-### `docker-compose`启动
+### Docker Compose启动
 
-使用`docker-compose`快速启动服务，适合搭建本地开发环境，省去每个服务去做启动管理的烦恼，服务启动后可以重新编译并启动单个服务。
+使用`docker-compose`快速启动服务，适合搭建本地开发环境，省去每个服务去做启动管理的烦恼，Compose启动后可以对单个服务进行重新编译启动。
 
-> [Compose命令说明](https://yeasy.gitbooks.io/docker_practice/content/compose/commands.html)
+> [Compose命令参考](https://yeasy.gitbooks.io/docker_practice/content/compose/commands.html)
 
-**Compose包含的服务列表:**
-- 注册中心Etcd
+Compose包含以下服务:
+- Etcd注册中心
     - `etcd`，使用docker镜像`bitnami/etcd`
 - API网关
     - `gateway`，使用docker镜像`hbchen/starter-kit-gateway`
@@ -32,7 +32,7 @@
 - Account SRV
     - `account`
 
-**启动Console全部服务**
+**Compose启动服务**
 
 1.首次运行创建Docker网络
 ```shell script
@@ -53,7 +53,7 @@ make start p=starter-kit-console
 docker-compose -p starter-kit-console up
 ```
 
-[服务测试](#服务测试)
+4.[服务测试](#服务测试)
 
 **重新编译并启动服务**
 
@@ -75,6 +75,8 @@ docker-compose -p starter-kit-console up -d --no-deps --force-recreate api
 ```
 
 ### 编译启动
+
+> 如果使用Etcd注册中心需要自己维护
 
 **1.运行网关**
 
