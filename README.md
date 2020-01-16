@@ -4,118 +4,13 @@
 
 ## 目录
 
-- [快速开始](#快速开始)
+- 快速开始
+    - [控制台示例](/console)
+    - [Hipster Shop示例](/hipstershop)
 - [目标](#目标)
 - [架构设计](#架构设计)
+    - [目录结构](#目录结构)
 - [部署](#部署)
-
-## 快速开始
-
-### Go环境
-`go 1.13`
-
-```bash
-export GOSUMDB=off
-export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
-```
-
-### 运行网关
-
-`micro api`[网关](gateway) 
-
-```bash
-$ cd gateway
-
-# 编译
-$ make build
-
-# API网关(二选一)
-$ make run_api                                  # 默认mdns + http
-$ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
-```
-
-### 运行服务
-- Web应用
-	- `console/web`控制台
-- 聚合API
-	- `console/api`控制台
-- 基础服务
-	- `console/account`账户
-	
-> 注：`registry`、`transport`选择与网关一致
-```bash
-$ cd {指定服务目录}
-
-# 运行服务(二选一)
-$ make build run                                # 默认mdns + http
-$ make build run registry=etcd transport=tcp    # 使用etcd + tcp
-```
-
-### 服务测试
-> 注：`console API`由于有`认证`不能直接访问
-- gateway
-	- http://localhost:8080/
-	- http://localhost:8080/metrics
-- console
-	- http://localhost:8080/console
-	- Web API
-		- http://localhost:8080/console/v1/echo/
-		- http://localhost:8080/console/v1/gin/
-		- http://localhost:8080/console/v1/iris/
-	- API
-        - http://localhost:8080/account/login
-        - http://localhost:8080/account/info
-        - http://localhost:8080/account/logout
-
-### Makefile说明
-```bash
-$ make build                                    # 编译
-$ make run                                      # 运行
-$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
-
-$ make build run                                # 编译&运行
-$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
-
-$ make vue statik                               # 前端编译，并打包statik.go文件
-
-$ make docker tag=xxx/xxx:v0.0.1
-```
-
-### 可选服务
-
-<details>
-  <summary> Jaeger </summary>
-
-> 浏览器访问:http://localhost:16686/
-```bash
-$ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
-```
-
-</details>
-
-<details>
-  <summary> Prometheus </summary>
-
-> 浏览器访问:http://localhost:9090/
-
-> `prometheus.yml`参考`gateway`插件`[metrics/prometheus.yml](/gateway/plugin/metrics/prometheus.yml)
-```bash
-$ docker run -d --name prometheus -p 9090:9090 -v ~/tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
-```
-
-</details>
-
-<details>
-  <summary> Grafana </summary>
-
-> 浏览器访问:http://localhost:3000/
-
-> `Grafana`仪表盘`import`[metrics/grafan.json](/gateway/plugin/metrics/grafan.json)
-```bash
-$ docker run --name grafana -d -p 3000:3000 grafana/grafana
-```
-
-</details>
 
 ## 目标
 
@@ -210,12 +105,10 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 <img src="/doc/img/architecture.png" width="50%">
 
 ### 业务架构图
-*TODO*
 
-#### [Console示例](/console)
-
-#### [Hipster Shop示例](/hipstershop)
-> [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
+- [Console示例](/console)
+- [Hipster Shop示例](/hipstershop)
+    - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
 
 **领域模型&整洁架构参考**
 - [Clean Architecture in go](https://medium.com/@hatajoe/clean-architecture-in-go-4030f11ec1b1)
@@ -225,6 +118,42 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ## 部署
 
 [Kubernetes环境](/deploy/k8s)
+
+## 可选服务
+
+<details>
+  <summary> Jaeger </summary>
+
+> 浏览器访问:http://localhost:16686/
+```bash
+$ docker run -d --name=jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp   -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
+```
+
+</details>
+
+<details>
+  <summary> Prometheus </summary>
+
+> 浏览器访问:http://localhost:9090/
+
+> `prometheus.yml`参考`gateway`插件`[metrics/prometheus.yml](/gateway/plugin/metrics/prometheus.yml)
+```bash
+$ docker run -d --name prometheus -p 9090:9090 -v ~/tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+```
+
+</details>
+
+<details>
+  <summary> Grafana </summary>
+
+> 浏览器访问:http://localhost:3000/
+
+> `Grafana`仪表盘`import`[metrics/grafan.json](/gateway/plugin/metrics/grafan.json)
+```bash
+$ docker run --name grafana -d -p 3000:3000 grafana/grafana
+```
+
+</details>
 
 ## 贡献
 

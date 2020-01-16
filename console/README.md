@@ -1,10 +1,21 @@
 # Console
 
-**目录**
+> Go环境
+> `go 1.13`
+> export GOSUMDB=off
+> export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
 
-- [使用docker-compose快速开始](#使用docker-compose快速开始)
+## 目录
 
-## 使用`docker-compose`快速开始
+- 快速开始
+    - [Docker Compose启动](#docker-compose启动)
+    - [编译启动](#编译启动)
+- [服务测试](#服务测试)
+- [Proto管理](#Proto管理)
+
+## `docker-compose`启动
+
+使用`docker-compose`快速启动服务，适合搭建本地开发环境，省去每个服务去做启动管理的烦恼，服务启动后可以重新编译并启动单个服务。
 
 > [Compose命令说明](https://yeasy.gitbooks.io/docker_practice/content/compose/commands.html)
 
@@ -22,17 +33,18 @@
 
 **启动Console全部服务**
 
+1.首次运行创建Docker网络
 ```shell script
-# 首次运行创建docker network
 docker network create starter-kit-console
 ```
 
-Go编译，编译console项目全部服务，包括`web`、`api`和`account`服务
+2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务
+> 使用Dockerfile编译太慢，所以编译还是使用本机环境
 ```shell script
 make build
 ```
 
-启动服务
+3.启动服务
 > `p`参数项目名称，可以自己定义
 ```shell script
 make start p=starter-kit-console
@@ -51,7 +63,7 @@ docker-compose -p starter-kit-console up
 ```
 
 **方法二:**
-使用docker-compose分步操作，`stop`停止服务、Go编译、`build`重新构建服务镜像、`up`启动服务
+使用`docker-compose`分步操作，`stop`停止服务、Go编译、`build`重新构建服务镜像、`up`启动服务
 ```shell script
 docker-compose -p starter-kit-console stop api
 cd api && make build_linux && cd ..
@@ -59,6 +71,71 @@ docker-compose -p starter-kit-console build api
 docker-compose -p starter-kit-console up -d --no-deps --force-recreate api
 ```
 
+## 编译启动
+
+**1.运行网关**
+
+[网关](./../gateway) 
+
+```bash
+$ cd gateway
+
+# 编译
+$ make build
+
+# API网关(二选一)
+$ make run_api                                  # 默认mdns + http
+$ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
+```
+
+**2.运行服务**
+- Web服务
+	- `console/web`
+- API服务
+	- `console/api`
+- Account服务
+	- `console/account`
+	
+> 注：`registry`、`transport`选择与网关一致
+```bash
+$ cd {指定服务目录}
+
+# 运行服务(二选一)
+$ make build run                                # 默认mdns + http
+$ make build run registry=etcd transport=tcp    # 使用etcd + tcp
+```
+
+**Makefile说明**
+```bash
+$ make build                                    # 编译
+$ make run                                      # 运行
+$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
+
+$ make build run                                # 编译&运行
+$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
+
+$ make vue statik                               # 前端编译，并打包statik.go文件
+
+$ make docker tag=xxx/xxx:v0.0.1
+```
+
+## 服务测试
+> 注：`console API`由于有`认证`不能直接访问
+- gateway
+	- http://localhost:8080/
+	- http://localhost:8080/metrics
+- console
+	- Web
+	    - http://localhost:8080/console
+		- http://localhost:8080/console/v1/echo/
+		- http://localhost:8080/console/v1/gin/
+		- http://localhost:8080/console/v1/iris/
+		- http://localhost:8080/console/v1/beego/
+	- API
+        - http://localhost:8080/account/login
+        - http://localhost:8080/account/info
+        - http://localhost:8080/account/logout
+        
 ## Proto管理
 项目`.proto`文件统一在`pb`目录下，协议生成的`out`输出到指定子项目位置`gen=path`
 ```shell script
