@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/util/log"
 
+	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
 	"github.com/micro-in-cn/starter-kit/console/account/registry"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"

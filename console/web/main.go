@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/hb-go/micro-plugins/web"
-	"github.com/micro-in-cn/starter-kit/console/web/statik"
 	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
 	"github.com/micro/go-micro/api"
 	"github.com/micro/go-micro/util/log"
@@ -15,6 +14,7 @@ import (
 	"github.com/micro-in-cn/starter-kit/console/web/echo"
 	"github.com/micro-in-cn/starter-kit/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/console/web/iris"
+	"github.com/micro-in-cn/starter-kit/console/web/statik"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 )
 
