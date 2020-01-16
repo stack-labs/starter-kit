@@ -1,17 +1,17 @@
 # Console
 
-> Go环境
-> `go 1.13`
-> export GOSUMDB=off
-> export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
+- Go环境
+    - `go 1.13`
+    - `export GOSUMDB=off`
+    - `export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct`
 
 ## 目录
 
 - [快速开始](#快速开始)
-    - [Docker Compose启动](#Docker Compose启动)`推荐`
+    - [Docker Compose启动](#docker-compose启动)`推荐`
     - [编译启动](#编译启动)
 - [服务测试](#服务测试)
-- [Proto管理](#Proto管理)
+- [Proto管理](#proto管理)
 
 ## 快速开始
 ### Docker Compose启动
