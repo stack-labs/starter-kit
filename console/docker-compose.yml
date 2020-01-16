@@ -1,0 +1,104 @@
+version: "3"
+
+services:
+  # Etcd注册中心
+  etcd:
+    image: "bitnami/etcd:3.4.3"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    environment:
+      - ETCD_NAME=default
+      - ETCD_DATA_DIR=default.etcd
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+    #ports:
+    #- 2379:2379
+    #- 2380:2380
+    volumes:
+      - etcddata:/default.etcd
+    networks:
+      - starter-kit-console
+
+  # API网关
+  gateway:
+    depends_on:
+      - etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp api --address=:8080
+    image:  "hbchen/starter-kit-gateway:latest"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    volumes:
+    - ./conf:/conf
+    ports:
+      - "8080:8080"
+    networks:
+      - starter-kit-console
+
+  # Console Web服务
+  web:
+    depends_on:
+      - etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
+    #image: ""
+    build: ./web
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    #volumes:
+    #- ./conf:/conf:rw
+    networks:
+      - starter-kit-console
+
+  # Console API服务
+  api:
+    depends_on:
+      - etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
+    #image: ""
+    build: ./api
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    #volumes:
+    #- ./conf:/conf
+    networks:
+      - starter-kit-console
+
+  # Account SRV服务
+  account:
+    depends_on:
+      - etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
+    #image: ""
+    build: ./account
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    volumes:
+      - ./conf:/conf
+    networks:
+      - starter-kit-console
+
+networks:
+  starter-kit-console:
+    external: true
+
+volumes:
+  etcddata:
