@@ -32,19 +32,15 @@ $ make build
 # API网关(二选一)
 $ make run_api                                  # 默认mdns + http
 $ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
-
-# Web网关(二选一)
-$ make run_web                                  # 默认mdns + http
-$ make run_web registry=etcd transport=tcp      # 使用etcd + tcp
 ```
 
 ### 运行服务
 - Web应用
-	- `app/console/web`控制台
+	- `console/web`控制台
 - 聚合API
-	- `app/console/api`控制台
+	- `console/api`控制台
 - 基础服务
-	- `srv/account`账户
+	- `console/account`账户
 	
 > 注：`registry`、`transport`选择与网关一致
 ```bash
@@ -60,14 +56,12 @@ $ make build run registry=etcd transport=tcp    # 使用etcd + tcp
 - gateway
 	- http://localhost:8080/
 	- http://localhost:8080/metrics
-	- http://localhost:8082/
-	- http://localhost:8082/metrics
 - console
-	- http://localhost:8082/console
+	- http://localhost:8080/console
 	- Web API
-		- http://localhost:8082/console/v1/echo/
-		- http://localhost:8082/console/v1/gin/
-		- http://localhost:8082/console/v1/iris/
+		- http://localhost:8080/console/v1/echo/
+		- http://localhost:8080/console/v1/gin/
+		- http://localhost:8080/console/v1/iris/
 	- API
         - http://localhost:8080/account/login
         - http://localhost:8080/account/info
@@ -187,34 +181,29 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ### 目录结构
 
 ```bash
-├── app                 应用，API聚合、Web应用
-│   ├── console         控制台
-│   │   ├── api         go.micro.api.*，API
-│   │   └── web         go.micro.web.*，Web，集成gin、echo、iris等web框架
-│   ├── mobile          移动端
-│   └── openapi         开放API
+├── console             控制台示例
+│   ├── account         go.micro.srv.account，Account服务
+│   │   ├── domain              领域
+│   │   │   ├── model           模型
+│   │   │   ├── repository      存储接口
+│   │   │   │   └── persistence ①存储接口实现   
+│   │   │   └── service         领域服务
+│   │   ├── interface           接口
+│   │   │   ├── handler         micro handler接口
+│   │   │   └── persistence     ②存储接口实现
+│   │   ├── registry            依赖注入，根据使用习惯，一般Go中不怎么喜欢这种方式
+│   │   └── usecase             应用用例
+│   │       ├── event           消息事件
+│   │       └── service         应用服务
+│   ├── api             go.micro.api.console，API服务
+│   ├── pb              服务协议统一.proto
+│   └── web             go.micro.api.console，Web服务，集成gin、echo、iris等web框架
 ├── deploy              部署
 │   ├── docker
 │   └── k8s
 ├── doc                 文档资源
 ├── gateway             网关，自定义micro
-├── pkg                 公共资源包
-└── srv                 基础服务
-    ├── account         账户服务，领域模型整洁架构示例
-    │   ├── domain              领域
-    │   │   ├── model           模型
-    │   │   ├── repository      存储接口
-    │   │   │   └── persistence ①存储接口实现   
-    │   │   └── service         领域服务
-    │   ├── interface           接口
-    │   │   ├── handler         micro handler接口
-    │   │   └── persistence     ②存储接口实现
-    │   ├── registry            依赖注入，根据使用习惯，一般Go中不怎么喜欢这种方式
-    │   └── usecase             应用用例
-    │       ├── event           消息事件
-    │       ├── service         应用服务
-    ├── example         micro srv不同场景示例
-    └── pb              基础服务协议统一.proto
+└── pkg                 公共资源包
 ```
 
 ### 系统架构图
@@ -223,7 +212,7 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ### 业务架构图
 *TODO*
 
-#### [Console示例](/app/console)
+#### [Console示例](/console)
 
 #### [Hipster Shop示例](/hipstershop)
 > [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)

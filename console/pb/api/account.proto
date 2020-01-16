@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package go.micro.api.console.account;
+
+import "github.com/micro/go-micro/api/proto/api.proto";
+import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
+import "srv/account.proto";
+
+service Account {
+    // rpc模式handler
+    // 可以在proto中定义validate，https://github.com/envoyproxy/protoc-gen-validate
+    rpc Login (LoginRequest) returns (Response) {
+    }
+    // api模式handler
+    rpc Logout (go.api.Request) returns (go.api.Response) {
+    }
+    rpc Info (go.api.Request) returns (go.api.Response) {
+    }
+}
+
+message LoginRequest {
+    string username = 1 [(validate.rules).string = {
+                        min_bytes: 4, max_bytes: 32
+                        }];
+    string password = 2 [(validate.rules).string = {
+                        min_bytes: 6, max_bytes: 20
+                        }];
+}
+
+message Response {
+    int64 code = 1;
+    string detail = 2;
+    go.micro.srv.account.LoginResponse data = 3;
+}
