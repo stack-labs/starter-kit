@@ -3,6 +3,7 @@ p, public, /stats, GET
 p, public, /metrics, GET
 p, public, /account/login, (POST)|(OPTIONS)
 p, public, /hipstershop/*, (GET)|(POST)|(HEAD)|(OPTIONS)
+p, public, /console/*, (GET)|(POST)|(HEAD)|(OPTIONS)
 
 p, admin, /account/logout, POST
 p, admin, /account/info, GET
