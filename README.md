@@ -32,19 +32,15 @@ $ make build
 # API网关(二选一)
 $ make run_api                                  # 默认mdns + http
 $ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
-
-# Web网关(二选一)
-$ make run_web                                  # 默认mdns + http
-$ make run_web registry=etcd transport=tcp      # 使用etcd + tcp
 ```
 
 ### 运行服务
 - Web应用
-	- `app/console/web`控制台
+	- `console/web`控制台
 - 聚合API
-	- `app/console/api`控制台
+	- `console/api`控制台
 - 基础服务
-	- `srv/account`账户
+	- `console/account`账户
 	
 > 注：`registry`、`transport`选择与网关一致
 ```bash
@@ -60,14 +56,12 @@ $ make build run registry=etcd transport=tcp    # 使用etcd + tcp
 - gateway
 	- http://localhost:8080/
 	- http://localhost:8080/metrics
-	- http://localhost:8082/
-	- http://localhost:8082/metrics
 - console
-	- http://localhost:8082/console
+	- http://localhost:8080/console
 	- Web API
-		- http://localhost:8082/console/v1/echo/
-		- http://localhost:8082/console/v1/gin/
-		- http://localhost:8082/console/v1/iris/
+		- http://localhost:8080/console/v1/echo/
+		- http://localhost:8080/console/v1/gin/
+		- http://localhost:8080/console/v1/iris/
 	- API
         - http://localhost:8080/account/login
         - http://localhost:8080/account/info
@@ -218,7 +212,7 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 ### 业务架构图
 *TODO*
 
-#### [Console示例](/app/console)
+#### [Console示例](/console)
 
 #### [Hipster Shop示例](/hipstershop)
 > [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
