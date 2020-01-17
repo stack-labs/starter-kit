@@ -10,15 +10,61 @@
     - [控制台示例](/console#目录)
         - 以最常见的登录流程为例，实现一个场景简单，但包含微服务各种治理能力的示例
     - [Hipster Shop示例](/hipstershop)
-        - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)实现先一个业务场景比较复杂的微服务应用
-- [目标](#目标)
-- [目录结构](#目录结构)
+        - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)实现一个业务场景比较复杂的微服务应用
 - [架构设计](#架构设计)
+- [目录结构](#目录结构)
+- [目标功能](#目标功能)
 - [开发环境](#开发环境)
 - [部署环境](#部署环境)
 - [参与贡献](#参与贡献)
 
-## 目标
+## 架构设计
+
+### 系统架构图
+<img src="/doc/img/architecture.png" width="50%">
+
+### 业务架构图
+
+**[Console示例](/console)**
+<img src="/doc/img/console-design.png" width="75%">
+
+- [Hipster Shop示例](/hipstershop)
+    - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
+
+**领域模型&整洁架构参考**
+- [Clean Architecture in go](https://medium.com/@hatajoe/clean-architecture-in-go-4030f11ec1b1)
+- [基于 DDD 的微服务设计和开发实战](https://www.infoq.cn/article/s_LFUlU6ZQODd030RbH9)
+- [当中台遇上 DDD，我们该如何设计微服务？](https://www.infoq.cn/article/7QgXyp4Jh3-5Pk6LydWw)
+
+## 目录结构
+
+```bash
+├── console             控制台示例
+│   ├── account         go.micro.srv.account，Account服务
+│   │   ├── domain              领域
+│   │   │   ├── model           模型
+│   │   │   ├── repository      存储接口
+│   │   │   │   └── persistence ①存储接口实现   
+│   │   │   └── service         领域服务
+│   │   ├── interface           接口
+│   │   │   ├── handler         micro handler接口
+│   │   │   └── persistence     ②存储接口实现
+│   │   ├── registry            依赖注入，根据使用习惯，一般Go中不怎么喜欢这种方式
+│   │   └── usecase             应用用例
+│   │       ├── event           消息事件
+│   │       └── service         应用服务
+│   ├── api             go.micro.api.console，API服务
+│   ├── pb              服务协议统一.proto
+│   └── web             go.micro.api.console，Web服务，集成gin、echo、iris等web框架
+├── deploy              部署
+│   ├── docker
+│   └── k8s
+├── doc                 文档资源
+├── gateway             网关，自定义micro
+└── pkg                 公共资源包
+```
+
+## 目标功能
 
 - 自定义[micro网关](gateway)
 	- [x] `JWT`认证
@@ -80,50 +126,6 @@
 	- [ ] Tracing
 		- Jaeger
 - ...
-
-## 目录结构
-
-```bash
-├── console             控制台示例
-│   ├── account         go.micro.srv.account，Account服务
-│   │   ├── domain              领域
-│   │   │   ├── model           模型
-│   │   │   ├── repository      存储接口
-│   │   │   │   └── persistence ①存储接口实现   
-│   │   │   └── service         领域服务
-│   │   ├── interface           接口
-│   │   │   ├── handler         micro handler接口
-│   │   │   └── persistence     ②存储接口实现
-│   │   ├── registry            依赖注入，根据使用习惯，一般Go中不怎么喜欢这种方式
-│   │   └── usecase             应用用例
-│   │       ├── event           消息事件
-│   │       └── service         应用服务
-│   ├── api             go.micro.api.console，API服务
-│   ├── pb              服务协议统一.proto
-│   └── web             go.micro.api.console，Web服务，集成gin、echo、iris等web框架
-├── deploy              部署
-│   ├── docker
-│   └── k8s
-├── doc                 文档资源
-├── gateway             网关，自定义micro
-└── pkg                 公共资源包
-```
-
-## 架构设计
-
-### 系统架构图
-<img src="/doc/img/architecture.png" width="50%">
-
-### 业务架构图
-
-- [Console示例](/console)
-- [Hipster Shop示例](/hipstershop)
-    - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
-
-**领域模型&整洁架构参考**
-- [Clean Architecture in go](https://medium.com/@hatajoe/clean-architecture-in-go-4030f11ec1b1)
-- [基于 DDD 的微服务设计和开发实战](https://www.infoq.cn/article/s_LFUlU6ZQODd030RbH9)
-- [当中台遇上 DDD，我们该如何设计微服务？](https://www.infoq.cn/article/7QgXyp4Jh3-5Pk6LydWw)
 
 ## 开发环境
 
