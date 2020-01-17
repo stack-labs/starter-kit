@@ -28,17 +28,16 @@
 	- [x] Metrics
 	- [ ] Access Log
 	- ...
-- 网关选择
-	- micro api
-		- [x] api
-		- [x] rpc
-		- proxy/http/web
-		    - [x] [静态资源](/console/web/statik)
-            - [x] [echo](/console/web/echo)
-            - [x] [gin](/console/web/gin)
-            - [x] [iris](/console/web/iris)
-            - [x] [beego](/console/web/beego)
-            - *注:`go-micro/web`服务注册不支持`Endpoint`定义，需要自定义`web.Service`([实现参考](https://github.com/hb-go/micro-plugins/tree/master/web))，[issue#1097](https://github.com/micro/go-micro/issues/1097)*
+- 网关`micro api`
+	- [x] api
+    - [x] rpc
+    - proxy/http/web
+        - [x] [静态资源](/console/web/statik)
+        - [x] [echo](/console/web/echo)
+        - [x] [gin](/console/web/gin)
+        - [x] [iris](/console/web/iris)
+        - [x] [beego](/console/web/beego)
+        - *注:`go-micro/web`服务注册不支持`Endpoint`定义，需要自定义`web.Service`([实现参考](https://github.com/hb-go/micro-plugins/tree/master/web))，[issue#1097](https://github.com/micro/go-micro/issues/1097)*
 - 配置中心
 - 前后端分离`console`
 	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
