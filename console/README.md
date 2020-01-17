@@ -7,11 +7,15 @@
 
 ## 目录
 
+- [架构](#架构)
 - [快速开始](#快速开始)
     - [Docker Compose启动](#docker-compose启动)`推荐`
     - [编译启动](#编译启动)
 - [服务测试](#服务测试)
 - [Proto管理](#proto管理)
+
+## 架构
+<img src="/doc/img/console-design.png" width="75%">
 
 ## 快速开始
 ### Docker Compose启动
