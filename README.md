@@ -26,6 +26,7 @@
 ### 业务架构图
 
 **[Console示例](/console)**
+
 <img src="/doc/img/console-design.png" width="50%">
 
 - [Hipster Shop示例](/hipstershop)
