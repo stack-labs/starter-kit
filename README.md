@@ -1,16 +1,22 @@
-# Micro 快速开发工具包*项目进行中*
+# Micro 快速开发工具包
 
-本仓库旨在提供面向Go-Micro生产环境的快速开发包。项目结合维护者们十余年的工作经验，不同领域的实战沉淀，一切为了缩短大家的选型、开发周期。
+> *项目进行中*
+
+本仓库旨在提供面向Go-Micro生产环境的快速开发包。
 
 ## 目录
 
-- 快速开始
+- 快速开始示例
     - [控制台示例](/console#目录)
+        - 以最常见的登录流程为例，实现一个场景简单，但包含微服务各种治理能力的示例
     - [Hipster Shop示例](/hipstershop)
+        - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)实现先一个业务场景比较复杂的微服务应用
 - [目标](#目标)
+- [目录结构](#目录结构)
 - [架构设计](#架构设计)
-    - [目录结构](#目录结构)
-- [部署](#部署)
+- [开发环境](#开发环境)
+- [部署环境](#部署环境)
+- [参与贡献](#参与贡献)
 
 ## 目标
 
@@ -22,25 +28,27 @@
 	- [x] Metrics
 	- [ ] Access Log
 	- ...
-- 网关选择
-	- micro api
-		- [x] api
-		- [x] rpc
-		- proxy/http/web
-		    - [x] [静态资源](/console/web/statik)
-            - [x] [echo](/console/web/echo)
-            - [x] [gin](/console/web/gin)
-            - [x] [iris](/console/web/iris)
-            - [x] [beego](/console/web/beego)
+- API服务
+    - 网关使用默认处理器(`handler=meta`)，聚合服务通过`Endpoint`定义路由规则，实现统一网关管理`rpc`和`http`类型的聚合服务
+        - *注:`go-micro/web`服务注册不支持`Endpoint`定义，需要自定义`web.Service`([实现参考](https://github.com/hb-go/micro-plugins/tree/master/web))，[issue#1097](https://github.com/micro/go-micro/issues/1097)*
+	- [x] api
+    - [x] rpc
+    - proxy/http/web
+        - [x] [静态资源](/console/web/statik)
+            - *前后端分离场景将静态资源独立更好，但不排除使用Web模板框架的应用加入微服务体系，尤其在已有单体逐步拆分的演进过程中*
+        - [x] [echo](/console/web/echo)
+        - [x] [gin](/console/web/gin)
+        - [x] [iris](/console/web/iris)
+        - [x] [beego](/console/web/beego)
 - 配置中心
 - 前后端分离`console`
-	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)，[示例](/console/web/vue)
 	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
 - 参数验证
 	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)，适用于API`handler=rpc`的模式
-	    - 规则配置[account.proto](/app/console/api/proto/account/account.proto#L21)
-	    - 参数验证[account.go](/app/console/api/handler/account.go#L26)
+	    - 规则配置[account.proto](/console/pb/api/account.proto#L21)
+	    - 参数验证[account.go](/console/api/handler/account.go#L26)
 - 领域驱动
 	- [x] 整洁架构
 - ORM
@@ -57,6 +65,9 @@
 - 安全
 - CICD
 	- [x] [Drone](https://drone.io/) [README](/deploy/docker/drone)
+	    - [x] Go编译
+	    - [x] Docker镜像
+	    - [ ] Kubernetes发布
 	- [ ] Jenkins
 - 基础服务
 	- [ ] 日志收集
@@ -70,9 +81,7 @@
 		- Jaeger
 - ...
 
-## 架构设计
-
-### 目录结构
+## 目录结构
 
 ```bash
 ├── console             控制台示例
@@ -100,6 +109,8 @@
 └── pkg                 公共资源包
 ```
 
+## 架构设计
+
 ### 系统架构图
 <img src="/doc/img/architecture.png" width="50%">
 
@@ -114,7 +125,18 @@
 - [基于 DDD 的微服务设计和开发实战](https://www.infoq.cn/article/s_LFUlU6ZQODd030RbH9)
 - [当中台遇上 DDD，我们该如何设计微服务？](https://www.infoq.cn/article/7QgXyp4Jh3-5Pk6LydWw)
 
-## 部署
+## 开发环境
+
+*TODO*
+- 本地
+    - [x] [Docker Compose](/console#docker-compose启动)
+- 在线
+    - [ ] CICD
+    - [ ] Kubernetes
+    - 本地服务接入
+        - [ ] Network代理 + 流量染色
+
+## 部署环境
 
 [Kubernetes环境](/deploy/k8s)
 
@@ -154,7 +176,7 @@ $ docker run --name grafana -d -p 3000:3000 grafana/grafana
 
 </details>
 
-## 贡献
+## 参与贡献
 
 ### 代码格式
 - IDE IDEA/Goland，`Go->imports` 设置
