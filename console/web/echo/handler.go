@@ -16,7 +16,7 @@ func New() (http.Handler, error) {
 	e.Use(middleware.Recover())
 
 	// Routes
-	r := e.Group("/console/v1/echo")
+	r := e.Group("/v1/echo")
 	r.GET("/", func(ctx echo.Context) error {
 		return ctx.JSON(200, echo.Map{
 			"message": "Hello Echo",

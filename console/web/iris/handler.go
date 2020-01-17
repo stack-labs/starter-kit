@@ -19,7 +19,7 @@ func New() (http.Handler, error) {
 	app.Use(recover.New())
 	app.Use(logger.New())
 
-	v1 := app.Party("/console/v1/iris")
+	v1 := app.Party("/v1/iris")
 	{
 		v1.Get("/", func(ctx iris.Context) {
 			ctx.JSON(iris.Map{"message": "Hello Iris!"})

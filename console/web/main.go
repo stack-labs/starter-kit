@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// 链路追踪
-	t, closer, err := tracer.NewJaegerTracer("go.micro.web.console", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}
