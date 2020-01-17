@@ -28,19 +28,21 @@
 	- [x] Metrics
 	- [ ] Access Log
 	- ...
-- 网关`micro api`
+- API服务
+    - 网关使用默认处理器(`handler=meta`)，聚合服务通过`Endpoint`定义路由规则，实现统一网关管理`rpc`和`http`类型的聚合服务
+        - *注:`go-micro/web`服务注册不支持`Endpoint`定义，需要自定义`web.Service`([实现参考](https://github.com/hb-go/micro-plugins/tree/master/web))，[issue#1097](https://github.com/micro/go-micro/issues/1097)*
 	- [x] api
     - [x] rpc
     - proxy/http/web
         - [x] [静态资源](/console/web/statik)
+            - *前后端分离场景将静态资源独立更好，但不排除使用Web模板框架的应用加入微服务体系，尤其在已有单体逐步拆分的演进过程中*
         - [x] [echo](/console/web/echo)
         - [x] [gin](/console/web/gin)
         - [x] [iris](/console/web/iris)
         - [x] [beego](/console/web/beego)
-        - *注:`go-micro/web`服务注册不支持`Endpoint`定义，需要自定义`web.Service`([实现参考](https://github.com/hb-go/micro-plugins/tree/master/web))，[issue#1097](https://github.com/micro/go-micro/issues/1097)*
 - 配置中心
 - 前后端分离`console`
-	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)，[示例](/console/web/vue)
 	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
 - 参数验证
