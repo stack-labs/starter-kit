@@ -79,6 +79,12 @@ docker-compose -p starter-kit-console build api
 docker-compose -p starter-kit-console up -d --no-deps --force-recreate api
 ```
 
+**Compose常用命令**
+```shell script
+# 移除compose file中没有定义的容器
+docker-compose -p starter-kit-console down --remove-orphans
+```
+
 ### 编译启动
 
 > 如果使用Etcd注册中心需要自己维护
