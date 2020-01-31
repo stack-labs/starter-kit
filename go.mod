@@ -20,7 +20,7 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
 	github.com/gorilla/mux v1.7.3
-	github.com/hb-go/micro-plugins v0.0.0-20200131022939-006f219ebffe
+	github.com/hb-go/micro-plugins/v2 v2.0.0-20200131053409-d9022801113b
 	github.com/hb-go/pkg v0.0.2
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jinzhu/gorm v1.9.11

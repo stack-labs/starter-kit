@@ -483,6 +483,8 @@ github.com/hb-go/micro-plugins v0.0.0-20200131022939-006f219ebffe h1:lw2F73JwkmH
 github.com/hb-go/micro-plugins v0.0.0-20200131022939-006f219ebffe/go.mod h1:6zcrLOKbAkKl89Fu1CF5g6V1+F8QECqgjqy1qP2IAF4=
 github.com/hb-go/micro-plugins v1.18.0 h1:aPg9wj0jlECQ1aG4vCqRu25Cp0S0LTODkyGkQWgLVPY=
 github.com/hb-go/micro-plugins v1.18.0/go.mod h1:n3cG2QT3GLCYbBKPTAmbHvGNB1JQ/1fzdn0PY399Oio=
+github.com/hb-go/micro-plugins/v2 v2.0.0-20200131053409-d9022801113b h1:qJrfYs3/qPvDo1/DuMo6tzxufH9EGqNxvMLBxV0bg7E=
+github.com/hb-go/micro-plugins/v2 v2.0.0-20200131053409-d9022801113b/go.mod h1:QciHOoITxTPoWUBpiZy1WJWudSXkPJIp04xbQX1B8Kw=
 github.com/hb-go/pkg v0.0.2 h1:4OcLqAXvNAQtIQ2APMP815Lvys8mLCIZphUz05Bvumc=
 github.com/hb-go/pkg v0.0.2/go.mod h1:AUpf9Xuz+1l+aqKluvg/FTBm93972ohD3YDT0MZwUj8=
 github.com/hpcloud/tail v1.0.0 h1:nfCOvKYfkgYP8hkirhJocXT2+zOD8yUNjXaWfTlyFKI=
