@@ -21,7 +21,7 @@ import (
 	"github.com/pkg/errors"
 
 	pb "github.com/micro-in-cn/starter-kit/hipstershop/pb"
-	"github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/v2/client"
 )
 
 const (

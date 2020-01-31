@@ -6,25 +6,24 @@ import (
 	"strings"
 	"time"
 
-	"github.com/micro-in-cn/x-gateway/api"
-	"github.com/micro-in-cn/x-gateway/web"
+	"github.com/micro/micro/v2/api"
+	"github.com/micro/micro/v2/web"
 	"golang.org/x/time/rate"
 
 	// micro plugins
-	_ "github.com/micro/go-plugins/registry/kubernetes"
-	_ "github.com/micro/go-plugins/transport/tcp"
+	_ "github.com/micro/go-plugins/registry/kubernetes/v2"
+	_ "github.com/micro/go-plugins/transport/tcp/v2"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/micro/go-micro/util/log"
+	"github.com/micro/go-micro/v2/util/log"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
-	tracer "github.com/micro-in-cn/x-gateway/plugin/trace"
 	"github.com/micro-in-cn/x-gateway/plugin/auth"
 	"github.com/micro-in-cn/x-gateway/plugin/cors"
 	"github.com/micro-in-cn/x-gateway/plugin/metrics"
 	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
+	tracer "github.com/micro-in-cn/x-gateway/plugin/trace"
 	"github.com/micro-in-cn/x-gateway/utils/response"
-
 )
 
 var apiTracerCloser, webTracerCloser io.Closer

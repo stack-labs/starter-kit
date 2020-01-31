@@ -2,7 +2,7 @@ package registry
 
 import (
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/micro/go-micro/config"
+	"github.com/micro/go-micro/v2/config"
 	"github.com/sarulabs/di"
 
 	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"

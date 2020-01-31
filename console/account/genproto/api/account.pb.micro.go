@@ -8,14 +8,14 @@ import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	proto "github.com/golang/protobuf/proto"
 	_ "github.com/micro-in-cn/starter-kit/console/account/genproto/srv"
-	proto1 "github.com/micro/go-micro/api/proto"
+	proto1 "github.com/micro/go-micro/v2/api/proto"
 	math "math"
 )
 
 import (
 	context "context"
-	client "github.com/micro/go-micro/client"
-	server "github.com/micro/go-micro/server"
+	client "github.com/micro/go-micro/v2/client"
+	server "github.com/micro/go-micro/v2/server"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -51,12 +51,6 @@ type accountService struct {
 }
 
 func NewAccountService(name string, c client.Client) AccountService {
-	if c == nil {
-		c = client.NewClient()
-	}
-	if len(name) == 0 {
-		name = "go.micro.api.console.account"
-	}
 	return &accountService{
 		c:    c,
 		name: name,
