@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/micro/cli"
-	"github.com/micro/micro/plugin"
+	"github.com/micro/cli/v2"
+	"github.com/micro/micro/v2/plugin"
 )
 
 type chainPlugin struct {
@@ -16,7 +16,7 @@ func (*chainPlugin) Flags() []cli.Flag {
 	return nil
 }
 
-func (*chainPlugin) Commands() []cli.Command {
+func (*chainPlugin) Commands() []*cli.Command {
 	return nil
 }
 

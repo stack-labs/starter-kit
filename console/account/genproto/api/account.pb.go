@@ -8,7 +8,7 @@ import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	proto "github.com/golang/protobuf/proto"
 	srv "github.com/micro-in-cn/starter-kit/console/account/genproto/srv"
-	_ "github.com/micro/go-micro/api/proto"
+	_ "github.com/micro/go-micro/v2/api/proto"
 	math "math"
 )
 

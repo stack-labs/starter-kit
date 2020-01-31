@@ -3,7 +3,7 @@ module github.com/micro-in-cn/starter-kit
 go 1.13
 
 require (
-	cloud.google.com/go v0.45.1
+	cloud.google.com/go v0.50.0
 	contrib.go.opencensus.io/exporter/jaeger v0.2.0
 	contrib.go.opencensus.io/exporter/stackdriver v0.12.1
 	github.com/ajg/form v1.5.1 // indirect
@@ -20,21 +20,23 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
 	github.com/gorilla/mux v1.7.3
-	github.com/hb-go/micro-plugins v1.18.0
+	github.com/hb-go/micro-plugins v0.0.0-20200131022939-006f219ebffe
 	github.com/hb-go/pkg v0.0.2
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jinzhu/gorm v1.9.11
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
-	github.com/micro-in-cn/x-gateway v0.0.5-0.20200115034840-d9055f8e2002
-	github.com/micro/cli v0.2.0
+	github.com/micro-in-cn/x-gateway v0.0.0-20200131041537-e1c909ab44b0
+	github.com/micro/cli/v2 v2.1.1
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
-	github.com/micro/go-plugins v1.5.1
-	github.com/micro/micro v1.18.0
+	github.com/micro/go-micro/v2 v2.0.0
+	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200130222639-249370b1a993
+	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200130222639-249370b1a993
+	github.com/micro/micro/v2 v2.0.0
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/rakyll/statik v0.1.6
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
@@ -50,7 +52,7 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.opencensus.io v0.22.2
-	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
+	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	google.golang.org/grpc v1.26.0
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect

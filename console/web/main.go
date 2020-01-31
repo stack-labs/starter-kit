@@ -7,8 +7,8 @@ import (
 
 	"github.com/hb-go/micro-plugins/web"
 	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
-	"github.com/micro/go-micro/api"
-	"github.com/micro/go-micro/util/log"
+	"github.com/micro/go-micro/v2/api"
+	"github.com/micro/go-micro/v2/util/log"
 
 	"github.com/micro-in-cn/starter-kit/console/web/beego"
 	"github.com/micro-in-cn/starter-kit/console/web/echo"

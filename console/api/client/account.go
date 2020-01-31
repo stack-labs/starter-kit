@@ -5,8 +5,8 @@ import (
 
 	account "github.com/micro-in-cn/starter-kit/console/api/genproto/srv"
 
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/server"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/server"
 )
 
 type exampleKey struct{}

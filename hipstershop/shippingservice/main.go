@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/micro-in-cn/starter-kit/hipstershop/shippingservice/handler"
 	"github.com/micro-in-cn/starter-kit/hipstershop/shippingservice/subscriber"
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/util/log"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/util/log"
 
 	shippingservice "github.com/micro-in-cn/starter-kit/hipstershop/pb"
 )

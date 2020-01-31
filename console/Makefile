@@ -10,7 +10,7 @@ GEN_PATH=github.com/micro-in-cn/starter-kit/console/${gen}
 .PHONY: proto
 proto:
 	rm -rf OUT_PATH/*
-	protoc --proto_path=${GOPATH}/src:${PB_PATH} --micro_out=Msrv/account.proto=${GEN_PATH}/srv:${gen} --go_out=Msrv/account.proto=${GEN_PATH}/srv:${gen} --validate_out="lang=go:${gen}" api/account.proto
+	protoc --proto_path=${GOPATH}/src:${PB_PATH} --micro_out=Msrv/account.proto=${GEN_PATH}/srv,Mgithub.com/micro/go-micro/api/proto/api.proto=github.com/micro/go-micro/v2/api/proto:${gen} --go_out=Msrv/account.proto=${GEN_PATH}/srv,Mgithub.com/micro/go-micro/api/proto/api.proto=github.com/micro/go-micro/v2/api/proto:${gen} --validate_out="lang=go:${gen}" api/account.proto
 	protoc --proto_path=${GOPATH}/src:${PB_PATH} --micro_out=${gen} --go_out=:${gen} --validate_out="lang=go:${gen}" srv/account.proto
 
 # Go编译

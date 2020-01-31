@@ -7,8 +7,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/test"
 	"github.com/micro-in-cn/starter-kit/console/account/conf"
-	"github.com/micro/go-micro/errors"
-	"github.com/micro/go-micro/util/log"
+	"github.com/micro/go-micro/v2/errors"
+	"github.com/micro/go-micro/v2/util/log"
 
 	account "github.com/micro-in-cn/starter-kit/console/account/genproto/srv"
 	"github.com/micro-in-cn/starter-kit/console/account/usecase"

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/micro/cli"
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/config"
-	"github.com/micro/go-micro/util/log"
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/util/log"
 
 	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
@@ -24,21 +24,20 @@ func main() {
 		micro.Version("latest"),
 		micro.Metadata(md),
 		micro.Flags(
-			cli.StringFlag{
+			&cli.StringFlag{
 				Name:  "conf_path",
 				Value: "./conf/",
 				Usage: "配置文件目录",
 			},
 		),
-		micro.Action(func(ctx *cli.Context) {
+		micro.Action(func(ctx *cli.Context) error {
 			confPath := ctx.String("conf_path")
 			conf.BASE_PATH = confPath
 
 			// 配置加载
 			err := config.LoadFile(conf.BASE_PATH + "config.yaml")
-			if err != nil {
-				log.Fatal(err)
-			}
+
+			return err
 		}),
 	)
 
