@@ -635,6 +635,8 @@ github.com/micro-in-cn/x-gateway v0.0.0-20200131032455-edf3454a4783 h1:5i5xPkdeO
 github.com/micro-in-cn/x-gateway v0.0.0-20200131032455-edf3454a4783/go.mod h1:voNpuJO19Gw+T9WTPtZ+qHjVze64Txb/4ODr3oonOgA=
 github.com/micro-in-cn/x-gateway v0.0.0-20200131041537-e1c909ab44b0 h1:ortGqr95tmiOSIZC/Pu1Gt6LhC2il/KrwtGBiDkCNxM=
 github.com/micro-in-cn/x-gateway v0.0.0-20200131041537-e1c909ab44b0/go.mod h1:voNpuJO19Gw+T9WTPtZ+qHjVze64Txb/4ODr3oonOgA=
+github.com/micro-in-cn/x-gateway v0.0.0-20200218113529-54c68df17b84 h1:kDY49bqha4MxiJZPHQjVOWkQlIF0fhRoYGjSDXo/SJM=
+github.com/micro-in-cn/x-gateway v0.0.0-20200218113529-54c68df17b84/go.mod h1:voNpuJO19Gw+T9WTPtZ+qHjVze64Txb/4ODr3oonOgA=
 github.com/micro/cli v0.2.0 h1:ut3rV5JWqZjsXIa2MvGF+qMUP8DAUTvHX9Br5gO4afA=
 github.com/micro/cli v0.2.0/go.mod h1:jRT9gmfVKWSS6pkKcXQ8YhUyj6bzwxK8Fp5b0Y7qNnk=
 github.com/micro/cli/v2 v2.1.1 h1:uFw0SMIKmGuyHIm8lXns/NOn7V62bM5y7DnlxUM+BEQ=

@@ -2,6 +2,8 @@ package handler
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -26,7 +28,7 @@ func NewAccountService(userUsecase usecase.UserUsecase) *Account {
 
 // Call is a single request handler called via client.Call or the generated client code
 func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *account.LoginResponse) error {
-	log.Log("Received Example.Call request")
+	log.Log("Received Account.Login request")
 
 	user, err := a.userUsecase.LoginUser(req.Username, req.Password)
 	if err != nil {
@@ -36,8 +38,9 @@ func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *acc
 	}
 
 	claims := jwt.StandardClaims{
-		Id:        req.Username,
+		Id:        strconv.FormatInt(user.Id, 10),
 		ExpiresAt: time.Now().Add(time.Minute * 10).Unix(),
+		Subject:   req.Username,
 	}
 
 	privateKey := test.LoadRSAPrivateKeyFromDisk(conf.BASE_PATH + "auth_key")
@@ -50,14 +53,19 @@ func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *acc
 
 // Call is a single request handler called via client.Call or the generated client code
 func (*Account) Logout(ctx context.Context, req *account.Request, rsp *account.LogoutResponse) error {
-	log.Log("Received Example.Call request")
+	log.Log("Received Account.Logout request")
 	return nil
 }
 
 // Call is a single request handler called via client.Call or the generated client code
-func (*Account) Info(ctx context.Context, req *account.Request, rsp *account.InfoResponse) error {
-	log.Log("Received Example.Call request")
-	rsp.Name = "Hobo"
+func (a *Account) Info(ctx context.Context, req *account.Request, rsp *account.InfoResponse) error {
+	log.Log("Received Account.Info request")
+	user, err := a.userUsecase.GetUser(req.Id)
+	if err != nil {
+		return err
+	}
+
+	rsp.Name = fmt.Sprintf("%s-ID:%d", user.Name, req.Id)
 	rsp.Avatar = "https://avatars3.githubusercontent.com/u/730866?s=460&v=4"
 	return nil
 }

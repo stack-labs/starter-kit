@@ -27,7 +27,7 @@ require (
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
-	github.com/micro-in-cn/x-gateway v0.0.0-20200131041537-e1c909ab44b0
+	github.com/micro-in-cn/x-gateway v0.0.0-20200218113529-54c68df17b84
 	github.com/micro/cli/v2 v2.1.1
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
 	github.com/micro/go-micro/v2 v2.0.0
