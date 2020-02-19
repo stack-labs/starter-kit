@@ -142,7 +142,7 @@ $ make docker tag=xxx/xxx:v0.0.1
 	- http://localhost:8080/metrics
 - console
 	- Web
-	    - http://localhost:8080/console
+	    - http://localhost:8080/console/
 		- http://localhost:8080/console/v1/echo/
 		- http://localhost:8080/console/v1/gin/
 		- http://localhost:8080/console/v1/iris/
@@ -164,3 +164,10 @@ cd api
 make proto
 ```
 
+### Swagger生成
+```shell script
+cd pb
+protoc -I$GOPATH/src/ -I./ \
+--swagger_out=logtostderr=true,grpc_api_configuration=api/api.yaml,allow_merge=true,merge_file_name=api/api:. \
+api/*.proto
+```

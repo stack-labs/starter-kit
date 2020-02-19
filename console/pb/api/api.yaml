@@ -1,0 +1,15 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+    - selector: go.micro.api.console.account.Account.Login
+      post: /account/login
+      body: "*"
+    - selector: go.micro.api.console.account.Account.Logout
+      post: /account/logout
+      body: "*"
+    - selector: go.micro.api.console.account.Account.Info
+      get: /account/info
+    - selector: go.micro.api.console.account.Accounta.Login
+      get: /accounta/login

@@ -1,0 +1,221 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/account.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/account/info": {
+      "get": {
+        "summary": "Info接口",
+        "operationId": "Info",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/goapiResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "method",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/account/login": {
+      "post": {
+        "summary": "登录接口",
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/consoleaccountResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiconsoleaccountLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/account/logout": {
+      "post": {
+        "summary": "登出接口",
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/goapiResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/goapiRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "accountLoginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "apiPair": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apiconsoleaccountLoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "consoleaccountResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "int64"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/accountLoginResponse"
+        }
+      }
+    },
+    "goapiRequest": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "header": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/apiPair"
+          }
+        },
+        "get": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/apiPair"
+          }
+        },
+        "post": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/apiPair"
+          }
+        },
+        "body": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "title": "A HTTP request as RPC\nForward by the api handler"
+    },
+    "goapiResponse": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "header": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/apiPair"
+          }
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "title": "A HTTP response as RPC\nExpected response for the api handler"
+    }
+  }
+}

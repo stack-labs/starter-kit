@@ -19,18 +19,18 @@ import (
 
 type Account struct{}
 
-// Example.Call is called by the API as /example/call with post body {"name": "foo"}
+// 登录
 func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Response) error {
-	log.Log("Received Example.Call request")
+	log.Log("Received Account.Login request")
 
 	if err := req.Validate(); err != nil {
-		return errors.BadRequest("go.micro.api.example.example.call", err.Error())
+		return errors.BadRequest("go.micro.api.account.account.login", err.Error())
 	}
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
 	if !ok {
-		return errors.InternalServerError("go.micro.api.example.example.call", "example client not found")
+		return errors.InternalServerError("go.micro.api.account.account.login", "account client not found")
 	}
 
 	// make request
@@ -38,7 +38,7 @@ func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Respons
 	conv.StructToStruct(req, r)
 	response, err := ac.Login(ctx, r)
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("go.micro.api.account.account.login", err.Error())
 	}
 
 	rsp.Code = 20000
@@ -47,14 +47,14 @@ func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Respons
 	return nil
 }
 
-// Example.Call is called by the API as /example/call with post body {"name": "foo"}
+// 登出
 func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response) error {
-	log.Log("Received Example.Call request")
+	log.Log("Received Account.Logout request")
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
 	if !ok {
-		return errors.InternalServerError("go.micro.api.example.example.call", "example client not found")
+		return errors.InternalServerError("go.micro.api.account.account.logout", "account client not found")
 	}
 
 	// make request
@@ -62,12 +62,12 @@ func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response)
 		Id: 0,
 	})
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("go.micro.api.account.account.logout", err.Error())
 	}
 
 	b, err := ResponseBody(20000, response)
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("go.micro.api.account.account.logout", err.Error())
 	}
 
 	rsp.StatusCode = 200
@@ -76,27 +76,38 @@ func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response)
 	return nil
 }
 
-// Example.Call is called by the API as /example/call with post body {"name": "foo"}
+// Info
 func (*Account) Info(ctx context.Context, req *api.Request, rsp *api.Response) error {
-	log.Log("Received Example.Call request")
+	log.Log("Received Account.Info request")
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
 	if !ok {
-		return errors.InternalServerError("go.micro.api.example.example.call", "example client not found")
+		return errors.InternalServerError("go.micro.api.account.account.info", "account client not found")
+	}
+
+	// Gateway Auth插件在完成鉴权后，通过Header将Claims.Id传给api服务
+	// Auth插件Claims及Header设置可自定义
+	userIdPair, ok := req.Header["User-Id"]
+	if !ok {
+		return errors.InternalServerError("go.micro.api.account.account.info", "request header User-Id not exist")
+	}
+	userId, err := extractValueInt64(userIdPair)
+	if err != nil {
+		return errors.InternalServerError("go.micro.api.account.account.info", err.Error())
 	}
 
 	// make request
 	response, err := ac.Info(ctx, &account.Request{
-		Id: 0,
+		Id: userId,
 	})
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("go.micro.api.account.account.info", err.Error())
 	}
 
 	b, err := ResponseBody(20000, response)
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("go.micro.api.account.account.info", err.Error())
 	}
 
 	rsp.StatusCode = 200
@@ -105,8 +116,8 @@ func (*Account) Info(ctx context.Context, req *api.Request, rsp *api.Response) e
 	return nil
 }
 
-func registerAccount(server server.Server) {
-	pb.RegisterAccountHandler(server, new(Account),
+func registerAccount(server server.Server) error {
+	return pb.RegisterAccountHandler(server, new(Account),
 		mApi.WithEndpoint(&mApi.Endpoint{
 			// The RPC method
 			Name: "Account.Login",
