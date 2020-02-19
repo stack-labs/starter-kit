@@ -7,14 +7,20 @@ import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
 import "srv/account.proto";
 
 service Account {
-    // rpc模式handler
-    // 可以在proto中定义validate，https://github.com/envoyproxy/protoc-gen-validate
+    // 登录接口
     rpc Login (LoginRequest) returns (Response) {
+        // rpc模式handler
+        // 可以在proto中定义validate，https://github.com/envoyproxy/protoc-gen-validate
     }
-    // api模式handler
+    // 登出接口
     rpc Logout (go.api.Request) returns (go.api.Response) {
+        // api模式handler
+        // TODO swagger生成时，go.api.Request/Response被直接映射
     }
+    // Info接口
     rpc Info (go.api.Request) returns (go.api.Response) {
+        // api模式handler
+        // TODO swagger生成时，go.api.Request/Response被直接映射
     }
 }
 
