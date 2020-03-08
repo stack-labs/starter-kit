@@ -88,8 +88,10 @@
         - [x] [iris](/console/web/iris)
         - [x] [beego](/console/web/beego)
 - 配置中心
+    - [ ] XConf
 - 前后端分离`console`
-	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)，[示例](/console/web/vue)
+	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+	    - [示例](/console/web/vue)
 	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
 - 参数验证
@@ -98,20 +100,24 @@
 	    - 参数验证[account.go](/console/api/handler/account.go#L26)
 - 领域驱动
 	- [x] 整洁架构
+	    - 示例[console/account](/console/account)
 - ORM
 	- [x] gorm
+	    - [示例](/console/account/domain/repository/persistence/gorm)
 	- [x] xorm
+	    - [示例](/console/account/domain/repository/persistence/xorm)
 - 发布
 	- [x] 灰度
 	- [x] 蓝绿
 	- *注:由于micro默认的api和web网关均不支持服务筛选，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)*
 - 部署
-	- [ ] K8S
+	- K8S
 		- [x] [helm](/deploy/k8s/helm)
-	- [ ] Docker
+	- [x] Docker
+	    - 示例[console](/console/docker-compose.yml)
 - 安全
 - CICD
-	- [x] [Drone](https://drone.io/) [README](/deploy/docker/drone)
+	- [Drone](https://drone.io/) [README](/deploy/docker/drone)
 	    - [x] Go编译
 	    - [x] Docker镜像
 	    - [ ] Kubernetes发布

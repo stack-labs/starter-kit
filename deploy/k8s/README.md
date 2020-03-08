@@ -15,6 +15,8 @@
 
 ## 网关部署
 
+> deprecated，使用[helm](/deploy/k8s/helm)
+
 - [网关Docker镜像](/gateway#Docker)
 - [部署yaml](/deploy/k8s/gateway)
 
@@ -74,8 +76,5 @@ $ curl 'http://192.168.39.147:30002'
   </html>
 ```
 
-## 应用部署
-
-*TODO*
 
 
