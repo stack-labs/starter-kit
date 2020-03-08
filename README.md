@@ -87,6 +87,10 @@
         - [x] [gin](/console/web/gin)
         - [x] [iris](/console/web/iris)
         - [x] [beego](/console/web/beego)
+    - API文档
+        - [x] swagger
+            - *使用[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)的`protoc-gen-swagger`生成swagger文档，适用于API`handler=rpc`的模式*
+            - [示例](/console#Swagger文档生成)
 - 配置中心
     - [ ] XConf
 - 前后端分离`console`

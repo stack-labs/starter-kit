@@ -164,7 +164,8 @@ cd api
 make proto
 ```
 
-### Swagger生成
+### Swagger文档生成
+使用[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)的`protoc-gen-swagger`生成swagger文档
 ```shell script
 cd pb
 protoc -I$GOPATH/src/ -I./ \
