@@ -23,9 +23,10 @@ steps:
     commands:
       - kubectl config set-cluster k8s --server="$${SERVER}"
       - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
-      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
-      - kubectl config set-context default --cluster=k8s --user=k8s-admin
+      - kubectl config set-credentials minikube --token="$${USER_TOKEN}"
+      - kubectl config set-context default --cluster=k8s --user=minikube
       - kubectl config use-context default
+      - kubectl get pods -a
       - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always | kubectl apply -f -
     when:
       branch:
