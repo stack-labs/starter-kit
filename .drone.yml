@@ -21,7 +21,7 @@ steps:
       USER_TOKEN:
         from_secret: k8s_token
     commands:
-      - echo $SERVER
+      - echo $$SERVER
       - echo ${SERVER}
       - echo $${SERVER}
       - echo ${DRONE_COMMIT_SHA=latest}
