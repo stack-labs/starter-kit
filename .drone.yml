@@ -24,8 +24,10 @@ steps:
         from_secret: k8s_token
     commands:
       - echo ${username}
-      - echo $server
+      - echo $k8s_server
       - echo ${k8s_server}
+      - echo ${CERTIFICATE_AUTHORITY_DATA}
+      - echo $USER_TOKEN
       - kubectl config set-cluster k8s --server="${SERVER}"
       - kubectl config set clusters.k8s.certificate-authority-data "${CERTIFICATE_AUTHORITY_DATA}"
       - kubectl config set-credentials k8s-admin --token="${USER_TOKEN}"
