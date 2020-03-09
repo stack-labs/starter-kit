@@ -17,7 +17,7 @@ steps:
       - echo $SERVER
       - echo ${SERVER}
       - echo $${SERVER}
-      - echo ${DRONE_TAG=latest}
+      - echo ${DRONE_COMMIT_SHA=latest}
       - kubectl config set-cluster k8s --server="$${SERVER}"
       - kubectl config set clusters.k8s.certificate-authority-data "${CERTIFICATE_AUTHORITY_DATA}"
       - kubectl config set-credentials k8s-admin --token="${USER_TOKEN}"
