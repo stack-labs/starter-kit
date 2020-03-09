@@ -43,7 +43,7 @@ steps:
         - push
         - tag
   - name: deploy-dev
-    image: dtzar/helm-kubectl
+    image: dtzar/helm-kubectl:3.1.1
     environment:
       SERVER:
         from_secret: k8s_server
@@ -53,7 +53,7 @@ steps:
         from_secret: k8s_token
     commands:
       - kubectl config set-cluster k8s --server="${SERVER}"
-      - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
+      - kubectl config set clusters.k8s.certificate-authority-data $(echo ${CERTIFICATE_AUTHORITY_DATA} | base64 -i -)
       - kubectl config set-credentials k8s-admin --token="${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
