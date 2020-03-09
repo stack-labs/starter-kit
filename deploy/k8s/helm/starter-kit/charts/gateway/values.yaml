@@ -6,7 +6,7 @@ replicaCount: 1
 
 micro:
   host: api.starter-kit.com
-  nodePort: 30000
+  nodePort:
   command:
     basic: "micro"
     gateway: "api"
