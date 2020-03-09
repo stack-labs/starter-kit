@@ -26,7 +26,7 @@ steps:
       - kubectl config set-credentials minikube --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=minikube
       - kubectl config use-context default
-      - kubectl get pods -a
+      - kubectl get pods
       - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always | kubectl apply -f -
     when:
       branch:
