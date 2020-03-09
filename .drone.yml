@@ -14,15 +14,15 @@ steps:
   - name: deploy-dev
     image: dtzar/helm-kubectl:3.1.1
     environment:
-      SERVER:
+      server:
         from_secret: k8s_server
       CERTIFICATE_AUTHORITY_DATA:
         from_secret: k8s_ca
       USER_TOKEN:
         from_secret: k8s_token
     commands:
-      - echo $SERVER
-      - echo ${SERVER}
+      - echo $server
+      - echo ${server}
       - kubectl config set-cluster k8s --server="${SERVER}"
       - kubectl config set clusters.k8s.certificate-authority-data "${CERTIFICATE_AUTHORITY_DATA}"
       - kubectl config set-credentials k8s-admin --token="${USER_TOKEN}"
