@@ -22,6 +22,7 @@ micro:
 
 image:
   repository: hbchen/starter-kit-service
+  tag:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
