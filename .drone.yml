@@ -13,13 +13,6 @@ workspace:
 steps:
   - name: deploy-dev
     image: dtzar/helm-kubectl:3.1.1
-    environment:
-      SERVER:
-        from_secret: k8s_server
-      CERTIFICATE_AUTHORITY_DATA:
-        from_secret: k8s_ca
-      USER_TOKEN:
-        from_secret: k8s_token
     commands:
       - echo $SERVER
       - echo ${SERVER}
@@ -30,6 +23,13 @@ steps:
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
       - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always | kubectl apply -f -
+    environment:
+      SERVER:
+        from_secret: k8s_server
+      CERTIFICATE_AUTHORITY_DATA:
+        from_secret: k8s_ca
+      USER_TOKEN:
+        from_secret: k8s_token
     when:
       branch:
         - master
