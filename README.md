@@ -124,7 +124,7 @@
 	- [Drone](https://drone.io/) [README](/deploy/docker/drone)
 	    - [x] Go编译
 	    - [x] Docker镜像
-	    - [ ] Kubernetes发布
+	    - [x] Kubernetes发布
 	- [ ] Jenkins
 - 基础服务
 	- [ ] 日志收集
