@@ -144,8 +144,8 @@
 - 本地
     - [x] [Docker Compose](/console#docker-compose启动)
 - 在线
-    - [ ] CICD
-    - [ ] Kubernetes
+    - [x] CICD
+    - [x] Kubernetes
     - 本地服务接入
         - [ ] Network代理 + 流量染色
 
