@@ -67,7 +67,7 @@ Create the name of the service account to use
 Gateway command options
 */}}
 {{- define "gateway.command" -}}
-{{ default "micro" .Values.micro.command.basic }},
+{{ default "/micro" .Values.micro.command.basic }},
 {{- range .Values.micro.globalOptions }}
 "{{ . }}",
 {{- end }}

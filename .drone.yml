@@ -57,7 +57,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true | kubectl apply -f -
     when:
       branch:
         - master

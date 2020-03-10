@@ -10,7 +10,7 @@ gateway-api:
     host: api.starter-kit.com
     nodePort: 30000
     command:
-      basic: "micro"
+      basic: "/micro"
       gateway: "api"
   serviceAccount:
     name: micro-services
@@ -23,7 +23,7 @@ gateway-web:
     host: web.starter-kit.com
     nodePort: 30002
     command:
-      basic: "micro"
+      basic: "/micro"
       gateway: "web"
   serviceAccount:
     name: micro-services
@@ -34,7 +34,7 @@ console-api:
   serviceAccount:
     name: micro-services
   micro:
-    command: "console-api"
+    command: "/console-api"
   image:
     repository: hbchen/starter-kit-console-api
 
@@ -43,7 +43,7 @@ console-web:
   serviceAccount:
     name: micro-services
   micro:
-    command: "console-web"
+    command: "/console-web"
   image:
     repository: hbchen/starter-kit-console-web
 
@@ -52,7 +52,7 @@ account-srv:
   serviceAccount:
     name: micro-services
   micro:
-    command: "account-srv"
+    command: "/account-srv"
   image:
     repository: hbchen/starter-kit-account-srv
 
