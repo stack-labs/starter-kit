@@ -7,7 +7,14 @@
 
 **Compose启动**
 ```bash
-docker-compose up
+docker-compose up -d
+```
+
+**Pipeline示例**
+`.drone.yml`以`gateway`模块为例，完成Go编译、Docker打包发布、K8S部署过程，不是一个API网关
+
+```
+curl -v -HHost:api.starter-kit.com -X GET 'http://{host}:{port}/'
 ```
 
 ## Drone Secret
@@ -20,16 +27,17 @@ docker-compose up
 
 **K8S config**
 
-取一个Pod的Secret
+1.取一个Pod的Secret或者单独创建一个account
 ```
 kubectl describe po {pod-name} | grep SecretName
 ```
 
-取Secret的ca和token
+2.取Secret的ca和token
 ```
-kubectl get secret {secret name} -o yaml | egrep 'ca.crt:|token:'
+kubectl get secret {secret-name} -o yaml | egrep 'ca.crt:|token:'
 ```
 
+3.drone secret配置
 - `k8s_server`
     - `cat ~/.kube/config`
 - `k8s_ca`
@@ -37,7 +45,7 @@ kubectl get secret {secret name} -o yaml | egrep 'ca.crt:|token:'
 - `k8s_token`
     - token做base64解码后使用
 
-**`kubectl`部署需要token对应的account有授权**
+**`kubectl`部署需要对应的account有授权**
 
 > 测试可以将clusterrole=cluster-admin授权给serviceaccount
     
