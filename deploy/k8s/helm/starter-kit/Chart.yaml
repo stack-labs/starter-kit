@@ -40,4 +40,4 @@ dependencies:
 - name: service
   version: 0.1.0
   condition: account-srv.enabled
-  alias: console-srv
+  alias: account-srv

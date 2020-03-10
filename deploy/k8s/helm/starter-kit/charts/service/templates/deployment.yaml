@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
@@ -18,7 +18,11 @@ spec:
       serviceAccountName: {{ include "chart.serviceAccountName" . }}
       containers:
       - name: api
+{{- if .Values.image.tag }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+{{- else }}
         image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+{{- end }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
           limits:

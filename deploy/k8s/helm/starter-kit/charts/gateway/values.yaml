@@ -6,18 +6,16 @@ replicaCount: 1
 
 micro:
   host: api.starter-kit.com
-  nodePort: 30000
+  nodePort:
   command:
-    basic: "micro"
+    basic: "/micro"
     gateway: "api"
   globalOptions: [
     "--registry=kubernetes",
     "--server=rpc",
-    "--broker=http",
     "--transport=tcp",
     "--register_ttl=60",
     "--register_interval=30",
-    "--selector=cache",
     "--enable_stats",
     ]
   commandOptions: [
@@ -26,6 +24,7 @@ micro:
 
 image:
   repository: hbchen/starter-kit-gateway
+  tag:
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

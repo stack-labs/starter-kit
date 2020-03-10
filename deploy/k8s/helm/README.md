@@ -8,5 +8,10 @@
 
 **yaml输出**
 ```bash
-helm template micro ./starter-kit --namespace ns-micro > starter-kit.yaml
+helm template micro ./starter-kit --namespace starter-kit > starter-kit.yaml
+```
+
+**部署**
+```bash
+helm template micro ./starter-kit --namespace starter-kit | kubectl apply -f -
 ```
