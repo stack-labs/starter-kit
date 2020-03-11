@@ -10,6 +10,9 @@ platform:
 workspace:
   path: github.com/micro-in-cn/starter-kit
 
+trigger:
+  branch:
+    - gateway
 steps:
   - name: build
     image: golang:1.13-alpine
@@ -80,6 +83,9 @@ platform:
 workspace:
   path: github.com/micro-in-cn/starter-kit/console/api
 
+trigger:
+  branch:
+    - console
 steps:
   - name: build
     image: golang:1.13-alpine
@@ -149,14 +155,23 @@ platform:
 workspace:
   path: github.com/micro-in-cn/starter-kit/console/web
 
+trigger:
+  branch:
+    - master
 steps:
   - name: build_vue
     image: node:10-alpine
     commands:
+      - pwd
       - cd vue
       - npm install
       - export VUE_APP_BASE_API=
       - npm run build:prod
+    when:
+      branch:
+        - master
+      event:
+        - push
   - name: build
     image: golang:1.13-alpine
     environment:
@@ -225,6 +240,9 @@ platform:
 workspace:
   path: github.com/micro-in-cn/starter-kit/console/account
 
+trigger:
+  branch:
+    - console
 steps:
   - name: build
     image: golang:1.13-alpine
