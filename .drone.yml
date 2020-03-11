@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: docker
-name: linux-amd64
+name: gateway
 
 platform:
   arch: amd64
@@ -25,6 +25,11 @@ steps:
       - cd gateway
       - go build -o ./bin/linux_amd64/micro main.go plugin.go
       - ./bin/linux_amd64/micro --version
+    when:
+      branch:
+        - gateway
+      event:
+        - push
   - name: publish
     image: plugins/docker
     settings:
@@ -38,11 +43,10 @@ steps:
         from_secret: docker_password
     when:
       branch:
-        - master
+        - gateway
       event:
         - push
-        - tag
-  - name: deploy-dev
+  - name: deploy
     image: dtzar/helm-kubectl:3.1.1
     environment:
       SERVER:
@@ -57,10 +61,223 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
-        - master
+        - gateway
       event:
         - push
-        - tag
+
+---
+kind: pipeline
+type: docker
+name: console-api
+
+platform:
+  arch: amd64
+  os: linux
+
+workspace:
+  path: github.com/micro-in-cn/starter-kit/console/api
+
+steps:
+  - name: build
+    image: golang:1.13-alpine
+    environment:
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: 0
+      GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOSUMDB: off
+    commands:
+      - pwd
+      - go version
+      - go build -o ./bin/linux_amd64/console-api main.go plugin.go
+      - ./bin/linux_amd64/console-api --version
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: publish
+    image: plugins/docker
+    settings:
+      auto_tag: true
+      dockerfile: Dockerfile
+      context: ./
+      repo: hbchen/starter-kit-console-api
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: deploy
+    image: dtzar/helm-kubectl:3.1.1
+    environment:
+      SERVER:
+        from_secret: k8s_server
+      CERTIFICATE_AUTHORITY_DATA:
+        from_secret: k8s_ca
+      USER_TOKEN:
+        from_secret: k8s_token
+    commands:
+      - kubectl config set-cluster k8s --server="$${SERVER}"
+      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
+      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
+      - kubectl config set-context default --cluster=k8s --user=k8s-admin
+      - kubectl config use-context default
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set image.repository=hbchen/starter-kit-console-api --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+    when:
+      branch:
+        - console
+      event:
+        - push
+
+---
+kind: pipeline
+type: docker
+name: console-web
+
+platform:
+  arch: amd64
+  os: linux
+
+workspace:
+  path: github.com/micro-in-cn/starter-kit/console/web
+
+steps:
+  - name: build_vue
+    image: node:10-alpine
+    commands:
+      - cd vue
+      - npm install
+      - export VUE_APP_BASE_API=
+      - npm run build:prod
+  - name: build
+    image: golang:1.13-alpine
+    environment:
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: 0
+      GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOSUMDB: off
+    commands:
+      - pwd
+      - go version
+      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
+      - ./bin/linux_amd64/console-web --version
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: publish
+    image: plugins/docker
+    settings:
+      auto_tag: true
+      dockerfile: Dockerfile
+      context: ./
+      repo: hbchen/starter-kit-console-web
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: deploy
+    image: dtzar/helm-kubectl:3.1.1
+    environment:
+      SERVER:
+        from_secret: k8s_server
+      CERTIFICATE_AUTHORITY_DATA:
+        from_secret: k8s_ca
+      USER_TOKEN:
+        from_secret: k8s_token
+    commands:
+      - kubectl config set-cluster k8s --server="$${SERVER}"
+      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
+      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
+      - kubectl config set-context default --cluster=k8s --user=k8s-admin
+      - kubectl config use-context default
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+    when:
+      branch:
+        - console
+      event:
+        - push
+
+---
+kind: pipeline
+type: docker
+name: console-account
+
+platform:
+  arch: amd64
+  os: linux
+
+workspace:
+  path: github.com/micro-in-cn/starter-kit/console/account
+
+steps:
+  - name: build
+    image: golang:1.13-alpine
+    environment:
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: 0
+      GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOSUMDB: off
+    commands:
+      - pwd
+      - go version
+      - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
+      - ./bin/linux_amd64/account-srv --version
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: publish
+    image: plugins/docker
+    settings:
+      auto_tag: true
+      dockerfile: Dockerfile
+      context: ./
+      repo: hbchen/starter-kit-console-account
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: deploy
+    image: dtzar/helm-kubectl:3.1.1
+    environment:
+      SERVER:
+        from_secret: k8s_server
+      CERTIFICATE_AUTHORITY_DATA:
+        from_secret: k8s_ca
+      USER_TOKEN:
+        from_secret: k8s_token
+    commands:
+      - kubectl config set-cluster k8s --server="$${SERVER}"
+      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
+      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
+      - kubectl config set-context default --cluster=k8s --user=k8s-admin
+      - kubectl config use-context default
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set image.repository=hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+    when:
+      branch:
+        - console
+      event:
+        - push
