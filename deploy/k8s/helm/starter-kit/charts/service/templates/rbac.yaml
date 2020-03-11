@@ -1,5 +1,4 @@
 {{- if .Values.serviceAccount.create }}
-# TODO gateway独立部署时RBAC授权
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -17,7 +16,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: micro-registry-{{ include "gateway.serviceAccountName" . }}
+  name: micro-registry-{{ include "chart.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -25,6 +24,6 @@ roleRef:
   name: micro-registry
 subjects:
 - kind: ServiceAccount
-  name: {{ include "gateway.serviceAccountName" . }}
+  name: {{ include "chart.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end -}}
