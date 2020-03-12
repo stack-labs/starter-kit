@@ -12,7 +12,7 @@ workspace:
 
 trigger:
   branch:
-    - master
+    - gateway
 steps:
   - name: build
     image: golang:1.13-alpine
@@ -30,7 +30,7 @@ steps:
       - ./bin/linux_amd64/micro --version
     when:
       branch:
-        - master
+        - gateway
       event:
         - push
   - name: publish
@@ -46,7 +46,7 @@ steps:
         from_secret: docker_password
     when:
       branch:
-        - master
+        - gateway
       event:
         - push
   - name: deploy
@@ -67,7 +67,7 @@ steps:
       - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set micro.host=starter-kit.k8s.hbchen.com --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
-        - master
+        - gateway
       event:
         - push
 
@@ -168,7 +168,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      dockerfile: console/web/Dockerfile
+      dockerfile: ./console/web/Dockerfile
       context: ./console/web
       repo: hbchen/starter-kit-console-web
       username:
@@ -205,7 +205,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      dockerfile: console/account/Dockerfile
+      dockerfile: ./console/account/Dockerfile
       context: ./console/account
       repo: hbchen/starter-kit-console-account
       username:
