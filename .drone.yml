@@ -100,7 +100,7 @@ steps:
       - go version
       - cd console/api
       - go build -o ./bin/linux_amd64/console-api main.go plugin.go
-      - ./bin/linux_amd64/console-api --version
+      #- ./bin/linux_amd64/console-api --version
     when:
       branch:
         - console
@@ -156,7 +156,7 @@ steps:
         - console
       event:
         - push
-  - name: build-
+  - name: build-web
     image: golang:1.13-alpine
     environment:
       GOOS: linux
@@ -169,7 +169,7 @@ steps:
       - cd console/web
       - go version
       - go build -o ./bin/linux_amd64/console-web main.go plugin.go
-      - ./bin/linux_amd64/console-web --version
+      #- ./bin/linux_amd64/console-web --version
     when:
       branch:
         - console
@@ -225,7 +225,7 @@ steps:
       - cd console/account
       - go version
       - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
-      - ./bin/linux_amd64/account-srv --version
+      #- ./bin/linux_amd64/account-srv --version
     when:
       branch:
         - console
