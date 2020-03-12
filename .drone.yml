@@ -85,7 +85,6 @@ workspace:
 
 trigger:
   branch:
-    - master
     - console
 steps:
   - name: build-api
@@ -154,7 +153,7 @@ steps:
       - npm run build:prod
     when:
       branch:
-        - master
+        - console
       event:
         - push
   - name: build-
