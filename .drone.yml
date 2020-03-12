@@ -110,7 +110,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      dockerfile: Dockerfile
+      dockerfile: console/api/Dockerfile
       context: ./console/api
       repo: hbchen/starter-kit-console-api
       username:
@@ -179,7 +179,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      dockerfile: Dockerfile
+      dockerfile: console/web/Dockerfile
       context: ./console/web
       repo: hbchen/starter-kit-console-web
       username:
@@ -235,7 +235,7 @@ steps:
     image: plugins/docker
     settings:
       auto_tag: true
-      dockerfile: Dockerfile
+      dockerfile: console/account/Dockerfile
       context: ./console/account
       repo: hbchen/starter-kit-console-account
       username:
