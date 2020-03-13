@@ -130,7 +130,8 @@ steps:
       GOPROXY: https://mirrors.aliyun.com/goproxy/
       GOSUMDB: off
     commands:
-      - ls /go/pkg/mod
+      - echo $GOPATH
+      - echo $GO111MODULE
       - pwd
       - go version
       - cd console/api
