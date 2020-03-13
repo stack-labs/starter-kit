@@ -130,6 +130,7 @@ steps:
       GOPROXY: https://mirrors.aliyun.com/goproxy/
       GOSUMDB: off
     commands:
+      - ls /go/pkg/mod
       - pwd
       - go version
       - cd console/api
@@ -143,6 +144,7 @@ steps:
       - go version
       - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
       #- ./bin/linux_amd64/account-srv --version
+      - ls /go/pkg/mod
     when:
       branch:
         - master
