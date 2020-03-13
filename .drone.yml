@@ -1,3 +1,4 @@
+# TODO 缓存优化
 ---
 kind: pipeline
 type: docker
@@ -36,7 +37,8 @@ steps:
   - name: publish
     image: plugins/docker
     settings:
-      auto_tag: true
+      # auto_tag: true
+      tags: latest
       dockerfile: ./gateway/Dockerfile
       context: ./gateway
       repo: hbchen/starter-kit-gateway
@@ -131,7 +133,8 @@ steps:
   - name: publish-api
     image: plugins/docker
     settings:
-      auto_tag: true
+      # auto_tag: true
+      tags: latest
       dockerfile: ./console/api/Dockerfile
       context: ./console/api
       repo: hbchen/starter-kit-console-api
@@ -168,7 +171,8 @@ steps:
 #  - name: publish-web
 #    image: plugins/docker
 #    settings:
-#      auto_tag: true
+#      # auto_tag: true
+#      tags: latest
 #      dockerfile: ./console/web/Dockerfile
 #      context: ./console/web
 #      repo: hbchen/starter-kit-console-web
@@ -205,7 +209,8 @@ steps:
   - name: publish-account
     image: plugins/docker
     settings:
-      auto_tag: true
+      # auto_tag: true
+      tags: latest
       dockerfile: ./console/account/Dockerfile
       context: ./console/account
       repo: hbchen/starter-kit-console-account
