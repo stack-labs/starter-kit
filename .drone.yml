@@ -85,7 +85,7 @@ workspace:
 
 trigger:
   branch:
-    - console
+    - master
 steps:
   - name: build-web-vue
     image: node:10.16.3-alpine
@@ -114,17 +114,17 @@ steps:
       - cd console/api
       - go build -o ./bin/linux_amd64/console-api main.go plugin.go
       #- ./bin/linux_amd64/console-api --version
-      - cd ../web
-      - go version
-      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
+#      - cd ../web
+#      - go version
+#      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
       #- ./bin/linux_amd64/console-web --version
-      - cd ../account
-      - go version
-      - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
+#      - cd ../account
+#      - go version
+#      - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
       #- ./bin/linux_amd64/account-srv --version
     when:
       branch:
-        - console
+        - master
       event:
         - push
   - name: publish-api
@@ -140,7 +140,7 @@ steps:
         from_secret: docker_password
     when:
       branch:
-        - console
+        - master
       event:
         - push
   - name: deploy-api
@@ -161,7 +161,7 @@ steps:
       - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set image.repository=hbchen/starter-kit-console-api --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
-        - console
+        - master
       event:
         - push
   - name: publish-web
