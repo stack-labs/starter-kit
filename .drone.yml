@@ -87,19 +87,20 @@ trigger:
   branch:
     - console
 steps:
-  - name: build-web-vue
-    image: node:10.16.3-alpine
-    commands:
-      - pwd
-      - cd console/web/vue
-      - npm install
-      - export VUE_APP_BASE_API=
-      - npm run build:prod
-    when:
-      branch:
-        - console
-      event:
-        - push
+# vue build太慢暂时不把web放在里面
+#  - name: build-web-vue
+#    image: node:10.16.3-alpine
+#    commands:
+#      - pwd
+#      - cd console/web/vue
+#      - npm install
+#      - export VUE_APP_BASE_API=
+#      - npm run build:prod
+#    when:
+#      branch:
+#        - console
+#      event:
+#        - push
   - name: build-all
     image: golang:1.13-alpine
     environment:
@@ -114,9 +115,9 @@ steps:
       - cd console/api
       - go build -o ./bin/linux_amd64/console-api main.go plugin.go
       #- ./bin/linux_amd64/console-api --version
-      - cd ../web
-      - go version
-      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
+#      - cd ../web
+#      - go version
+#      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
       #- ./bin/linux_amd64/console-web --version
       - cd ../account
       - go version
@@ -164,43 +165,43 @@ steps:
         - console
       event:
         - push
-  - name: publish-web
-    image: plugins/docker
-    settings:
-      auto_tag: true
-      dockerfile: ./console/web/Dockerfile
-      context: ./console/web
-      repo: hbchen/starter-kit-console-web
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    when:
-      branch:
-        - console
-      event:
-        - push
-  - name: deploy-web
-    image: dtzar/helm-kubectl:3.1.1
-    environment:
-      SERVER:
-        from_secret: k8s_server
-      CERTIFICATE_AUTHORITY_DATA:
-        from_secret: k8s_ca
-      USER_TOKEN:
-        from_secret: k8s_token
-    commands:
-      - kubectl config set-cluster k8s --server="$${SERVER}"
-      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
-      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
-      - kubectl config set-context default --cluster=k8s --user=k8s-admin
-      - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
-    when:
-      branch:
-        - console
-      event:
-        - push
+#  - name: publish-web
+#    image: plugins/docker
+#    settings:
+#      auto_tag: true
+#      dockerfile: ./console/web/Dockerfile
+#      context: ./console/web
+#      repo: hbchen/starter-kit-console-web
+#      username:
+#        from_secret: docker_username
+#      password:
+#        from_secret: docker_password
+#    when:
+#      branch:
+#        - console
+#      event:
+#        - push
+#  - name: deploy-web
+#    image: dtzar/helm-kubectl:3.1.1
+#    environment:
+#      SERVER:
+#        from_secret: k8s_server
+#      CERTIFICATE_AUTHORITY_DATA:
+#        from_secret: k8s_ca
+#      USER_TOKEN:
+#        from_secret: k8s_token
+#    commands:
+#      - kubectl config set-cluster k8s --server="$${SERVER}"
+#      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
+#      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
+#      - kubectl config set-context default --cluster=k8s --user=k8s-admin
+#      - kubectl config use-context default
+#      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+#    when:
+#      branch:
+#        - console
+#      event:
+#        - push
   - name: publish-account
     image: plugins/docker
     settings:
