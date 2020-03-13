@@ -131,22 +131,22 @@ steps:
       - name: cache
         path: /cache
   - name: build-golang-test
-      image: golang:1.13-alpine
-      environment:
-        GOOS: linux
-        GOARCH: amd64
-        CGO_ENABLED: 0
-        GOPROXY: https://mirrors.aliyun.com/goproxy/
-        GOSUMDB: off
-      commands:
-        - pwd
-        - go version
-        - echo $GOPATH
-      when:
-        branch:
-          - master
-        event:
-          - push
+    image: golang:1.13-alpine
+    environment:
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: 0
+      GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOSUMDB: off
+    commands:
+      - pwd
+      - go version
+      - echo $GOPATH
+    when:
+      branch:
+        - master
+      event:
+        - push
   - name: build-all
     image: golang:1.13-alpine
     environment:
