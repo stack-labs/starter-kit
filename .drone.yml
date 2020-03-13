@@ -87,21 +87,49 @@ workspace:
 trigger:
   branch:
     - console
+    - master
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/npm_cache
+
 steps:
 # vue build太慢暂时不把web放在里面
-#  - name: build-web-vue
-#    image: node:10.16.3-alpine
-#    commands:
-#      - pwd
-#      - cd console/web/vue
-#      - npm install
-#      - export VUE_APP_BASE_API=
-#      - npm run build:prod
-#    when:
-#      branch:
-#        - console
-#      event:
-#        - push
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./.npm-cache
+        - ./node_modules
+    volumes:
+      - name: cache
+        path: /cache
+  - name: build-web-vue
+    image: node:10.16.3-alpine
+    commands:
+      - pwd
+      - cd console/web/vue
+      - npm config set cache ./.npm-cache --global
+      - npm install
+      - export VUE_APP_BASE_API=
+      - npm run build:prod
+    when:
+      branch:
+        - master
+      event:
+        - push
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./.npm-cache
+        - ./node_modules
+    volumes:
+      - name: cache
+        path: /cache
   - name: build-all
     image: golang:1.13-alpine
     environment:
