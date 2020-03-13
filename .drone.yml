@@ -98,16 +98,18 @@ steps:
 # vue build太慢暂时不把web放在里面
   - name: restore-cache
     image: drillster/drone-volume-cache
+    privileged: true
     settings:
       restore: true
       mount:
         - ./.npm-cache
-        - ./node_modules
+        - ./console/web/vue/node_modules
     volumes:
       - name: cache
         path: /cache
   - name: build-web-vue
     image: node:10.16.3-alpine
+    privileged: true
     commands:
       - pwd
       - cd console/web/vue
@@ -126,7 +128,7 @@ steps:
       rebuild: true
       mount:
         - ./.npm-cache
-        - ./node_modules
+        - ./console/web/vue/node_modules
     volumes:
       - name: cache
         path: /cache
