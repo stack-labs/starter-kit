@@ -10,6 +10,12 @@
 docker-compose up -d
 ```
 
+**常见问题**
+
+- 创建`admin`权限用户，否则在做缓存需要`volume cache`时出错
+    - `DRONE_USER_CREATE=username:{GITHUB_USER_NAME},machine:false,admin:true,token:xxx` 
+
+
 **Pipeline示例**
 `.drone.yml`以`gateway`模块为例，完成Go编译、Docker打包发布、K8S部署过程，不是一个API网关
 
