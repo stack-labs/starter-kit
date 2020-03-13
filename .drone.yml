@@ -121,34 +121,6 @@ steps:
         - console
       event:
         - push
-  - name: build-golang-test
-    image: golang:1.13-alpine
-    environment:
-      GOOS: linux
-      GOARCH: amd64
-      CGO_ENABLED: 0
-      GOPROXY: https://mirrors.aliyun.com/goproxy/
-      GOSUMDB: off
-    commands:
-      - pwd
-      - go version
-      - echo $GOPATH
-    when:
-      branch:
-        - master
-      event:
-        - push
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    settings:
-      rebuild: true
-      mount:
-        - ./.npm-cache
-        - ./console/web/vue/node_modules
-        - /go/pkg/mod
-    volumes:
-      - name: cache
-        path: /cache
   - name: build-all
     image: golang:1.13-alpine
     environment:
@@ -173,9 +145,20 @@ steps:
       #- ./bin/linux_amd64/account-srv --version
     when:
       branch:
-        - console
+        - master
       event:
         - push
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./.npm-cache
+        - ./console/web/vue/node_modules
+        - /go/pkg/mod
+    volumes:
+      - name: cache
+        path: /cache
   - name: publish-api
     image: plugins/docker
     settings:
