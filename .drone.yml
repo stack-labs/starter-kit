@@ -161,7 +161,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set image.repository=hbchen/starter-kit-console-api --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set micro.command=/console-api --set image.repository=hbchen/starter-kit-console-api --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - console
@@ -199,7 +199,7 @@ steps:
 #      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
 #      - kubectl config set-context default --cluster=k8s --user=k8s-admin
 #      - kubectl config use-context default
-#      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+#      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set micro.command=/console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
 #    when:
 #      branch:
 #        - console
@@ -237,7 +237,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set image.repository=hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set micro.command=/console-account --set image.repository=hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - console
