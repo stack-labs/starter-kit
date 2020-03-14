@@ -41,7 +41,7 @@ steps:
       GOOS: linux
       GOARCH: amd64
       CGO_ENABLED: 0
-      GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOPROXY: https://mirrors.aliyun.com/goproxy/,direct
       GOSUMDB: off
     commands:
       - pwd
@@ -166,7 +166,7 @@ steps:
       GOOS: linux
       GOARCH: amd64
       CGO_ENABLED: 0
-      GOPROXY: https://mirrors.aliyun.com/goproxy/
+      GOPROXY: https://mirrors.aliyun.com/goproxy/,direct
       GOSUMDB: off
     commands:
       - pwd
