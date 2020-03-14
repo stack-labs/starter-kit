@@ -129,7 +129,6 @@ volumes:
       path: /tmp/drone_cache
 
 steps:
-# vue build太慢暂时不把web放在里面
   - name: restore-cache
     image: drillster/drone-volume-cache
     settings:
@@ -242,44 +241,44 @@ steps:
         - console
       event:
         - push
-#  - name: publish-web
-#    image: plugins/docker
-#    settings:
-#      # auto_tag: true
-#      tags: latest
-#      dockerfile: ./console/web/Dockerfile
-#      context: ./console/web
-#      repo: hbchen/starter-kit-console-web
-#      username:
-#        from_secret: docker_username
-#      password:
-#        from_secret: docker_password
-#    when:
-#      branch:
-#        - console
-#      event:
-#        - push
-#  - name: deploy-web
-#    image: dtzar/helm-kubectl:3.1.1
-#    environment:
-#      SERVER:
-#        from_secret: k8s_server
-#      CERTIFICATE_AUTHORITY_DATA:
-#        from_secret: k8s_ca
-#      USER_TOKEN:
-#        from_secret: k8s_token
-#    commands:
-#      - kubectl config set-cluster k8s --server="$${SERVER}"
-#      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
-#      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
-#      - kubectl config set-context default --cluster=k8s --user=k8s-admin
-#      - kubectl config use-context default
-#      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set micro.command=/console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
-#    when:
-#      branch:
-#        - console
-#      event:
-#        - push
+  - name: publish-web
+    image: plugins/docker
+    settings:
+      # auto_tag: true
+      tags: latest
+      dockerfile: ./console/web/Dockerfile
+      context: ./console/web
+      repo: hbchen/starter-kit-console-web
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - console
+      event:
+        - push
+  - name: deploy-web
+    image: dtzar/helm-kubectl:3.1.1
+    environment:
+      SERVER:
+        from_secret: k8s_server
+      CERTIFICATE_AUTHORITY_DATA:
+        from_secret: k8s_ca
+      USER_TOKEN:
+        from_secret: k8s_token
+    commands:
+      - kubectl config set-cluster k8s --server="$${SERVER}"
+      - kubectl config set clusters.k8s.certificate-authority-data "$${CERTIFICATE_AUTHORITY_DATA}"
+      - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
+      - kubectl config set-context default --cluster=k8s --user=k8s-admin
+      - kubectl config use-context default
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set micro.command=/console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+    when:
+      branch:
+        - console
+      event:
+        - push
   - name: publish-account
     image: plugins/docker
     settings:
@@ -312,7 +311,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-account --set micro.command=/console-account --set image.repository=hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-account --set micro.command=/account-srv --set image.repository=hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - console
