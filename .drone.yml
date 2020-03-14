@@ -87,7 +87,6 @@ workspace:
 trigger:
   branch:
     - console
-    - master
 
 volumes:
   - name: cache
@@ -138,9 +137,9 @@ steps:
       - cd console/api
       - go build -o ./bin/linux_amd64/console-api main.go plugin.go
       #- ./bin/linux_amd64/console-api --version
-#      - cd ../web
-#      - go version
-#      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
+      - cd ../web
+      - go version
+      - go build -o ./bin/linux_amd64/console-web main.go plugin.go
       #- ./bin/linux_amd64/console-web --version
       - cd ../account
       - go version
@@ -150,7 +149,7 @@ steps:
       - ls $GOPATH/pkg
     when:
       branch:
-        - master
+        - console
       event:
         - push
   - name: rebuild-cache
