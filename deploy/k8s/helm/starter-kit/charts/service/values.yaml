@@ -12,9 +12,9 @@ micro:
     "--transport=tcp",
     "--register_ttl=60",
     "--register_interval=30",
+    "--server_address=:80",
   ]
   commandOptions: [
-    "--address=:80"
   ]
 
 image:

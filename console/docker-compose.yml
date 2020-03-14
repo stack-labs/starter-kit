@@ -92,7 +92,7 @@ services:
         max-size: "100m"
         max-file: "10"
     volumes:
-      - ./conf:/conf
+      - ./account/conf:/conf
     networks:
       - starter-kit-console
 

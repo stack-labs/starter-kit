@@ -70,7 +70,6 @@ Command options
 {{- range .Values.micro.globalOptions }}
 "{{ . }}",
 {{- end }}
-"api",
 {{- range .Values.micro.commandOptions }}
 "{{ . }}",
 {{- end -}}
