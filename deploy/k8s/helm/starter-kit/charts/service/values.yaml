@@ -9,12 +9,9 @@ micro:
   globalOptions: [
     "--registry=kubernetes",
     "--server=rpc",
-    "--broker=http",
     "--transport=tcp",
     "--register_ttl=60",
     "--register_interval=30",
-    "--selector=cache",
-    "--enable_stats",
   ]
   commandOptions: [
     "--address=:80"
@@ -31,7 +28,7 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:

@@ -125,6 +125,7 @@
 	    - [x] Go编译
 	    - [x] Docker镜像
 	    - [x] Kubernetes发布
+	    - [ ] 缓存
 	- [ ] Jenkins
 - 基础服务
 	- [ ] 日志收集
@@ -144,8 +145,8 @@
 - 本地
     - [x] [Docker Compose](/console#docker-compose启动)
 - 在线
-    - [ ] CICD
-    - [ ] Kubernetes
+    - [x] CICD
+    - [x] Kubernetes
     - 本地服务接入
         - [ ] Network代理 + 流量染色
 
