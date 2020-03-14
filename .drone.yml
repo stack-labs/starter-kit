@@ -29,6 +29,11 @@ steps:
     volumes:
       - name: cache
         path: /cache
+    when:
+      branch:
+        - gateway
+      event:
+        - push
   - name: build
     image: golang:1.13-alpine
     environment:
@@ -58,6 +63,11 @@ steps:
     volumes:
       - name: cache
         path: /cache
+    when:
+      branch:
+        - gateway
+      event:
+        - push
   - name: publish
     image: plugins/docker
     settings:
@@ -131,6 +141,11 @@ steps:
     volumes:
       - name: cache
         path: /cache
+    when:
+      branch:
+        - console
+      event:
+        - push
   - name: build-web-vue
     image: node:10.16.3-alpine
     commands:
@@ -184,6 +199,11 @@ steps:
     volumes:
       - name: cache
         path: /cache
+    when:
+      branch:
+        - console
+      event:
+        - push
   - name: publish-api
     image: plugins/docker
     settings:
