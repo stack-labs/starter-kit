@@ -103,7 +103,7 @@ steps:
       mount:
         - ./.npm-cache
         - ./console/web/vue/node_modules
-        - /go/pkg/mod
+        - ./_gopath
     volumes:
       - name: cache
         path: /cache
@@ -124,6 +124,7 @@ steps:
   - name: build-all
     image: golang:1.13-alpine
     environment:
+      GOPATH: /drone/src/github.com/micro-in-cn/starter-kit/_gopath
       GOOS: linux
       GOARCH: amd64
       CGO_ENABLED: 0
@@ -145,7 +146,8 @@ steps:
       - go version
       - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
       #- ./bin/linux_amd64/account-srv --version
-      - ls /go/pkg/mod
+      - ls $GOPATH
+      - ls $GOPATH/pkg
     when:
       branch:
         - master
@@ -158,7 +160,7 @@ steps:
       mount:
         - ./.npm-cache
         - ./console/web/vue/node_modules
-        - /go/pkg/mod
+        - ./_gopath
     volumes:
       - name: cache
         path: /cache
