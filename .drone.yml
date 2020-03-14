@@ -13,10 +13,26 @@ workspace:
 trigger:
   branch:
     - gateway
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/drone_cache
+
 steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./_gopath
+    volumes:
+      - name: cache
+        path: /cache
   - name: build
     image: golang:1.13-alpine
     environment:
+      GOPATH: /drone/src/github.com/micro-in-cn/starter-kit/_gopath
       GOOS: linux
       GOARCH: amd64
       CGO_ENABLED: 0
@@ -33,6 +49,15 @@ steps:
         - gateway
       event:
         - push
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./_gopath
+    volumes:
+      - name: cache
+        path: /cache
   - name: publish
     image: plugins/docker
     settings:
@@ -91,7 +116,7 @@ trigger:
 volumes:
   - name: cache
     host:
-      path: /tmp/npm_cache
+      path: /tmp/drone_cache
 
 steps:
 # vue build太慢暂时不把web放在里面
@@ -130,8 +155,6 @@ steps:
       GOPROXY: https://mirrors.aliyun.com/goproxy/
       GOSUMDB: off
     commands:
-      - echo $GOPATH
-      - echo $GO111MODULE
       - pwd
       - go version
       - cd console/api
@@ -145,8 +168,6 @@ steps:
       - go version
       - go build -o ./bin/linux_amd64/account-srv main.go plugin.go
       #- ./bin/linux_amd64/account-srv --version
-      - ls $GOPATH
-      - ls $GOPATH/pkg
     when:
       branch:
         - console
