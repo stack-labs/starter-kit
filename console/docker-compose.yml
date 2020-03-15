@@ -36,7 +36,7 @@ services:
         max-size: "100m"
         max-file: "10"
     volumes:
-    - ./conf:/conf
+    - ./account/conf:/conf
     ports:
       - "8080:8080"
     networks:
