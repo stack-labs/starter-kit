@@ -121,14 +121,10 @@ spec:
           "/account-srv",
           "--registry=kubernetes",
           "--server=rpc",
-          "--broker=http",
           "--transport=tcp",
           "--register_ttl=60",
           "--register_interval=30",
-          "--selector=cache",
-          "--enable_stats",
-          "api",
-          "--address=:80",
+          "--server_address=:80",
         ]
         ports:
         - containerPort: 80
@@ -170,14 +166,10 @@ spec:
           "/console-api",
           "--registry=kubernetes",
           "--server=rpc",
-          "--broker=http",
           "--transport=tcp",
           "--register_ttl=60",
           "--register_interval=30",
-          "--selector=cache",
-          "--enable_stats",
-          "api",
-          "--address=:80",
+          "--server_address=:80",
         ]
         ports:
         - containerPort: 80
@@ -219,14 +211,10 @@ spec:
           "/console-web",
           "--registry=kubernetes",
           "--server=rpc",
-          "--broker=http",
           "--transport=tcp",
           "--register_ttl=60",
           "--register_interval=30",
-          "--selector=cache",
-          "--enable_stats",
-          "api",
-          "--address=:80",
+          "--server_address=:80",
         ]
         ports:
         - containerPort: 80
