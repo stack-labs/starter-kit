@@ -122,10 +122,10 @@
 - 安全
 - CICD
 	- [Drone](https://drone.io/) [README](/deploy/docker/drone)
-	    - [x] Go编译
+	    - [x] Go & Node编译
 	    - [x] Docker镜像
 	    - [x] Kubernetes发布
-	    - [ ] 缓存
+	    - [x] 缓存
 	- [ ] Jenkins
 - 基础服务
 	- [ ] 日志收集

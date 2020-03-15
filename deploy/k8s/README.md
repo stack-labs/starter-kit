@@ -4,7 +4,6 @@
 
 - [环境](#环境)
 - [网关部署](#网关部署)
-- [应用部署](#应用部署)
 
 ## 环境
 
@@ -16,6 +15,9 @@
 ## 网关部署
 
 > deprecated，使用[helm](/deploy/k8s/helm)
+
+<details>
+  <summary> 网关部署 </summary>
 
 - [网关Docker镜像](/gateway#Docker)
 - [部署yaml](/deploy/k8s/gateway)
@@ -76,5 +78,6 @@ $ curl 'http://192.168.39.147:30002'
   </html>
 ```
 
+</details>
 
 

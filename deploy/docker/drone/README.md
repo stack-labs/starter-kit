@@ -26,6 +26,18 @@ curl -v -HHost:api.starter-kit.com -X GET 'http://{host}:{port}/'
 ## Drone Secret
 - [Drone configure secrets](https://docs.drone.io/configure/secrets/)
 
+**依赖的Secret**
+
+> 使用drone的cli工具，在web的user settings可以查看使用方式
+
+```shell script
+drone secret add --repository=micro-in-cn/starter-kit --name=docker_username --data=
+drone secret add --repository=micro-in-cn/starter-kit --name=docker_password --data=
+drone secret add --repository=micro-in-cn/starter-kit --name=k8s_server --data=
+drone secret add --repository=micro-in-cn/starter-kit --name=k8s_ca --data=
+drone secret add --repository=micro-in-cn/starter-kit --name=k8s_token --data=
+```
+
 **Docker Hub秘钥**
 
 - `docker_username`
