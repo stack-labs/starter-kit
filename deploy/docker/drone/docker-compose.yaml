@@ -3,32 +3,39 @@ version: '3'
 services:
   drone-server:
     image: drone/drone:1.6
+    restart: always
+    # 如果外网使用的不是80端口，注意在激活一个 Repo 后要修改 Webhook 的地址，增加端口
     ports:
-    - 80:80
+      - 8000:80
     volumes:
-    - /var/lib/drone/:/var/lib/drone/
-    restart: always
+      - /var/lib/drone:/data
     environment:
-    - DRONE_AGENTS_ENABLED=true
-    - DRONE_USER_CREATE=username:{GITHUB_USER_NAME},machine:false,admin:true,token:xxx
-    - DRONE_GITHUB_SERVER=https://github.com
-    - DRONE_GITHUB_CLIENT_ID={GITHUB_CLIENT_ID}
-    - DRONE_GITHUB_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
-    - DRONE_GITHUB_SKIP_VERIFY=true
-    - DRONE_SERVER_HOST={SERVER_HOST}
-    - DRONE_SERVER_PROTO=http
-    - DRONE_RPC_SECRET={RPC_SECRET}
+      # 为用户添加 admin 权限，做 cache 挂载 volume 时需要将 project 设置为 trusted，admin 才有此权限
+      - DRONE_USER_CREATE=username:{GITHUB_USER_NAME},machine:false,admin:true,token:xxx
+      - DRONE_GITHUB_SERVER=https://github.com
+      - DRONE_GITHUB_CLIENT_ID={GITHUB_CLIENT_ID}
+      - DRONE_GITHUB_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
+      - DRONE_GITHUB_SKIP_VERIFY=true
+      - DRONE_SERVER_HOST={SERVER_HOST}
+      - DRONE_SERVER_PROTO=http
+      - DRONE_RPC_SECRET={RPC_SECRET}
 
-  drone-agent:
-    image: drone/agent:1.6
+  drone-runner:
+    image: drone/drone-runner-docker:1.2
     restart: always
+    ports:
+      - 3000:3000
     depends_on:
-    - drone-server
+      - drone-server
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-    - DRONE_RPC_HOST=drone-server
-    - DRONE_RPC_PROTO=http
-    - DRONE_RPC_SECRET={RPC_SECRET}
-    - DRONE_RUNNER_NAME=agent
-    - DRONE_RUNNER_CAPACITY=2
+      - DRONE_RPC_HOST=drone-server
+      - DRONE_RPC_PROTO=http
+      # 与 Server 的 RPC_SECRET 一致
+      - DRONE_RPC_SECRET={RPC_SECRET}
+      - DRONE_RUNNER_NAME=drone-runner
+      - DRONE_RUNNER_CAPACITY=2
+      # 在3000端口有 Runner 的 Dashboard，这里设置用户名和密码
+      - DRONE_UI_USERNAME={RUNNER_DASHBOARD_USERNAME}
+      - DRONE_UI_PASSWORD={RUNNER_DASHBOARD_PASSWORD}
