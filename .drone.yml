@@ -75,11 +75,12 @@ steps:
       tags: latest
       dockerfile: ./gateway/Dockerfile
       context: ./gateway
-      repo: hbchen/starter-kit-gateway
+      repo: registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-gateway
+      registry: registry.cn-hangzhou.aliyuncs.com
       username:
-        from_secret: docker_username
+        from_secret: ali_registry_username
       password:
-        from_secret: docker_password
+        from_secret: ali_registry_password
     when:
       branch:
         - gateway
@@ -100,7 +101,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set micro.host=starter-kit.k8s.hbchen.com --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/gateway --namespace starter-kit --set micro.host=starter-kit.k8s.hbchen.com --set image.repository=registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-gateway --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - gateway
@@ -210,11 +211,12 @@ steps:
       tags: latest
       dockerfile: ./console/api/Dockerfile
       context: ./console/api
-      repo: hbchen/starter-kit-console-api
+      repo: registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-console-api
+      registry: registry.cn-hangzhou.aliyuncs.com
       username:
-        from_secret: docker_username
+        from_secret: ali_registry_username
       password:
-        from_secret: docker_password
+        from_secret: ali_registry_password
     when:
       branch:
         - console
@@ -235,7 +237,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set micro.command=/console-api --set image.repository=hbchen/starter-kit-console-api --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-api --set micro.command=/console-api --set image.repository=registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-console-api --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - console
@@ -248,11 +250,12 @@ steps:
       tags: latest
       dockerfile: ./console/web/Dockerfile
       context: ./console/web
-      repo: hbchen/starter-kit-console-web
+      repo: registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-console-web
+      registry: registry.cn-hangzhou.aliyuncs.com
       username:
-        from_secret: docker_username
+        from_secret: ali_registry_username
       password:
-        from_secret: docker_password
+        from_secret: ali_registry_password
     when:
       branch:
         - console
@@ -273,7 +276,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set micro.command=/console-web --set image.repository=hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-web --set micro.command=/console-web --set image.repository=registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-console-web --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - console
@@ -286,11 +289,12 @@ steps:
       tags: latest
       dockerfile: ./console/account/Dockerfile
       context: ./console/account
-      repo: hbchen/starter-kit-console-account
+      repo: registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-console-account
+      registry: registry.cn-hangzhou.aliyuncs.com
       username:
-        from_secret: docker_username
+        from_secret: ali_registry_username
       password:
-        from_secret: docker_password
+        from_secret: ali_registry_password
     when:
       branch:
         - console
@@ -311,7 +315,7 @@ steps:
       - kubectl config set-credentials k8s-admin --token="$${USER_TOKEN}"
       - kubectl config set-context default --cluster=k8s --user=k8s-admin
       - kubectl config use-context default
-      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-account --set micro.command=/account-srv --set image.repository=hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
+      - helm template micro ./deploy/k8s/helm/starter-kit/charts/service --namespace starter-kit --set nameOverride=console-account --set micro.command=/account-srv --set image.repository=registry.cn-hangzhou.aliyuncs.com/hbchen/starter-kit-console-account --set image.tag=${DRONE_TAG=latest} --set image.pullPolicy=Always --set serviceAccount.create=true --set serviceAccount.name=micro-services | kubectl apply -f -
     when:
       branch:
         - console
