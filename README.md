@@ -161,7 +161,7 @@
 - `api`服务使用`network`做代理`MICRO_PROXY=go.micro.network`
 - 本地启动`network`
     - `micro --registry=etcd --transport=tcp network --nodes=127.0.0.1:8085 --address=:8086 --advertise_strategy=local`
-- 剩下的工作使用`proxy`对`route`的筛选功能，`mucp proxy`对`filter`的支持参考源码[/proxy/mucp/mucp.go#L123](https://github.com/micro/go-micro/blob/v2.3.0/proxy/mucp/mucp.go#L123)
+- 剩下的工作使用`proxy`对`route`的筛选功能，参考PR[#897](https://github.com/micro/go-micro/pull/897)
     - 查看本地`router`，`micro --registry=etcd --transport=tcp network routes`
     - `curl -XPOST -H "Micro-Router: f599009a-537c-4beb-b9b0-da910b5aeb21" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login`
     
