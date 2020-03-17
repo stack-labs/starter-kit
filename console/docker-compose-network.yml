@@ -42,6 +42,24 @@ services:
     networks:
       - starter-kit-console
 
+  network:
+    depends_on:
+      - etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp network --address=:8085 --advertise_strategy=local
+    image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    volumes:
+      - ./account/conf:/conf
+    ports:
+      - "8085:8085/udp"
+    networks:
+      - micro-net
+
   # Console Web服务
   web:
     depends_on:
@@ -67,6 +85,8 @@ services:
     command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./api
+    environment:
+      - MICRO_PROXY=go.micro.network
     restart: always
     logging:
       driver: "json-file"
