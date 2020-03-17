@@ -147,8 +147,27 @@
 - 在线
     - [x] CICD
     - [x] Kubernetes
-    - 本地服务接入
-        - [ ] Network代理 + 流量染色
+    - [x] 本地服务接入
+        - [x] docker环境
+        - [ ] k8s环境
+        
+### 本地服务接入-Network代理
+
+<details>
+  <summary> 本地服务接入-Network代理 </summary>
+
+以`console`的[docker-compose.yaml](/console/docker-compose.yml)为例，假设`compose`为在线环境，本地开发`account`服务。
+- `compose`中加入`network`服务，如[docker-compose-network.yml](/console/docker-compose-network.yml)
+- `api`服务使用`network`做代理`MICRO_PROXY=go.micro.network`
+- 本地启动`network`
+    - `micro --registry=etcd --transport=tcp network --nodes=127.0.0.1:8085 --address=:8086 --advertise_strategy=local`
+- 剩下的工作使用`proxy`对`route`的筛选功能，`mucp proxy`对`filter`的支持参考源码[/proxy/mucp/mucp.go#L123](https://github.com/micro/go-micro/blob/v2.3.0/proxy/mucp/mucp.go#L123)
+    - 查看本地`router`，`micro --registry=etcd --transport=tcp network routes`
+    - `curl -XPOST -H "Micro-Router: f599009a-537c-4beb-b9b0-da910b5aeb21" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login`
+    
+> TODO 真实环境还需要做进一步完善，如果考虑所有服务都可以自助路由到本地，不能直接使用`header`(因为`Micro-Router`会在全链路生效)， 可以自定义`header`来定义`router`筛选的应用范围
+  
+</details>
 
 ## 部署环境
 
