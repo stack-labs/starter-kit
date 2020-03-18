@@ -24,7 +24,7 @@ func main() {
 
 	// create new web service
 	service := web.NewService(
-		web.Name("go.micro.api.console"),
+		web.Name("go.micro.api.console.web"),
 		web.Version("latest"),
 		web.Metadata(md),
 	)
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// 链路追踪
-	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console.web", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}

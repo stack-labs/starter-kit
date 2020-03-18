@@ -4,6 +4,7 @@ import (
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/micro/v2/cmd"
 
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
 )
 
@@ -13,6 +14,8 @@ func main() {
 		// TODO micro默认的api和web网关均不支持服务筛选，需要自己改造
 		// https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html
 		micro.WrapClient(chain.NewClientWrapper()),
+		// 路由筛选
+		micro.WrapCall(router_filter.NewCallWrapper()),
 		micro.AfterStop(pluginAfterFunc),
 	)
 }
