@@ -113,7 +113,7 @@
 - 发布
 	- [x] 灰度
 	- [x] 蓝绿
-	- *注:由于micro默认的api和web网关均不支持服务筛选，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)*
+	- *注:由于micro默认的api和web网关均不支持**服务筛选**，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)*
 - 部署
 	- K8S
 		- [x] [helm](/deploy/k8s/helm)
@@ -141,15 +141,15 @@
 
 ## 开发环境
 
-*TODO*
 - 本地
     - [x] [Docker Compose](/console#docker-compose启动)
 - 在线
     - [x] CICD
-    - [x] Kubernetes
+        - [x] Drone
+        - [x] Kubernetes
     - [x] 本地服务接入
-        - [x] docker环境
-        - [ ] k8s环境
+        - [x] Docker环境
+        - [ ] K8S环境
         
 ### 本地服务接入-Network代理
 
@@ -160,7 +160,7 @@
 
 以`console`的[docker-compose.yaml](/console/docker-compose.yml)为例，假设`compose`为在线环境，本地开发`account`服务。
 - `compose`中加入`network`服务，参考[docker-compose-network.yml](/console/docker-compose-network.yml)
-- `api`服务使用`network`做代理`MICRO_PROXY=go.micro.network`，***注意测试时仅`compose`中`仅api`服务使用代理***
+- `api`服务使用`network`做代理`MICRO_PROXY=go.micro.network`，***注意测试时`compose`中仅`api`服务使用代理***
 - 本地启动`network`
     - `micro --registry=etcd --transport=tcp network --nodes=127.0.0.1:8085 --address=:8086 --advertise_strategy=local`
 - 剩下的工作使用`proxy`对`route`的筛选功能，参考PR[#897](https://github.com/micro/go-micro/pull/897)
@@ -186,7 +186,7 @@ curl -XPOST -H "X-Micro-Router-Filter: go.micro.api.console:6832f8ff-1217-4119-8
   
 </details>
 
-## 部署环境
+## 生产环境
 
 [Kubernetes环境](/deploy/k8s)
 
