@@ -29,6 +29,8 @@ services:
       - etcd
     command: --registry=etcd --registry_address=etcd:2379 --transport=tcp api --address=:8080
     image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
+    environment:
+      - MICRO_PROXY=go.micro.network
     restart: always
     logging:
       driver: "json-file"
@@ -58,7 +60,7 @@ services:
     ports:
       - "8085:8085/udp"
     networks:
-      - micro-net
+      - starter-kit-console
 
   # Console Web服务
   web:
@@ -105,6 +107,8 @@ services:
     command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./account
+    environment:
+      - MICRO_PROXY=go.micro.network
     restart: always
     logging:
       driver: "json-file"

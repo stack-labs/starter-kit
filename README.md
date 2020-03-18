@@ -156,16 +156,33 @@
 <details>
   <summary> 本地服务接入-Network代理 </summary>
 
+**Network代理测试**
+
 以`console`的[docker-compose.yaml](/console/docker-compose.yml)为例，假设`compose`为在线环境，本地开发`account`服务。
-- `compose`中加入`network`服务，如[docker-compose-network.yml](/console/docker-compose-network.yml)
-- `api`服务使用`network`做代理`MICRO_PROXY=go.micro.network`
+- `compose`中加入`network`服务，参考[docker-compose-network.yml](/console/docker-compose-network.yml)
+- `api`服务使用`network`做代理`MICRO_PROXY=go.micro.network`，***注意测试时仅`compose`中`仅api`服务使用代理***
 - 本地启动`network`
     - `micro --registry=etcd --transport=tcp network --nodes=127.0.0.1:8085 --address=:8086 --advertise_strategy=local`
 - 剩下的工作使用`proxy`对`route`的筛选功能，参考PR[#897](https://github.com/micro/go-micro/pull/897)
     - 查看本地`router`，`micro --registry=etcd --transport=tcp network routes`
-    - `curl -XPOST -H "Micro-Router: f599009a-537c-4beb-b9b0-da910b5aeb21" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login`
+    - `curl -XPOST -H "Micro-Router: 6832f8ff-1217-4119-8a56-9a90adf19fef" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login`
     
-> TODO 真实环境还需要做进一步完善，如果考虑所有服务都可以自助路由到本地，不能直接使用`header`(因为`Micro-Router`会在全链路生效)， 可以自定义`header`来定义`router`筛选的应用范围
+**真实场景**
+
+- 考虑所有服务都可以自助路由到本地，不能直接使用`Micro-Router`(因为`Micro-Router`会在全链路生效)，可以自定义`header`来定义`router`筛选的应用范围，通过`Client/Call Wrap`实现，参考实现[router_filter](/pkg/plugin/wrapper/client/router_filter)
+- 要做到`api`服务可以路由筛选，在网关层与[流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)有相同的问题，不支持**服务筛选**，需要去掉`SelectOption`
+- 网关及服务全部使用`network`做代理
+
+```shell script
+# api服务路由到本地
+curl -XPOST -H "X-Micro-Router-Filter: go.micro.api.console:6832f8ff-1217-4119-8a56-9a90adf19fef" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login
+
+# account服务理由到本地
+curl -XPOST -H "X-Micro-Router-Filter: go.micro.srv.account:6832f8ff-1217-4119-8a56-9a90adf19fef" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login
+
+# api和account服务都路由到本地
+curl -XPOST -H "X-Micro-Router-Filter: go.micro.api.console:6832f8ff-1217-4119-8a56-9a90adf19fef;go.micro.srv.account:6832f8ff-1217-4119-8a56-9a90adf19fef" -d '{"username" : "admin","password":"123456"}' http://localhost:8080/account/login
+```
   
 </details>
 

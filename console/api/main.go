@@ -7,6 +7,7 @@ import (
 	"github.com/micro-in-cn/starter-kit/console/api/client"
 	"github.com/micro-in-cn/starter-kit/console/api/handler"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 )
@@ -31,7 +32,10 @@ func main() {
 
 	// Initialise service
 	service.Init(
+		// 流量染色
 		micro.WrapClient(chain.NewClientWrapper()),
+		// 路由筛选
+		micro.WrapCall(router_filter.NewCallWrapper()),
 	)
 	service.Init(
 		// create wrap for the Example srv client
