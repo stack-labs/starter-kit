@@ -57,13 +57,13 @@ func main() {
 	// Initialise service
 	service.Init()
 
-	ctn, err := registry.NewContainer()
+	c, err := registry.NewContainer()
 	if err != nil {
 		log.Fatalf("failed to build container: %v", err)
 	}
 
 	// Register Handler
-	handler.Apply(service.Server(), ctn)
+	handler.Apply(service.Server(), c)
 
 	// Run service
 	if err := service.Run(); err != nil {

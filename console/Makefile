@@ -31,7 +31,12 @@ build:
 # 启动服务，首次需要build
 .PHONY: start
 start:
+	docker-compose -p $(p) build --no-cache
 	docker-compose -p $(p) up
+
+.PHONY: stop
+stop:
+	docker-compose -p $(p) down
 
 # 重新编译并启动服务
 .PHONY: restart

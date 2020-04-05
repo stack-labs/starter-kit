@@ -18,7 +18,7 @@ type userUsecase struct {
 	service *service.UserService
 }
 
-func NewUserUsecase(repo repository.UserRepository, service *service.UserService) *userUsecase {
+func NewUserUsecase(repo repository.UserRepository, service *service.UserService) UserUsecase {
 	return &userUsecase{
 		repo:    repo,
 		service: service,

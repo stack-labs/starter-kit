@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
+	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
 )
 
 type userRepository struct {
@@ -11,7 +12,7 @@ type userRepository struct {
 	users []*model.User
 }
 
-func NewUserRepository() *userRepository {
+func NewUserRepository() repository.UserRepository {
 	users := make([]*model.User, 0)
 	users = append(users, &model.User{
 		Id:       1,

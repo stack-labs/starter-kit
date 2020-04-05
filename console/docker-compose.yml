@@ -28,7 +28,9 @@ services:
     depends_on:
       - etcd
     command: --registry=etcd --registry_address=etcd:2379 --transport=tcp api --address=:8080
-    image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
+    image:  "hbchen/starter-kit-gateway:latest"
+    environment:
+      - MICRO_PROXY=go.micro.network
     restart: always
     logging:
       driver: "json-file"
@@ -39,6 +41,24 @@ services:
       - ./account/conf:/conf
     ports:
       - "8080:8080"
+    networks:
+      - starter-kit-console
+
+  network:
+    depends_on:
+      - etcd
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp network --address=:8085 --advertise_strategy=local
+    image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    volumes:
+      - ./account/conf:/conf
+    ports:
+      - "8085:8085/udp"
     networks:
       - starter-kit-console
 
@@ -67,6 +87,8 @@ services:
     command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./api
+    environment:
+      - MICRO_PROXY=go.micro.network
     restart: always
     logging:
       driver: "json-file"
@@ -85,6 +107,8 @@ services:
     command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./account
+    environment:
+      - MICRO_PROXY=go.micro.network
     restart: always
     logging:
       driver: "json-file"

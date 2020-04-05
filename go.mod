@@ -28,7 +28,7 @@ require (
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
 	github.com/micro-in-cn/x-gateway v0.0.0-20200218113529-54c68df17b84
-	github.com/micro/cli/v2 v2.1.1
+	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
 	github.com/micro/go-micro/v2 v2.0.0
 	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200130222639-249370b1a993
@@ -38,7 +38,6 @@ require (
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/rakyll/statik v0.1.6
-	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/assertions v1.0.1 // indirect
@@ -52,7 +51,8 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.opencensus.io v0.22.2
-	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa
+	go.uber.org/dig v1.9.0
+	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	google.golang.org/grpc v1.26.0
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect

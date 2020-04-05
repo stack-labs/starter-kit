@@ -2,12 +2,13 @@ package gorm
 
 import (
 	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
+	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
 )
 
 type userRepository struct {
 }
 
-func NewUserRepository() *userRepository {
+func NewUserRepository() repository.UserRepository {
 	return &userRepository{}
 }
 
