@@ -70,8 +70,9 @@
 - 自定义[micro网关](gateway)
 	- [x] `JWT`认证
 	- [x] `Casbin`鉴权
-	- [x] Tracing
-	- [ ] RequestID
+	- Tracing
+	    - [x] Opentracing
+	    - [x] TraceID [micro/go-plugins/micro/trace/uuid](https://github.com/micro/go-plugins/tree/master/micro/trace/uuid)
 	- [x] Metrics
 	- [ ] Access Log
 	- ...

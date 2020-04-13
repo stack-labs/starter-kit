@@ -30,10 +30,10 @@ require (
 	github.com/micro-in-cn/x-gateway v0.0.0-20200218113529-54c68df17b84
 	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
-	github.com/micro/go-micro/v2 v2.0.0
-	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200130222639-249370b1a993
-	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200130222639-249370b1a993
-	github.com/micro/micro/v2 v2.0.0
+	github.com/micro/go-micro/v2 v2.4.0
+	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200317215710-66384449b09c
+	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200317215710-66384449b09c
+	github.com/micro/micro/v2 v2.4.0
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1
