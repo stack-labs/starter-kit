@@ -27,10 +27,10 @@ services:
   gateway:
     depends_on:
       - etcd
-    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp api --address=:8080
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp gateway --address=:8080
     image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
     environment:
-      - MICRO_PROXY=go.micro.network
+      - MICRO_PROXY=go.micro.network  # 代理无效
     restart: always
     logging:
       driver: "json-file"
