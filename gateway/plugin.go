@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/micro/micro/v2/api"
+	api "github.com/micro/micro/v2/gateway"
 	"github.com/micro/micro/v2/web"
 	"golang.org/x/time/rate"
 

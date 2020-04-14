@@ -58,3 +58,5 @@ require (
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	xorm.io/xorm v0.8.0
 )
+
+replace github.com/micro/micro/v2 v2.4.0 => github.com/hb-chen/micro/v2 v2.4.0
