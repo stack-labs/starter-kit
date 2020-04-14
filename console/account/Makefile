@@ -24,4 +24,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/account-srv --registry=$(registry) --transport=$(transport) --conf_path=./../conf/
+	./bin/account-srv --registry=$(registry) --transport=$(transport) --conf_path=./conf/

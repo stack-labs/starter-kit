@@ -1,11 +1,33 @@
 package chain
 
 import (
+	"context"
+	"strings"
+
+	"github.com/micro/go-micro/v2/client"
 	"github.com/micro/go-micro/v2/client/selector"
+	"github.com/micro/go-micro/v2/metadata"
 	"github.com/micro/go-micro/v2/registry"
 )
 
-func filterChain(labelKey string, chains []string) selector.Filter {
+type chainWrapper struct {
+	opts Options
+	client.Client
+}
+
+func (w *chainWrapper) Call(ctx context.Context, req client.Request, rsp interface{}, opts ...client.CallOption) error {
+	if val, ok := metadata.Get(ctx, w.opts.chainKey); ok && len(val) > 0 {
+		chains := strings.Split(val, w.opts.chainSep)
+		nOpts := append(opts, client.WithSelectOption(
+			selector.WithFilter(filterChain(w.opts.labelKey, chains)),
+		))
+		return w.Client.Call(ctx, req, rsp, nOpts...)
+	}
+
+	return w.Client.Call(ctx, req, rsp, opts...)
+}
+
+func (w *chainWrapper) filterChain(chains []string) selector.Filter {
 	return func(old []*registry.Service) []*registry.Service {
 		var services []*registry.Service
 
@@ -20,7 +42,7 @@ func filterChain(labelKey string, chains []string) selector.Filter {
 					continue
 				}
 
-				val := node.Metadata[labelKey]
+				val := node.Metadata[w.opts.labelKey]
 				if len(val) == 0 {
 					continue
 				}
@@ -61,5 +83,24 @@ func filterChain(labelKey string, chains []string) selector.Filter {
 		}
 
 		return services
+	}
+}
+
+func inArray(s string, d []string) (bool, int) {
+	for k, v := range d {
+		if s == v {
+			return true, k
+		}
+	}
+	return false, 0
+}
+
+func NewClientWrapper(opts ...Option) client.Wrapper {
+	options := newOptions(opts...)
+	return func(c client.Client) client.Client {
+		return &chainWrapper{
+			opts:   options,
+			Client: c,
+		}
 	}
 }

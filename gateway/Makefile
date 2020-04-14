@@ -15,7 +15,7 @@ docker: build_linux
 
 .PHONY: run_api
 run_api:
-	./bin/micro --registry=$(registry) --transport=$(transport) api
+	./bin/micro --registry=$(registry) --transport=$(transport) gateway
 
 .PHONY: run_web
 run_web:
