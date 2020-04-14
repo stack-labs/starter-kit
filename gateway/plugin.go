@@ -3,19 +3,14 @@ package main
 import (
 	"io"
 	"net/http"
-	"strings"
 	"time"
-
-	api "github.com/micro/micro/v2/gateway"
-	"github.com/micro/micro/v2/web"
-	"golang.org/x/time/rate"
-
-	// micro plugins
-	_ "github.com/micro/go-plugins/registry/kubernetes/v2"
-	_ "github.com/micro/go-plugins/transport/tcp/v2"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
 	"github.com/micro/go-micro/v2/util/log"
+	_ "github.com/micro/go-plugins/registry/kubernetes/v2"
+	_ "github.com/micro/go-plugins/transport/tcp/v2"
+	api "github.com/micro/micro/v2/gateway"
+	"golang.org/x/time/rate"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
 	"github.com/micro-in-cn/x-gateway/plugin/auth"
@@ -64,7 +59,6 @@ func initCors() {
 		cors.WithUseRsPkg(true),
 	)
 	api.Register(corsPlugin)
-	web.Register(corsPlugin)
 }
 
 func initAuth() {
@@ -88,15 +82,6 @@ func initAuth() {
 		}),
 	)
 	api.Register(authPlugin)
-
-	webAuthPlugin := auth.NewPlugin(
-		auth.WithResponseHandler(response.DefaultResponseHandler),
-		auth.WithSkipperFunc(func(r *http.Request) bool {
-			// 自定义skipper规则
-			return true
-		}),
-	)
-	web.Register(webAuthPlugin)
 }
 
 func initMetrics() {
@@ -105,23 +90,6 @@ func initMetrics() {
 		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			return false
-		}),
-	))
-
-	web.Register(metrics.NewPlugin(
-		metrics.WithNamespace("gateway"),
-		metrics.WithSubsystem(""),
-		metrics.WithSkipperFunc(func(r *http.Request) bool {
-			// 过滤micro web服务的前缀，便于设置统一规则，如/console/v1/* => /v1/*
-			path := r.URL.Path
-			idx := strings.Index(path[1:], "/")
-			if idx > 0 {
-				path = path[idx+1:]
-			}
-			if strings.HasPrefix(path, "/v1/") {
-				return false
-			}
-			return true
 		}),
 	))
 }
@@ -145,35 +113,11 @@ func initTrace() {
 			return false
 		}),
 	))
-
-	webTracer, webCloser, err := tracer.NewJaegerTracer("go.micro.web", "127.0.0.1:6831")
-	if err != nil {
-		log.Fatalf("opentracing tracer create error:%v", err)
-	}
-	webTracerCloser = webCloser
-	web.Register(opentracing.NewPlugin(
-		opentracing.WithTracer(webTracer),
-		opentracing.WithSkipperFunc(func(r *http.Request) bool {
-			// Host、Path等过滤规则
-			path := r.URL.Path
-			idx := strings.Index(path[1:], "/")
-			if idx > 0 {
-				path = path[idx+1:]
-			}
-			if strings.HasPrefix(path, "/v1/") {
-				return false
-			}
-			return true
-		}),
-	))
 }
 
 func initChain() {
+	// 在网关创建染色条件，将覆盖客户端
 	api.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
-		return []string{"gray"}
-	})))
-
-	web.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
 		return []string{"gray"}
 	})))
 }
