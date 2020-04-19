@@ -101,9 +101,10 @@
 	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
 - 参数验证
-	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)，适用于API`handler=rpc`的模式
+	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)，适用于API`handler=rpc`的模式，以及普通`srv`服务
 	    - 规则配置[account.proto](/console/pb/api/account.proto#L21)
 	    - 参数验证[account.go](/console/api/handler/account.go#L26)
+	    - `server.HandlerWrapper`和`client.CallWrapper`自动参数验证[wrapper/validate](/pkg/plugin/wrapper/validate)
 - 领域驱动
 	- [x] 整洁架构
 	    - 示例[console/account](/console/account)
