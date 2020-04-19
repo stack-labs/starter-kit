@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/validate"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/util/log"
 
@@ -40,6 +41,7 @@ func main() {
 	service.Init(
 		// create wrap for the Example srv client
 		micro.WrapHandler(client.AccountWrapper(service)),
+		micro.WrapHandler(validate.NewHandlerWrapper()),
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
 		micro.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息

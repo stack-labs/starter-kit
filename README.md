@@ -9,8 +9,9 @@
 - 快速开始示例
     - [控制台示例](/console#目录)
         - 以最常见的登录流程为例，实现一个场景简单，但包含微服务各种治理能力的示例
-    - [Hipster Shop示例](/hipstershop)
+    - ~~[Hipster Shop示例](/hipstershop)~~
         - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)实现一个业务场景比较复杂的微服务应用
+        - *暂时放弃这个目标，继续以 console 为例增加更多特性进来*
 - [架构设计](#架构设计)
 - [目录结构](#目录结构)
 - [目标功能](#目标功能)
@@ -90,7 +91,7 @@
         - [x] [beego](/console/web/beego)
     - API文档
         - [x] swagger
-            - *使用[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)的`protoc-gen-swagger`生成swagger文档，适用于API`handler=rpc`的模式*
+            - *使用[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)的`protoc-gen-swagger`生成swagger文档，**适用于API`handler=rpc`的模式**，因为文档生成是将 proto 中的 request 和 response 做映射，像`handler=api`是没有接口的实际定义的，所以无法在文档中反应接口信息*
             - [示例](/console#Swagger文档生成)
 - 配置中心
     - [ ] XConf
@@ -114,8 +115,8 @@
 - 发布
 	- [x] 灰度
 	- [x] 蓝绿
-	    - *注:由于 micro 默认的 api 和 web 网关均不支持**服务筛选**，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)*
-	    - 自定义 Router 实现网关对服务筛选的支持，因为 micro 有 internal 库所以需要在 micro 内实现，参考我 fork 的分支版本 [hb-chen/micro/gateway](https://github.com/hb-chen/micro/tree/gateway-2.4.0/gateway)，[gateway](gateway) 使用的便是此方案，可以快速实现流量染色
+	    - *注:由于 micro 默认的 api 和 web 网关均不支持**服务筛选**，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)，此方案仅适用于测试，具体 asim 在 [PR#1388](https://github.com/micro/go-micro/pull/1388) 给了反馈，但可以自定义 Router 实现*
+	    - 自定义 Router 实现网关对服务筛选的支持，因为 micro 有 internal 库所以需要在 micro 内实现，参考我 fork 的分支版本 [hb-chen/micro/gateway](https://github.com/hb-chen/micro/tree/gateway-2.4.0/gateway)，[gateway](gateway) 模块使用的便是此方案，可以快速实现流量染色
 - 部署
 	- K8S
 		- [x] [helm](/deploy/k8s/helm)
