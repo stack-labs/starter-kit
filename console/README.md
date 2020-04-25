@@ -15,7 +15,7 @@
 - [Proto管理](#proto管理)
 
 ## 架构
-<img src="/doc/img/console-design.png" width="75%">
+![console design](../doc/img/console-design.png)
 
 ## 快速开始
 ### Docker Compose启动

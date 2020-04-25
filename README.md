@@ -22,13 +22,14 @@
 ## 架构设计
 
 ### 系统架构图
-<img src="/doc/img/architecture.png" width="50%">
+
+![architecture](doc/img/architecture.png)
 
 ### 业务架构图
 
 **[Console示例](/console)**
 
-<img src="/doc/img/console-design.png" width="50%">
+![console design](doc/img/console-design.png)
 
 - [Hipster Shop示例](/hipstershop)
     - 参考[GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo/)
