@@ -37,12 +37,12 @@ func filterChain(labelKey string, chains []string) selector.Filter {
 				if ok && idx > i {
 					// 出现优先链路，services清空，nodes清空
 					idx = i
+					chain = val
 					services = services[:0]
 					nodes = nodes[:0]
 				}
 
-				if ok {
-					chain = val
+				if ok && idx == i {
 					nodes = append(nodes, node)
 				}
 			}
