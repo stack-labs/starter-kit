@@ -10,7 +10,7 @@ func filterChain(labelKey string, chains []string) selector.Filter {
 		var services []*registry.Service
 
 		chain := ""
-		idx := 0
+		idx := len(chains)
 		for _, service := range old {
 			serv := new(registry.Service)
 			var nodes []*registry.Node
