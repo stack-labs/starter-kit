@@ -132,10 +132,10 @@
 	    - [x] 缓存
 	- [ ] Jenkins
 - 基础服务
-	- [ ] 日志收集
-		- `stdout`标准输出
-		- `log.file`日志文件
-		- [log-pilot](https://github.com/AliyunContainerService/log-pilot) 
+	- 日志收集
+	    - [Fluentbit](https://fluentbit.io/) + Elasticsearch
+		    - [x] [docker-compose](/console/docker-compose-fb-es.yml)
+		    - [ ] Kubernetes
 	- [ ] 监控告警
 		- Prometheus
 		- Grafana
