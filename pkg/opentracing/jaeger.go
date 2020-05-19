@@ -33,7 +33,7 @@ func NewJaegerTracer(serviceName, addr string) (opentracing.Tracer, io.Closer, e
 
 	sender, err := jaeger.NewUDPTransport(addr, 0)
 	if err != nil {
-		log.Logf("could not initialize jaeger sender: %s", err.Error())
+		log.Errorf("could not initialize jaeger sender: %s", err.Error())
 		return nil, nil, err
 	}
 
@@ -51,10 +51,10 @@ type jaegerLogger struct{}
 
 // Error logs a message at error priority
 func (l *jaegerLogger) Error(msg string) {
-	log.Error(msg)
+	log.WithLevel(log.LevelError, msg)
 }
 
 // Infof logs a message at info priority
 func (l *jaegerLogger) Infof(msg string, args ...interface{}) {
-	log.Logf(msg, args...)
+	log.WithLevelf(log.LevelInfo, msg, args...)
 }

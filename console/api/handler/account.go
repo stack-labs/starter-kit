@@ -21,7 +21,7 @@ type Account struct{}
 
 // 登录
 func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Response) error {
-	log.Log("Received Account.Login request")
+	log.Info("Received Account.Login request")
 
 	if err := req.Validate(); err != nil {
 		return errors.BadRequest("go.micro.api.account.account.login", err.Error())
@@ -49,7 +49,7 @@ func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Respons
 
 // 登出
 func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response) error {
-	log.Log("Received Account.Logout request")
+	log.Info("Received Account.Logout request")
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
@@ -78,7 +78,7 @@ func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response)
 
 // Info
 func (*Account) Info(ctx context.Context, req *api.Request, rsp *api.Response) error {
-	log.Log("Received Account.Info request")
+	log.Info("Received Account.Info request")
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)

@@ -8,7 +8,10 @@ import (
 	"github.com/hb-go/micro-plugins/v2/web"
 	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
 	"github.com/micro/go-micro/v2/api"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-plugins/logger/zap/v2"
+	zap2 "go.uber.org/zap"
 
 	"github.com/micro-in-cn/starter-kit/console/web/beego"
 	"github.com/micro-in-cn/starter-kit/console/web/echo"
@@ -19,6 +22,16 @@ import (
 )
 
 func main() {
+	l, err := zap.NewLogger(
+		zap.WithCallerSkip(4),
+		zap.WithConfig(zap2.NewProductionConfig()),
+		zap.WithEncoderConfig(zap2.NewProductionEncoderConfig()),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	logger.DefaultLogger = l
+
 	md := make(map[string]string)
 	md["chain"] = "gray"
 

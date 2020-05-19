@@ -4,7 +4,10 @@ import (
 	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-plugins/logger/zap/v2"
+	zap2 "go.uber.org/zap"
 
 	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
@@ -15,6 +18,16 @@ import (
 )
 
 func main() {
+	l, err := zap.NewLogger(
+		zap.WithCallerSkip(4),
+		zap.WithConfig(zap2.NewProductionConfig()),
+		zap.WithEncoderConfig(zap2.NewProductionEncoderConfig()),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	logger.DefaultLogger = l
+
 	md := make(map[string]string)
 	md["chain"] = "gray"
 

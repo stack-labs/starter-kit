@@ -17,7 +17,7 @@ docker-compose up -d
 
 
 **Pipeline示例**
-`.drone.yml`以`gateway`模块为例，完成Go编译、Docker打包发布、K8S部署过程，不是一个API网关
+`.drone.yml`以`gateway`模块为例，完成Go编译、Docker打包发布、K8S部署过程，部署一个API网关
 
 ```
 curl -v -HHost:api.starter-kit.com -X GET 'http://{host}:{port}/'

@@ -3,7 +3,10 @@ package main
 import (
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/validate"
 	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-plugins/logger/zap/v2"
+	zap2 "go.uber.org/zap"
 
 	"github.com/micro-in-cn/starter-kit/console/api/client"
 	"github.com/micro-in-cn/starter-kit/console/api/handler"
@@ -14,6 +17,16 @@ import (
 )
 
 func main() {
+	l, err := zap.NewLogger(
+		zap.WithCallerSkip(4),
+		zap.WithConfig(zap2.NewProductionConfig()),
+		zap.WithEncoderConfig(zap2.NewProductionEncoderConfig()),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	logger.DefaultLogger = l
+
 	md := make(map[string]string)
 	md["chain"] = "gray"
 
@@ -42,6 +55,7 @@ func main() {
 		// create wrap for the Example srv client
 		micro.WrapHandler(client.AccountWrapper(service)),
 		micro.WrapHandler(validate.NewHandlerWrapper()),
+		micro.WrapCall(validate.NewCallWrapper()),
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
 		micro.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
