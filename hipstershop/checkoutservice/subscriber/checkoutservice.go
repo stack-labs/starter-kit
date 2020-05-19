@@ -11,11 +11,11 @@ import (
 type CheckoutService struct{}
 
 func (e *CheckoutService) Handle(ctx context.Context, msg *pb.Empty) error {
-	log.Log("Handler Received message: ")
+	log.Info("Handler Received message: ")
 	return nil
 }
 
 func Handler(ctx context.Context, msg *pb.Empty) error {
-	log.Log("Function Received message: ")
+	log.Info("Function Received message: ")
 	return nil
 }

@@ -16,7 +16,7 @@ require (
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
 	github.com/gin-gonic/gin v1.3.0
 	github.com/go-sql-driver/mysql v1.4.1
-	github.com/golang/protobuf v1.3.2
+	github.com/golang/protobuf v1.3.5
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
 	github.com/gorilla/mux v1.7.3
@@ -31,6 +31,7 @@ require (
 	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
 	github.com/micro/go-micro/v2 v2.4.0
+	github.com/micro/go-plugins/logger/zap/v2 v2.3.0
 	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200317215710-66384449b09c
 	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200317215710-66384449b09c
 	github.com/micro/micro/v2 v2.4.0
