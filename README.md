@@ -116,7 +116,7 @@
 - 发布
 	- [x] 灰度
 	- [x] 蓝绿
-	    - *注:由于 micro 默认的 api 和 web 网关均不支持**服务筛选**，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)，此方案仅适用于测试，具体 asim 在 [PR#1388](https://github.com/micro/go-micro/pull/1388) 给了反馈，但可以自定义 Router 实现*
+	    - *注:由于 micro 默认的 api 和 web 网关均不支持**服务筛选**，需要自己改造，方案参考[微服务协作开发、灰度发布之流量染色](http://hbchen.com/post/microservice/2019-11-30-go-micro-service-chain/)，此方案仅适用于测试，具体 asim 在 [PR#1388](https://github.com/micro/go-micro/pull/1388) 给了反馈，但可以自定义 Router 实现*
 	    - 自定义 Router 实现网关对服务筛选的支持，因为 micro 有 internal 库所以需要在 micro 内实现，参考我 fork 的分支版本 [hb-chen/micro/gateway](https://github.com/hb-chen/micro/tree/gateway-2.4.0/gateway)，[gateway](gateway) 模块使用的便是此方案，可以快速实现流量染色
 - 部署
 	- K8S
@@ -174,7 +174,7 @@
 **真实场景**
 
 - 考虑所有服务都可以自助路由到本地，不能直接使用`Micro-Router`(因为`Micro-Router`会在全链路生效)，可以自定义`header`来定义`router`筛选的应用范围，通过`Client/Call Wrap`实现，参考实现[router_filter](/pkg/plugin/wrapper/client/router_filter)
-- 要做到`api`服务可以路由筛选，在网关层与[流量染色](https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html)有相同的问题，不支持**服务筛选**，导致的代理服务被忽略，需要去掉`SelectOption`
+- 要做到`api`服务可以路由筛选，在网关层与[流量染色](http://hbchen.com/post/microservice/2019-11-30-go-micro-service-chain/)有相同的问题，不支持**服务筛选**，导致的代理服务被忽略，需要去掉`SelectOption`
     - 另一个方案是在本地开`micro api` + `聚合服务`，聚合服务再通过`network`代理访问线上服务，可以满足一般场景的需求
 - 网关及服务全部使用`network`做代理
 
