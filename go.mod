@@ -7,14 +7,14 @@ require (
 	contrib.go.opencensus.io/exporter/jaeger v0.2.0
 	contrib.go.opencensus.io/exporter/stackdriver v0.12.1
 	github.com/ajg/form v1.5.1 // indirect
+	github.com/alibaba/sentinel-golang v0.2.0
 	github.com/astaxie/beego v1.12.0
 	github.com/casbin/casbin/v2 v2.1.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/envoyproxy/protoc-gen-validate v0.1.0
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32 // indirect
-	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
-	github.com/gin-gonic/gin v1.3.0
+	github.com/gin-gonic/gin v1.5.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.3.5
 	github.com/google/uuid v1.1.1
@@ -30,7 +30,7 @@ require (
 	github.com/micro-in-cn/x-gateway v0.0.0-20200218113529-54c68df17b84
 	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
-	github.com/micro/go-micro/v2 v2.4.0
+	github.com/micro/go-micro/v2 v2.4.1-0.20200413220547-71d4253927cc
 	github.com/micro/go-plugins/logger/zap/v2 v2.3.0
 	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200317215710-66384449b09c
 	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200317215710-66384449b09c
@@ -42,7 +42,6 @@ require (
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/assertions v1.0.1 // indirect
-	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/stretchr/testify v1.4.0
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible
@@ -53,11 +52,11 @@ require (
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.opencensus.io v0.22.2
 	go.uber.org/dig v1.9.0
+	go.uber.org/zap v1.13.0
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	google.golang.org/grpc v1.26.0
-	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	xorm.io/xorm v0.8.0
 )
 
-replace github.com/micro/micro/v2 v2.4.0 => github.com/hb-chen/micro/v2 v2.4.0
+replace github.com/micro/micro/v2 v2.4.0 => github.com/hb-chen/micro/v2 v2.0.0-20200414123212-977f933825b7
