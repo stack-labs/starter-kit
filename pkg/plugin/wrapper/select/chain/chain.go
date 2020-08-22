@@ -1,11 +1,11 @@
 package chain
 
 import (
-	"github.com/micro/go-micro/v2/client/selector"
-	"github.com/micro/go-micro/v2/registry"
+	"github.com/micro/go-micro/v3/registry"
+	"github.com/micro/micro/v3/client/gateway/router"
 )
 
-func filterChain(labelKey string, chains []string) selector.Filter {
+func filterChain(labelKey string, chains []string) router.ServiceFilter {
 	return func(old []*registry.Service) []*registry.Service {
 		var services []*registry.Service
 

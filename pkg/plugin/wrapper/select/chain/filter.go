@@ -4,16 +4,15 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/micro/go-micro/v2/client/selector"
-	"github.com/micro/go-micro/v2/registry"
-	"github.com/micro/micro/v2/gateway/router"
+	"github.com/micro/go-micro/v3/registry"
+	"github.com/micro/micro/v3/client/gateway/router"
 )
 
 type chainFilter struct {
 	opts Options
 }
 
-func (f *chainFilter) routerFilter(req *http.Request) selector.Filter {
+func (f *chainFilter) routerFilter(req *http.Request) router.ServiceFilter {
 	if val := req.Header.Get(f.opts.chainKey); len(val) > 0 {
 		chains := strings.Split(val, f.opts.chainSep)
 		return filterChain(f.opts.labelKey, chains)

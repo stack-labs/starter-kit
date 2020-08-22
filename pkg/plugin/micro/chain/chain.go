@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/micro/cli/v2"
-	"github.com/micro/micro/v2/plugin"
+	"github.com/micro/micro/v3/plugin"
 )
 
 type chainPlugin struct {

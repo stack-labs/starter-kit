@@ -4,10 +4,10 @@ import (
 	"context"
 	"strings"
 
-	"github.com/micro/go-micro/v2/client"
-	"github.com/micro/go-micro/v2/client/selector"
-	"github.com/micro/go-micro/v2/metadata"
-	"github.com/micro/go-micro/v2/registry"
+	"github.com/micro/go-micro/v3/client"
+	"github.com/micro/go-micro/v3/metadata"
+	"github.com/micro/go-micro/v3/router"
+	"github.com/micro/go-micro/v3/selector"
 )
 
 type chainWrapper struct {
@@ -18,8 +18,8 @@ type chainWrapper struct {
 func (w *chainWrapper) Call(ctx context.Context, req client.Request, rsp interface{}, opts ...client.CallOption) error {
 	if val, ok := metadata.Get(ctx, w.opts.chainKey); ok && len(val) > 0 {
 		chains := strings.Split(val, w.opts.chainSep)
-		nOpts := append(opts, client.WithSelectOption(
-			selector.WithFilter(filterChain(w.opts.labelKey, chains)),
+		nOpts := append(opts, client.WithSelectOptions(
+			selector.WithFilter(w.filterChain(chains)),
 		))
 		return w.Client.Call(ctx, req, rsp, nOpts...)
 	}
@@ -28,61 +28,47 @@ func (w *chainWrapper) Call(ctx context.Context, req client.Request, rsp interfa
 }
 
 func (w *chainWrapper) filterChain(chains []string) selector.Filter {
-	return func(old []*registry.Service) []*registry.Service {
-		var services []*registry.Service
+	return func(old []router.Route) []router.Route {
+		var routes []router.Route
 
 		chain := ""
 		idx := 0
-		for _, service := range old {
-			serv := new(registry.Service)
-			var nodes []*registry.Node
-
-			for _, node := range service.Nodes {
-				if node.Metadata == nil {
-					continue
-				}
-
-				val := node.Metadata[w.opts.labelKey]
-				if len(val) == 0 {
-					continue
-				}
-
-				if len(chain) > 0 && idx == 0 {
-					if chain == val {
-						nodes = append(nodes, node)
-					}
-					continue
-				}
-
-				// chains按顺序优先匹配
-				ok, i := inArray(val, chains)
-				if ok && idx > i {
-					// 出现优先链路，services清空，nodes清空
-					idx = i
-					services = services[:0]
-					nodes = nodes[:0]
-				}
-
-				if ok {
-					chain = val
-					nodes = append(nodes, node)
-				}
+		for _, route := range old {
+			if route.Metadata == nil {
+				continue
 			}
 
-			// only add service if there's some nodes
-			if len(nodes) > 0 {
-				// copy
-				*serv = *service
-				serv.Nodes = nodes
-				services = append(services, serv)
+			val := route.Metadata[w.opts.labelKey]
+			if len(val) == 0 {
+				continue
+			}
+
+			if len(chain) > 0 && idx == 0 {
+				if chain == val {
+					routes = append(routes, route)
+				}
+				continue
+			}
+
+			// chains按顺序优先匹配
+			ok, i := inArray(val, chains)
+			if ok && idx > i {
+				// 出现优先链路，services清空，nodes清空
+				idx = i
+				routes = routes[:0]
+			}
+
+			if ok {
+				chain = val
+				routes = append(routes, route)
 			}
 		}
 
-		if len(services) == 0 {
+		if len(routes) == 0 {
 			return old
 		}
 
-		return services
+		return routes
 	}
 }
 

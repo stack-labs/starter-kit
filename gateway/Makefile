@@ -3,7 +3,7 @@ GOPATH:=$(shell go env GOPATH)
 
 .PHONY: build
 build:
-	go build -o ./bin/micro main.go plugin.go
+	go build -o ./bin/micro main.go
 
 .PHONY: build_linux
 build_linux:
@@ -15,7 +15,7 @@ docker: build_linux
 
 .PHONY: run_api
 run_api:
-	./bin/micro --registry=$(registry) --transport=$(transport) gateway
+	./bin/micro --profile=$(profile) --env=${env} gateway
 
 .PHONY: run_web
 run_web:

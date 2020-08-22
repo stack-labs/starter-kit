@@ -5,10 +5,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/micro/go-micro/v2/client"
-	"github.com/micro/go-micro/v2/metadata"
-	"github.com/micro/go-micro/v2/registry"
-	"github.com/micro/go-micro/v2/server"
+	"github.com/micro/go-micro/v3/client"
+	"github.com/micro/go-micro/v3/metadata"
+	"github.com/micro/go-micro/v3/registry"
+	"github.com/micro/go-micro/v3/server"
 	"github.com/opentracing/opentracing-go"
 )
 

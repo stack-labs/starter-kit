@@ -1,6 +1,7 @@
 # Micro 快速开发工具包
 
-> *项目进行中*
+> v3 升级中…
+> v2 请切到[tag v2.4.0](https://github.com/micro-in-cn/starter-kit/tree/v2.4.0)
 
 本仓库旨在提供面向Go-Micro生产环境的快速开发包。
 
@@ -100,6 +101,8 @@
 	    - [示例](/console/web/vue)
 	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
+- 熔断限流
+    - [Sentinel](https://github.com/alibaba/sentinel-golang)
 - 参数验证
 	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)，适用于API`handler=rpc`的模式，以及普通`srv`服务
 	    - 规则配置[account.proto](/console/pb/api/account.proto#L21)

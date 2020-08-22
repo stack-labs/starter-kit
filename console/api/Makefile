@@ -10,7 +10,7 @@ proto:
 
 .PHONY: build
 build:
-	go build -o ./bin/console-api main.go plugin.go
+	go build -o ./bin/console-api cmd/main.go
 
 .PHONY: build_linux
 build_linux:
@@ -26,4 +26,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/console-api --registry=$(registry) --transport=$(transport)
+	./bin/console-api --profile=$(profile)
