@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/micro/go-micro/v2/config"
-	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-micro/v3/util/log"
 	"xorm.io/xorm"
 	"xorm.io/xorm/migrate"
 
@@ -21,14 +20,14 @@ var (
 func InitDB() {
 	once.Do(func() {
 		dbConf = conf.Database{}
-		err := config.Get("database").Scan(&dbConf)
-		if err != nil {
-			log.Fatal(err)
-		}
+		//err := config.Get("database").Scan(&dbConf)
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
 
 		log.Infof("ConnMaxLifetime: %v", dbConf.ConnMaxLifetime)
 
-		db, err = xorm.NewEngine("mysql", fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
+		db, err := xorm.NewEngine("mysql", fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
 			dbConf.User,
 			dbConf.Password,
 			dbConf.Host,

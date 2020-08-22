@@ -8,7 +8,7 @@ proto:
 
 .PHONY: build
 build:
-	go build -o ./bin/account-srv main.go plugin.go
+	go build -o ./bin/account-srv cmd/main.go
 
 .PHONY: build_linux
 build_linux:
@@ -24,4 +24,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/account-srv --registry=$(registry) --transport=$(transport) --conf_path=./conf/
+	./bin/account-srv --profile=$(profile) --conf_path=./conf/

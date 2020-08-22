@@ -4,8 +4,7 @@ import (
 	"sync"
 
 	"github.com/jinzhu/gorm"
-	"github.com/micro/go-micro/v2/config"
-	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-micro/v3/util/log"
 
 	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
@@ -20,13 +19,13 @@ var (
 func InitDB() {
 	once.Do(func() {
 		dbConf = conf.Database{}
-		err := config.Get("database").Scan(&dbConf)
-		if err != nil {
-			log.Fatal(err)
-		}
+		//err := config.Get("database").Scan(&dbConf)
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
 
 		sqlConnection := dbConf.User + ":" + dbConf.Password + "@tcp(" + dbConf.Host + ":" + dbConf.Port + ")/" + dbConf.Name + "?charset=utf8mb4&parseTime=True&loc=Local"
-		db, err = gorm.Open(dbConf.Engine, sqlConnection)
+		db, err := gorm.Open(dbConf.Engine, sqlConnection)
 		if err != nil {
 			log.Fatal(err)
 		}
