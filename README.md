@@ -1,7 +1,7 @@
 # Micro 快速开发工具包
 
-> v3 升级中…
-> v2 请切到[tag v2.4.0](https://github.com/micro-in-cn/starter-kit/tree/v2.4.0)
+> v3 升级中… <br/>
+> v2 请到[tag v2.4.0](https://github.com/micro-in-cn/starter-kit/tree/v2.4.0)
 
 本仓库旨在提供面向Go-Micro生产环境的快速开发包。
 
