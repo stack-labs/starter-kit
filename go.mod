@@ -42,7 +42,9 @@ require (
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1
+	github.com/prometheus/client_golang v1.7.0
 	github.com/rakyll/statik v0.1.6
+	github.com/rs/cors v1.7.0
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/assertions v1.0.1 // indirect
@@ -57,7 +59,7 @@ require (
 	go.opencensus.io v0.22.2
 	go.uber.org/dig v1.9.0
 	go.uber.org/zap v1.13.0
-	golang.org/x/net v0.0.0-20200520182314-0ba52f642ac2
+	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	google.golang.org/grpc v1.27.0
 	xorm.io/xorm v0.8.0

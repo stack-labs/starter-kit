@@ -6,19 +6,19 @@ import (
 	"time"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/micro/go-micro/v2/util/log"
 	_ "github.com/micro/go-plugins/registry/kubernetes/v2"
 	_ "github.com/micro/go-plugins/transport/tcp/v2"
-	api "github.com/micro/micro/v2/gateway"
+	"github.com/micro/micro/v3/plugin"
+	"github.com/micro/micro/v3/service/logger"
 	"golang.org/x/time/rate"
 
+	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/auth"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/cors"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/metrics"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
-	"github.com/micro-in-cn/x-gateway/plugin/auth"
-	"github.com/micro-in-cn/x-gateway/plugin/cors"
-	"github.com/micro-in-cn/x-gateway/plugin/metrics"
-	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
-	tracer "github.com/micro-in-cn/x-gateway/plugin/trace"
-	"github.com/micro-in-cn/x-gateway/utils/response"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/utils/response"
 )
 
 var apiTracerCloser, webTracerCloser io.Closer
@@ -58,7 +58,7 @@ func initCors() {
 		cors.WithMaxAge(3600),
 		cors.WithUseRsPkg(true),
 	)
-	api.Register(corsPlugin)
+	plugin.Register(corsPlugin, plugin.Module("gateway"))
 }
 
 func initAuth() {
@@ -81,29 +81,31 @@ func initAuth() {
 			return false
 		}),
 	)
-	api.Register(authPlugin)
+	if err := plugin.Register(authPlugin, plugin.Module("gateway")); err != nil {
+		logger.Error(err)
+	}
 }
 
 func initMetrics() {
-	api.Register(metrics.NewPlugin(
+	plugin.Register(metrics.NewPlugin(
 		metrics.WithNamespace("gateway"),
 		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			return false
 		}),
-	))
+	), plugin.Module("gateway"))
 }
 
 // Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 func initTrace() {
 	apiTracer, apiCloser, err := tracer.NewJaegerTracer("go.micro.api", "127.0.0.1:6831")
 	if err != nil {
-		log.Fatalf("opentracing tracer create error:%v", err)
+		logger.Fatalf("opentracing tracer create error:%v", err)
 	}
 
 	limiter := rate.NewLimiter(rate.Every(time.Millisecond*100), 10)
 	apiTracerCloser = apiCloser
-	api.Register(opentracing.NewPlugin(
+	plugin.Register(opentracing.NewPlugin(
 		opentracing.WithTracer(apiTracer),
 		opentracing.WithSkipperFunc(func(r *http.Request) bool {
 			// 采样频率控制，根据需要细分Host、Path等分别控制
@@ -112,12 +114,12 @@ func initTrace() {
 			}
 			return false
 		}),
-	))
+	), plugin.Module("gateway"))
 }
 
 func initChain() {
 	// 在网关创建染色条件，将覆盖客户端
-	api.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
+	plugin.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
 		return []string{"gray"}
-	})))
+	})), plugin.Module("gateway"))
 }

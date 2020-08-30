@@ -6,7 +6,7 @@ p, public, /hipstershop/*, (GET)|(POST)|(HEAD)|(OPTIONS)
 p, public, /console/*, (GET)|(POST)|(HEAD)|(OPTIONS)
 
 p, admin, /account/logout, POST
-p, public, /account/info, GET
+p, admin, /account/info, GET
 p, admin, /table/list, GET
 
 p, alice, /alice_data/*, GET

@@ -1,18 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
-	_ "github.com/micro-in-cn/starter-kit/profile"
-	_ "github.com/micro/go-micro/v3"
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/v3/client"
-	"github.com/micro/go-micro/v3/util/log"
 	"github.com/micro/micro/v3/client/cli/util"
 	"github.com/micro/micro/v3/client/gateway"
 	"github.com/micro/micro/v3/cmd"
 	microClient "github.com/micro/micro/v3/service/client"
+
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
+	_ "github.com/micro-in-cn/starter-kit/profile"
 )
 
 const (
@@ -42,19 +40,20 @@ func main() {
 	// 自定义 Router 参考 fork 的分支版本
 	// https://github.com/hb-chen/micro/tree/gateway/gateway
 	// Router services filter
-	cmd.Register(
-		gateway.Commands(
-		//router.WithFilter(chain.NewRouterFilter()),
-		),
+	command := gateway.Commands(
+	//router.WithFilter(chain.NewRouterFilter()),
 	)
+	command.After = func(ctx *cli.Context) error {
+		pluginAfterFunc()
+		return nil
+	}
+	cmd.Register(command)
+
 	microClient.DefaultClient.Init(
 		client.WrapCall(router_filter.NewCallWrapper()),
 	)
 
-	log.Infof("client options.proxy: %s", microClient.DefaultClient.Options().Proxy)
-
 	if err := cmd.DefaultCmd.Run(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }
