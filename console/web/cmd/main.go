@@ -20,7 +20,7 @@ import (
 	_ "github.com/micro-in-cn/starter-kit/profile"
 	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
 	"github.com/micro/go-micro/v3/api"
-	"github.com/micro/go-micro/v3/util/log"
+	log "github.com/micro/go-micro/v3/logger"
 )
 
 func main() {
@@ -159,7 +159,7 @@ type handler struct {
 }
 
 func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	log.Infof("console receive request path: %v", r.URL.Path)
+	log.Debugf("console receive request path: %v", r.URL.Path)
 	r.URL.Path = strings.TrimPrefix(r.URL.Path, h.prefix)
 	h.mux.ServeHTTP(w, r)
 }

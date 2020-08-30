@@ -21,7 +21,7 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
 	github.com/gorilla/mux v1.7.3
-	github.com/hb-go/micro-plugins/v3 v3.0.0-20200822154551-a801a9661f70
+	github.com/hb-go/micro-plugins/v3 v3.0.0-20200830143901-151e7b6a0a8d
 	github.com/hb-go/pkg v0.0.2
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jinzhu/gorm v1.9.11
@@ -32,7 +32,7 @@ require (
 	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-micro/v2 v2.4.1-0.20200413220547-71d4253927cc
-	github.com/micro/go-micro/v3 v3.0.0-beta.0.20200820102804-329bc2f2655b
+	github.com/micro/go-micro/v3 v3.0.0-beta.0.20200828093547-6e30b5328036
 	github.com/micro/go-plugins/logger/zap/v2 v2.3.0
 	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200317215710-66384449b09c
 	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200317215710-66384449b09c

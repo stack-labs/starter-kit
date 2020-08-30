@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/micro/go-micro/v3/client"
+	log "github.com/micro/go-micro/v3/logger"
 	"github.com/micro/go-micro/v3/metadata"
-	"github.com/micro/go-micro/v3/util/log"
 	microClient "github.com/micro/micro/v3/service/client"
 )
 

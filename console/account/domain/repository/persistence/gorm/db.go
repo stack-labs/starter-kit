@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	"github.com/jinzhu/gorm"
-	"github.com/micro/go-micro/v3/util/log"
+	log "github.com/micro/go-micro/v3/logger"
 
 	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro-in-cn/starter-kit/console/account/domain/model"

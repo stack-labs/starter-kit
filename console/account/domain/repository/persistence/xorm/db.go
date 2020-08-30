@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/micro/go-micro/v3/util/log"
+	log "github.com/micro/go-micro/v3/logger"
 	"xorm.io/xorm"
 	"xorm.io/xorm/migrate"
 
