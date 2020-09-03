@@ -7,7 +7,6 @@ import (
 
 	"github.com/micro/go-micro/v3/client"
 	"github.com/micro/go-micro/v3/metadata"
-	"github.com/micro/go-micro/v3/registry"
 	"github.com/micro/go-micro/v3/server"
 	"github.com/opentracing/opentracing-go"
 )
@@ -130,7 +129,7 @@ func NewClientWrapper(ot opentracing.Tracer) client.Wrapper {
 // NewCallWrapper accepts an opentracing Tracer and returns a Call Wrapper
 func NewCallWrapper(ot opentracing.Tracer) client.CallWrapper {
 	return func(cf client.CallFunc) client.CallFunc {
-		return func(ctx context.Context, node *registry.Node, req client.Request, rsp interface{}, opts client.CallOptions) error {
+		return func(ctx context.Context, addr string, req client.Request, rsp interface{}, opts client.CallOptions) error {
 			if ot == nil {
 				ot = opentracing.GlobalTracer()
 			}
@@ -142,7 +141,7 @@ func NewCallWrapper(ot opentracing.Tracer) client.CallWrapper {
 				defer span.Finish()
 			}
 
-			return cf(ctx, node, req, rsp, opts)
+			return cf(ctx, addr, req, rsp, opts)
 		}
 	}
 }

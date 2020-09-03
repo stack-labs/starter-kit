@@ -7,14 +7,13 @@ import (
 
 	"github.com/micro/go-micro/v3/client"
 	"github.com/micro/go-micro/v3/errors"
-	"github.com/micro/go-micro/v3/registry"
 	"github.com/micro/go-micro/v3/server"
 )
 
 func NewCallWrapper(opts ...Option) client.CallWrapper {
 	o := newOptions(opts)
 	return func(callFunc client.CallFunc) client.CallFunc {
-		return func(ctx context.Context, node *registry.Node, req client.Request, rsp interface{}, opts client.CallOptions) error {
+		return func(ctx context.Context, addr string, req client.Request, rsp interface{}, opts client.CallOptions) error {
 			t := reflect.TypeOf(req.Body())
 			if m, ok := t.MethodByName(o.funcName); ok {
 				if e := m.Func.Call([]reflect.Value{reflect.ValueOf(req.Body())}); len(e) > 0 {
@@ -27,7 +26,7 @@ func NewCallWrapper(opts ...Option) client.CallWrapper {
 				}
 			}
 
-			return callFunc(ctx, node, req, rsp, opts)
+			return callFunc(ctx, addr, req, rsp, opts)
 		}
 	}
 }

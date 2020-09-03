@@ -13,6 +13,8 @@ import (
 	"github.com/micro-in-cn/starter-kit/console/api/handler"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/validate"
 	_ "github.com/micro-in-cn/starter-kit/profile"
 )
 
@@ -75,7 +77,7 @@ func run() error {
 	)
 
 	// 链路追踪
-	_, closer, err := tracer.NewJaegerTracer("go.micro.api.console", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console", "127.0.0.1:6831")
 	if err != nil {
 		logger.Fatalf("opentracing tracer create error:%v", err)
 	}
@@ -91,13 +93,13 @@ func run() error {
 	svc.Init(
 		// create wrap for the Example srv client
 		service.WrapHandler(client.AccountWrapper(svc)),
-		//service.WrapHandler(validate.NewHandlerWrapper()),
-		//service.WrapCall(validate.NewCallWrapper()),
+		service.WrapHandler(validate.NewHandlerWrapper()),
+		service.WrapCall(validate.NewCallWrapper()),
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-		//service.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
-		//service.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
-		//service.WrapClient(opentracing.NewClientWrapper(nil)),         // client端发起请求，包括Call()、Stream()、Publish()
-		//service.WrapCall(opentracing.NewCallWrapper(t)),               // client端发起请求，仅Call()
+		service.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
+		service.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
+		service.WrapClient(opentracing.NewClientWrapper(nil)),         // client端发起请求，包括Call()、Stream()、Publish()
+		service.WrapCall(opentracing.NewCallWrapper(t)),               // client端发起请求，仅Call()
 	)
 
 	// Register Handler

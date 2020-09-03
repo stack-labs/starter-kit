@@ -6,21 +6,21 @@ import (
 	"os"
 	"strings"
 
-	"github.com/micro-in-cn/starter-kit/console/web/beego"
-	"github.com/micro-in-cn/starter-kit/console/web/statik"
-	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
 	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v3/api"
 	"github.com/micro/go-micro/v3/logger"
+	log "github.com/micro/go-micro/v3/logger"
 	"github.com/micro/micro/v3/profile"
 
 	"github.com/hb-go/micro-plugins/v3/web"
+	"github.com/micro-in-cn/starter-kit/console/web/beego"
 	"github.com/micro-in-cn/starter-kit/console/web/echo"
 	"github.com/micro-in-cn/starter-kit/console/web/gin"
 	"github.com/micro-in-cn/starter-kit/console/web/iris"
+	"github.com/micro-in-cn/starter-kit/console/web/statik"
+	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/opentracing"
 	_ "github.com/micro-in-cn/starter-kit/profile"
-	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
-	"github.com/micro/go-micro/v3/api"
-	log "github.com/micro/go-micro/v3/logger"
 )
 
 func main() {

@@ -15,6 +15,7 @@ import (
 	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
 	"github.com/micro-in-cn/starter-kit/console/account/registry"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 	_ "github.com/micro-in-cn/starter-kit/profile"
 )
 
@@ -98,17 +99,17 @@ func run() error {
 	)
 
 	// 链路追踪
-	_, closer, err := tracer.NewJaegerTracer("go.micro.srv.account", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("go.micro.srv.account", "127.0.0.1:6831")
 	if err != nil {
 		logger.Fatalf("opentracing tracer create error:%v", err)
 	}
 	defer closer.Close()
 
 	svc.Init(
-	// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-	//service.WrapCall(opentracing.NewCallWrapper(t)),
-	//service.WrapHandler(opentracing.NewHandlerWrapper(t)),
-	//service.WrapClient(chain.NewClientWrapper()),
+		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
+		service.WrapCall(opentracing.NewCallWrapper(t)),
+		service.WrapHandler(opentracing.NewHandlerWrapper(t)),
+		//service.WrapClient(chain.NewClientWrapper()),
 	)
 
 	// Initialise service
