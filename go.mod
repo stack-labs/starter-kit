@@ -32,7 +32,7 @@ require (
 	github.com/micro/cli/v2 v2.1.2
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-micro/v2 v2.4.1-0.20200413220547-71d4253927cc
-	github.com/micro/go-micro/v3 v3.0.0-beta.0.20200828093547-6e30b5328036
+	github.com/micro/go-micro/v3 v3.0.0-beta.0.20200902122854-6bdf33c4eede
 	github.com/micro/go-plugins/logger/zap/v2 v2.3.0
 	github.com/micro/go-plugins/registry/kubernetes/v2 v2.0.0-20200317215710-66384449b09c
 	github.com/micro/go-plugins/transport/tcp/v2 v2.0.0-20200317215710-66384449b09c
@@ -69,4 +69,4 @@ replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
 
 replace github.com/micro/micro/v2 v2.4.0 => github.com/hb-chen/micro/v2 v2.0.0-20200414123212-977f933825b7
 
-replace github.com/micro/micro/v3 v3.0.0-beta => github.com/hb-chen/micro/v3 v3.0.0-20200830112644-6acc466d48c6
+replace github.com/micro/micro/v3 v3.0.0-beta => /Users/Steven/Develop/Go/project/src/github.com/micro/micro
