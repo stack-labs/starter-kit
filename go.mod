@@ -69,4 +69,4 @@ replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
 
 replace github.com/micro/micro/v2 v2.4.0 => github.com/hb-chen/micro/v2 v2.0.0-20200414123212-977f933825b7
 
-replace github.com/micro/micro/v3 v3.0.0-beta => /Users/Steven/Develop/Go/project/src/github.com/micro/micro
+replace github.com/micro/micro/v3 v3.0.0-beta => github.com/hb-chen/micro/v3 v3.0.0-20200903160822-d37c7b88b9ae

@@ -5,9 +5,9 @@ import (
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/v3/client"
 	"github.com/micro/micro/v3/client/cli/util"
-	"github.com/micro/micro/v3/client/gateway"
 	"github.com/micro/micro/v3/cmd"
 	microClient "github.com/micro/micro/v3/service/client"
+	"github.com/micro/micro/v3/service/gateway"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
 	_ "github.com/micro-in-cn/starter-kit/profile"
