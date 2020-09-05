@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/chain"
 	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/v3/client"
@@ -8,6 +9,7 @@ import (
 	"github.com/micro/micro/v3/cmd"
 	microClient "github.com/micro/micro/v3/service/client"
 	"github.com/micro/micro/v3/service/gateway"
+	"github.com/micro/micro/v3/service/gateway/router"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
 	_ "github.com/micro-in-cn/starter-kit/profile"
@@ -38,10 +40,11 @@ func main() {
 	// 这个方案不可取，查考 asim 在 pull#1388 给的反馈意见，
 	// https://github.com/micro/go-micro/pull/1388
 	// 自定义 Router 参考 fork 的分支版本
-	// https://github.com/hb-chen/micro/tree/gateway/gateway
+	// https://github.com/hb-chen/micro/tree/gateway/service/gateway
 	// Router services filter
 	command := gateway.Commands(
-	//router.WithFilter(chain.NewRouterFilter()),
+		// 流量染色
+		router.WithFilter(chain.NewRouterFilter()),
 	)
 	command.After = func(ctx *cli.Context) error {
 		pluginAfterFunc()

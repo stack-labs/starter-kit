@@ -2,7 +2,7 @@ package chain
 
 import (
 	"github.com/micro/go-micro/v3/registry"
-	"github.com/micro/micro/v3/client/gateway/router"
+	"github.com/micro/micro/v3/service/gateway/router"
 )
 
 func filterChain(labelKey string, chains []string) router.ServiceFilter {
@@ -62,4 +62,13 @@ func filterChain(labelKey string, chains []string) router.ServiceFilter {
 
 		return services
 	}
+}
+
+func inArray(s string, d []string) (bool, int) {
+	for k, v := range d {
+		if s == v {
+			return true, k
+		}
+	}
+	return false, 0
 }

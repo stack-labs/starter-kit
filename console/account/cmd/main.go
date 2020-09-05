@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/micro/cli/v2"
+	mClient "github.com/micro/go-micro/v3/client"
 	"github.com/micro/go-micro/v3/config"
 	"github.com/micro/go-micro/v3/config/source/file"
 	"github.com/micro/go-micro/v3/logger"
@@ -15,6 +16,7 @@ import (
 	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
 	"github.com/micro-in-cn/starter-kit/console/account/registry"
 	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/chain"
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 	_ "github.com/micro-in-cn/starter-kit/profile"
 )
@@ -105,11 +107,13 @@ func run() error {
 	}
 	defer closer.Close()
 
+	// 流量染色
+	svc.Client().Init(mClient.Lookup(chain.NewClientLookup()))
+
 	svc.Init(
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 		service.WrapCall(opentracing.NewCallWrapper(t)),
 		service.WrapHandler(opentracing.NewHandlerWrapper(t)),
-		//service.WrapClient(chain.NewClientWrapper()),
 	)
 
 	// Initialise service

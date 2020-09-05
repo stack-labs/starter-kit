@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/micro/go-micro/v3/registry"
-	"github.com/micro/micro/v3/client/gateway/router"
+	"github.com/micro/micro/v3/service/gateway/router"
 )
 
 type chainFilter struct {
