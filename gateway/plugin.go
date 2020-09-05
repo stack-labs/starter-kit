@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
-	_ "github.com/micro/go-plugins/registry/kubernetes/v2"
-	_ "github.com/micro/go-plugins/transport/tcp/v2"
 	"github.com/micro/micro/v3/plugin"
 	"github.com/micro/micro/v3/service/logger"
 	"golang.org/x/time/rate"

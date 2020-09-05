@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/micro-in-cn/x-gateway/utils/request"
-	"github.com/micro-in-cn/x-gateway/utils/response"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/utils/request"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/utils/response"
 	"github.com/micro/go-micro/v3/logger"
 )
 

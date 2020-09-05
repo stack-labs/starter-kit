@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	"github.com/micro/go-micro/v2/errors"
+	"github.com/micro/go-micro/v3/errors"
 )
 
 //Handler for http

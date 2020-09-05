@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/chain"
 	"github.com/micro/cli/v2"
-	"github.com/micro/go-micro/util/log"
 	"github.com/micro/go-micro/v3/client"
+	"github.com/micro/go-micro/v3/util/log"
 	"github.com/micro/micro/v3/client/cli/util"
 	"github.com/micro/micro/v3/cmd"
 	microClient "github.com/micro/micro/v3/service/client"
