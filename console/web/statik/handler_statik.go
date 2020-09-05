@@ -5,7 +5,7 @@ package statik
 import (
 	"net/http"
 
-	"github.com/micro/go-micro/v2/util/log"
+	log "github.com/micro/go-micro/v3/logger"
 	"github.com/rakyll/statik/fs"
 )
 

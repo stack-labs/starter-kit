@@ -4,19 +4,23 @@ import (
 	"context"
 	"strings"
 
-	"github.com/micro/go-micro/v2/client"
-	"github.com/micro/go-micro/v2/metadata"
-	"github.com/micro/go-micro/v2/registry"
-	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-micro/v3/client"
+	log "github.com/micro/go-micro/v3/logger"
+	"github.com/micro/go-micro/v3/metadata"
+	microClient "github.com/micro/micro/v3/service/client"
 )
 
 func NewCallWrapper() client.CallWrapper {
 	return func(callFunc client.CallFunc) client.CallFunc {
-		return func(ctx context.Context, node *registry.Node, req client.Request, rsp interface{}, opts client.CallOptions) error {
+		return func(ctx context.Context, addr string, req client.Request, rsp interface{}, opts client.CallOptions) error {
 			md, ok := metadata.FromContext(ctx)
 			if !ok {
 				md = make(map[string]string)
 			}
+
+			log.Infof("client options.proxy: %v", microClient.DefaultClient.Options().Proxy)
+
+			log.Infof("addr: %s, service: %s, endpoint: %s, method: %s", addr, req.Service(), req.Endpoint(), req.Method())
 
 			// copy the metadata to prevent race
 			md = metadata.Copy(md)
@@ -43,7 +47,7 @@ func NewCallWrapper() client.CallWrapper {
 			}
 			log.Infof("micro router filter send md: %v", md)
 			ctx = metadata.NewContext(ctx, md)
-			return callFunc(ctx, node, req, rsp, opts)
+			return callFunc(ctx, addr, req, rsp, opts)
 		}
 	}
 

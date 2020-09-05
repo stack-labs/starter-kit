@@ -1,43 +1,62 @@
 package main
 
 import (
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/logger"
-	"github.com/micro/go-micro/v2/util/log"
-	"github.com/micro/go-plugins/logger/zap/v2"
-	"github.com/micro/micro/v2/gateway/cmd"
-	"github.com/micro/micro/v2/gateway/router"
-	zap2 "go.uber.org/zap"
+	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/chain"
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v3/client"
+	"github.com/micro/go-micro/v3/util/log"
+	"github.com/micro/micro/v3/client/cli/util"
+	"github.com/micro/micro/v3/cmd"
+	microClient "github.com/micro/micro/v3/service/client"
+	"github.com/micro/micro/v3/service/gateway"
+	"github.com/micro/micro/v3/service/gateway/router"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
+	_ "github.com/micro-in-cn/starter-kit/profile"
 )
 
+const (
+	// EnvLocal is a builtin environment, it represents your local `micro server`
+	EnvDev = "dev"
+)
+
+var envs = map[string]util.Env{
+	EnvDev: {
+		Name: EnvDev,
+	},
+}
+
+func init() {
+	// 默认有个 EnvLocal，并且 ProxyAddress = 127.0.0.1:8081
+	for _, env := range envs {
+		util.AddEnv(env)
+	}
+}
+
 func main() {
-	l, err := zap.NewLogger(
-		zap.WithCallerSkip(4),
-		zap.WithConfig(zap2.NewProductionConfig()),
-		zap.WithEncoderConfig(zap2.NewProductionEncoderConfig()),
+	// 流量染色
+	// TODO micro默认的api和web网关均不支持服务筛选，需要自己改造
+	// https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html
+	// 这个方案不可取，查考 asim 在 pull#1388 给的反馈意见，
+	// https://github.com/micro/go-micro/pull/1388
+	// 自定义 Router 参考 fork 的分支版本
+	// https://github.com/hb-chen/micro/tree/gateway/service/gateway
+	// Router services filter
+	command := gateway.Commands(
+		// 流量染色
+		router.WithFilter(chain.NewRouterFilter()),
 	)
-	if err != nil {
+	command.After = func(ctx *cli.Context) error {
+		pluginAfterFunc()
+		return nil
+	}
+	cmd.Register(command)
+
+	microClient.DefaultClient.Init(
+		client.WrapCall(router_filter.NewCallWrapper()),
+	)
+
+	if err := cmd.DefaultCmd.Run(); err != nil {
 		log.Fatal(err)
 	}
-	logger.DefaultLogger = l
-
-	cmd.Init(
-		// 流量染色
-		// TODO micro默认的api和web网关均不支持服务筛选，需要自己改造
-		// https://micro.mu/blog/cn/2019/12/09/go-micro-service-chain.html
-		// 这个方案不可取，查考 asim 在 pull#1388 给的反馈意见，
-		// https://github.com/micro/go-micro/pull/1388
-		// 自定义 Router 参考 fork 的分支版本
-		// https://github.com/hb-chen/micro/tree/gateway/gateway
-		// Router services filter
-		router.WithOption(
-			router.WithFilter(chain.NewRouterFilter()),
-		),
-		// 路由筛选
-		micro.WrapCall(router_filter.NewCallWrapper()),
-		micro.AfterStop(pluginAfterFunc),
-	)
 }

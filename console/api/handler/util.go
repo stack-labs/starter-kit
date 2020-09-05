@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strconv"
 
-	api "github.com/micro/go-micro/v2/api/proto"
+	api "github.com/micro/go-micro/v3/api/proto"
 )
 
 type responseBody struct {

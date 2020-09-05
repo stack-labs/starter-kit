@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/micro/go-micro/v2/server"
+	"github.com/micro/go-micro/v3/server"
 	"go.uber.org/dig"
 
 	pb "github.com/micro-in-cn/starter-kit/console/account/genproto/srv"

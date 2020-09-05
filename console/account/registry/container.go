@@ -2,7 +2,6 @@ package registry
 
 import (
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/micro/go-micro/v2/config"
 	"go.uber.org/dig"
 
 	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/gorm"
@@ -21,7 +20,7 @@ func NewContainer() (*dig.Container, error) {
 }
 
 func buildUserUsecase(c *dig.Container) {
-	persistence := config.Get("persistence").String("")
+	persistence := "" //config.Get("persistence").String("")
 
 	// ORM选择，gorm、xorm...
 	switch persistence {

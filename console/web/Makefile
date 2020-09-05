@@ -4,7 +4,7 @@ GOPATH:=$(shell go env GOPATH)
 
 .PHONY: build
 build:
-	go build -o ./bin/console-web main.go plugin.go
+	go build -o ./bin/console-web cmd/main.go
 	# go build -o ./bin/console-web -tags "statik" main.go plugin.go
 
 .PHONY: build_linux
@@ -31,4 +31,4 @@ statik:
 
 .PHONY: run
 run:
-	./bin/console-web --registry=$(registry) --transport=$(transport)
+	./bin/console-web --profile=$(profile)
