@@ -13,10 +13,6 @@ build_linux:
 docker: build_linux
 	docker build . -t $(tag)
 
-.PHONY: run_api
-run_api:
+.PHONY: run
+run:
 	./bin/micro --profile=$(profile) --env=${env} gateway
-
-.PHONY: run_web
-run_web:
-	./bin/micro --registry=$(registry) --transport=$(transport) web

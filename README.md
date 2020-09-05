@@ -1,7 +1,20 @@
 # Micro 快速开发工具包
 
-> v3 升级中… <br/>
-> v2 请到[tag v2.4.0](https://github.com/micro-in-cn/starter-kit/tree/v2.4.0)
+> v2 请到[tag v2.4.0](https://github.com/micro-in-cn/starter-kit/tree/v2.4.0)<br/>
+> v3 升级中…
+
+**v3 console 示例运行，注册中心使用 etcd，详细配置参考 [profile](/profile/profile.go)**
+```shell script
+# 网关
+$ cd gateway
+$ make build
+$ make run profile=dev env=dev
+
+# Console 服务
+$ cd console/{account/api/web}
+$ make build
+$ make run profile=dev
+```
 
 本仓库旨在提供面向Go-Micro生产环境的快速开发包。
 
