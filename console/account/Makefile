@@ -12,7 +12,7 @@ build:
 
 .PHONY: build_linux
 build_linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/account-srv main.go plugin.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/account-srv cmd/main.go
 
 .PHONY: test
 test:

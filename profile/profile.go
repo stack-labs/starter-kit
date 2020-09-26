@@ -33,6 +33,7 @@ import (
 
 func init() {
 	mProfile.Register("dev", Dev)
+	mProfile.Register("compose", Compose)
 }
 
 // Dev profile to run develop env
@@ -45,6 +46,29 @@ var Dev = &mProfile.Profile{
 		microConfig.DefaultConfig, _ = config.NewConfig()
 		setBroker(http.NewBroker())
 		setRegistry(etcd.NewRegistry())
+		setupJWTRules()
+
+		var err error
+		microEvents.DefaultStream, err = memStream.NewStream()
+		if err != nil {
+			logger.Fatalf("Error configuring stream: %v", err)
+		}
+
+		return nil
+	},
+}
+
+// Dev profile to run develop env
+var Compose = &mProfile.Profile{
+	Name: "compose",
+	Setup: func(ctx *cli.Context) error {
+		microAuth.DefaultAuth = noop.NewAuth()
+		microRuntime.DefaultRuntime = local.NewRuntime()
+		microStore.DefaultStore = file.NewStore()
+		microConfig.DefaultConfig, _ = config.NewConfig()
+		setBroker(http.NewBroker())
+		setRegistry(etcd.NewRegistry(registry.Addrs("etcd:2379")))
+		microServer.DefaultServer.Init(server.Address(":8080"))
 		setupJWTRules()
 
 		var err error

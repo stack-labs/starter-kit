@@ -10,7 +10,7 @@ GEN_PATH=github.com/micro-in-cn/starter-kit/console/${gen}
 .PHONY: proto
 proto:
 	test -n "$(gen)"
-	rm -rf ./${gen}/*
+	rm -rf ./$(gen)/*
 	protoc --proto_path=${GOPATH}/src:${PB_PATH} \
 	--micro_out=Msrv/account.proto=${GEN_PATH}/srv,Mgithub.com/micro/go-micro/api/proto/api.proto=github.com/micro/go-micro/v3/api/proto:${gen} \
 	--go_out=Msrv/account.proto=${GEN_PATH}/srv,Mgithub.com/micro/go-micro/api/proto/api.proto=github.com/micro/go-micro/v3/api/proto:${gen} \
@@ -27,7 +27,8 @@ proto:
 build:
 	cd account && make build_linux
 	cd api && make build_linux
-	cd web && make vue build_linux
+	cd web && make build_linux
+	cd ./../gateway && make build_linux
 
 
 COMPOSE_FILE=docker-compose.yml

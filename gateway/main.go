@@ -4,12 +4,14 @@ import (
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/chain"
 	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v3/client"
+	"github.com/micro/go-micro/v3/server/mock"
 	"github.com/micro/go-micro/v3/util/log"
 	"github.com/micro/micro/v3/client/cli/util"
 	"github.com/micro/micro/v3/cmd"
 	microClient "github.com/micro/micro/v3/service/client"
 	"github.com/micro/micro/v3/service/gateway"
 	"github.com/micro/micro/v3/service/gateway/router"
+	microServer "github.com/micro/micro/v3/service/server"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/client/router_filter"
 	_ "github.com/micro-in-cn/starter-kit/profile"
@@ -52,6 +54,7 @@ func main() {
 	}
 	cmd.Register(command)
 
+	microServer.DefaultServer = mock.NewServer()
 	microClient.DefaultClient.Init(
 		client.WrapCall(router_filter.NewCallWrapper()),
 	)
