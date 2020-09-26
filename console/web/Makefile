@@ -9,8 +9,8 @@ build:
 
 .PHONY: build_linux
 build_linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web main.go plugin.go
-	# CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web -tags "statik" main.go plugin.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web cmd/main.go
+	#CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web -tags "statik" cmd/main.go
 
 .PHONY: test
 test:

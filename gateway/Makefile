@@ -15,4 +15,6 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/micro --profile=$(profile) --env=${env} gateway
+	test -n "$(profile)"
+	test -n "$(env)"
+	./bin/micro --profile=$(profile) --env=$(env) gateway --address=$(addr)

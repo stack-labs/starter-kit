@@ -28,7 +28,7 @@ Compose包含以下服务:
 - Etcd注册中心
     - `etcd`，使用docker镜像`bitnami/etcd`
 - API网关
-    - `gateway`，使用docker镜像`hbchen/starter-kit-gateway`
+    - `gateway`
 - Console Web
     - `web`
 - Console API
@@ -43,7 +43,7 @@ Compose包含以下服务:
 docker network create starter-kit-console
 ```
 
-2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务
+2.Go编译，编译Console项目全部服务，包括`gateway`、`web`、`api`和`account`服务
 > 使用Dockerfile编译太慢，所以编译还是选择使用本机环境
 ```shell script
 make build

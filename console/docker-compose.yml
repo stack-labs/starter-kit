@@ -27,8 +27,9 @@ services:
   gateway:
     depends_on:
       - etcd
-    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp gateway --address=:8080
-    image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
+    command: --profile=compose --env=dev gateway --address=:8080
+    #image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
+    build: ./../gateway
     restart: always
     logging:
       driver: "json-file"
@@ -46,7 +47,7 @@ services:
   web:
     depends_on:
       - etcd
-    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
+    command:  --profile=compose
     #image: ""
     build: ./web
     restart: always
@@ -64,7 +65,7 @@ services:
   api:
     depends_on:
       - etcd
-    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
+    command: --profile=compose
     #image: ""
     build: ./api
     restart: always
@@ -82,7 +83,7 @@ services:
   account:
     depends_on:
       - etcd
-    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
+    command: --profile=compose
     #image: ""
     build: ./account
     restart: always

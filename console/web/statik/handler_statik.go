@@ -9,7 +9,7 @@ import (
 	"github.com/rakyll/statik/fs"
 )
 
-func Handler(prefix string) http.Handler {
+func Handler() http.Handler {
 	statikFS, err := fs.New()
 	if err != nil {
 		log.Fatal(err)
