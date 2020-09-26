@@ -9,7 +9,8 @@ GEN_PATH=github.com/micro-in-cn/starter-kit/console/${gen}
 # make proto gen=account/genproto
 .PHONY: proto
 proto:
-	rm -rf ${gen}/*
+	test -n "$(gen)"
+	rm -rf ./${gen}/*
 	protoc --proto_path=${GOPATH}/src:${PB_PATH} \
 	--micro_out=Msrv/account.proto=${GEN_PATH}/srv,Mgithub.com/micro/go-micro/api/proto/api.proto=github.com/micro/go-micro/v2/api/proto:${gen} \
 	--go_out=Msrv/account.proto=${GEN_PATH}/srv,Mgithub.com/micro/go-micro/api/proto/api.proto=github.com/micro/go-micro/v2/api/proto:${gen} \
