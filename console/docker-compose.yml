@@ -47,7 +47,7 @@ services:
   web:
     depends_on:
       - etcd
-    command:  --profile=compose
+    command: --profile=compose
     #image: ""
     build: ./web
     restart: always
