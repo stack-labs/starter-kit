@@ -27,7 +27,7 @@ proto:
 build:
 	cd account && make build_linux
 	cd api && make build_linux
-	cd web && make build_linux
+	cd web && make vue build_linux
 	cd ./../gateway && make build_linux
 
 
@@ -50,6 +50,13 @@ restart:
 	cd $(s) && make build_linux
 	docker-compose -f ${COMPOSE_FILE} -p $(p) build --no-cache $(s)
 	docker-compose -f ${COMPOSE_FILE} -p $(p) up -d --no-deps --force-recreate $(s)
+
+.PHONY: restart_gateway
+restart_gateway:
+	docker-compose -f ${COMPOSE_FILE} -p $(p) stop gateway
+	cd ./../gateway && make build_linux
+	docker-compose -f ${COMPOSE_FILE} -p $(p) build --no-cache gateway
+	docker-compose -f ${COMPOSE_FILE} -p $(p) up -d --no-deps --force-recreate gateway
 
 .PHONY: restart_service
 restart_service:

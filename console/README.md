@@ -43,7 +43,7 @@ Compose包含以下服务:
 docker network create starter-kit-console
 ```
 
-2.Go编译，编译Console项目全部服务，包括`gateway`、`web`、`api`和`account`服务
+2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务以及`gateway`网关
 > 使用Dockerfile编译太慢，所以编译还是选择使用本机环境
 ```shell script
 make build
@@ -93,15 +93,16 @@ docker-compose -p starter-kit-console down --remove-orphans
 
 [网关](./../gateway) 
 
-```bash
+```shell script
 $ cd gateway
 
 # 编译
 $ make build
 
-# API网关(二选一)
-$ make run_api                                  # 默认mdns + http
-$ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
+# API网关
+$ make run profile=dev env=dev
+# 或
+$ make run profile=dev env=dev addr=:8080
 ```
 
 **2.运行服务**
@@ -116,19 +117,16 @@ $ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
 ```bash
 $ cd {指定服务目录}
 
-# 运行服务(二选一)
-$ make build run                                # 默认mdns + http
-$ make build run registry=etcd transport=tcp    # 使用etcd + tcp
+# 运行服务
+$ make build profile=dev
 ```
 
 **Makefile说明**
 ```bash
 $ make build                                    # 编译
-$ make run                                      # 运行
-$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
+$ make run profile=dev                          # 运行
 
-$ make build run                                # 编译&运行
-$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
+$ make build profile=dev                        # 编译&运行
 
 $ make vue statik                               # 前端编译，并打包statik.go文件
 

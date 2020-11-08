@@ -10,9 +10,9 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
 	"github.com/dgrijalva/jwt-go/test"
-	cli "github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v3/errors"
 	"github.com/micro/micro/v3/plugin"
+	cli "github.com/urfave/cli/v2"
 )
 
 const id = "micro.x-gateway.auth"

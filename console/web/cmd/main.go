@@ -6,11 +6,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v3/api"
 	"github.com/micro/go-micro/v3/logger"
 	log "github.com/micro/go-micro/v3/logger"
 	"github.com/micro/micro/v3/profile"
+	"github.com/urfave/cli/v2"
 
 	"github.com/hb-go/micro-plugins/v3/web"
 	"github.com/micro-in-cn/starter-kit/console/web/beego"

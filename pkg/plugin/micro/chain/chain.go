@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/micro/cli/v2"
 	"github.com/micro/micro/v3/plugin"
+	"github.com/urfave/cli/v2"
 )
 
 type chainPlugin struct {

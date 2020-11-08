@@ -5,13 +5,13 @@ import (
 	"os"
 	"sort"
 
-	"github.com/micro/cli/v2"
 	mClient "github.com/micro/go-micro/v3/client"
 	"github.com/micro/go-micro/v3/errors"
 	"github.com/micro/go-micro/v3/logger"
 	"github.com/micro/go-micro/v3/router"
 	"github.com/micro/micro/v3/profile"
 	"github.com/micro/micro/v3/service"
+	"github.com/urfave/cli/v2"
 
 	"github.com/micro-in-cn/starter-kit/console/api/client"
 	"github.com/micro-in-cn/starter-kit/console/api/handler"

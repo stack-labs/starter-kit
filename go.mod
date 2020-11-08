@@ -24,9 +24,9 @@ require (
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.15
 	github.com/micro/cli/v2 v2.1.2
-	github.com/micro/go-micro v1.18.0
-	github.com/micro/go-micro/v3 v3.0.0-beta.0.20200902122854-6bdf33c4eede
-	github.com/micro/micro/v3 v3.0.0-beta
+	github.com/micro/go-micro/v3 v3.0.0-beta.3.0.20201009122815-dad05be95ee0
+	github.com/micro/go-plugins/registry/etcd/v3 v3.0.0-20200924074443-b5a717004494
+	github.com/micro/micro/v3 v3.0.0-beta.5.1
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/prometheus/client_golang v1.7.0
@@ -35,9 +35,10 @@ require (
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/smartystreets/assertions v1.0.1 // indirect
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.6.1
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible
+	github.com/urfave/cli/v2 v2.2.0
 	github.com/valyala/fasthttp v1.6.0 // indirect
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect
@@ -50,4 +51,4 @@ require (
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
 
-replace github.com/micro/micro/v3 v3.0.0-beta => github.com/hb-chen/micro/v3 v3.0.0-20200903160822-d37c7b88b9ae
+replace github.com/micro/micro/v3 v3.0.0-beta.5.1 => github.com/hb-chen/micro/v3 v3.0.0-20201011033459-df4b74e1a57a

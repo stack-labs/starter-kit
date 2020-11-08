@@ -4,13 +4,13 @@ import (
 	"context"
 	"os"
 
-	"github.com/micro/cli/v2"
 	mClient "github.com/micro/go-micro/v3/client"
 	"github.com/micro/go-micro/v3/config"
 	"github.com/micro/go-micro/v3/config/source/file"
 	"github.com/micro/go-micro/v3/logger"
 	"github.com/micro/micro/v3/profile"
 	"github.com/micro/micro/v3/service"
+	"github.com/urfave/cli/v2"
 
 	"github.com/micro-in-cn/starter-kit/console/account/conf"
 	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
