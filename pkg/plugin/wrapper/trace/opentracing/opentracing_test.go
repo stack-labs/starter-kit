@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/client/selector"
-	microerr "github.com/micro/go-micro/errors"
-	"github.com/micro/go-micro/registry/memory"
-	"github.com/micro/go-micro/server"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/mocktracer"
+	"github.com/stack-labs/stack-rpc/client"
+	"github.com/stack-labs/stack-rpc/client/selector"
+	microerr "github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/registry/memory"
+	"github.com/stack-labs/stack-rpc/server"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -5,17 +5,16 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hb-go/micro-plugins/web"
-	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
-	"github.com/micro/go-micro/api"
-	"github.com/micro/go-micro/util/log"
+	"github.com/stack-labs/stack-rpc/util/log"
+	"github.com/stack-labs/stack-rpc/web"
+	"github.com/stack-labs/starter-kit/pkg/plugin/opentracing"
 
-	"github.com/micro-in-cn/starter-kit/console/web/beego"
-	"github.com/micro-in-cn/starter-kit/console/web/echo"
-	"github.com/micro-in-cn/starter-kit/console/web/gin"
-	"github.com/micro-in-cn/starter-kit/console/web/iris"
-	"github.com/micro-in-cn/starter-kit/console/web/statik"
-	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
+	"github.com/stack-labs/starter-kit/console/web/beego"
+	"github.com/stack-labs/starter-kit/console/web/echo"
+	"github.com/stack-labs/starter-kit/console/web/gin"
+	"github.com/stack-labs/starter-kit/console/web/iris"
+	"github.com/stack-labs/starter-kit/console/web/statik"
+	tracer "github.com/stack-labs/starter-kit/pkg/opentracing"
 )
 
 func main() {
@@ -42,13 +41,13 @@ func main() {
 	defer closer.Close()
 
 	// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-	traceHandler := opentracing.NewPlugin(
+	traceHandler := opentracing.Handler(
 		opentracing.WithTracer(t),
 		opentracing.WithAutoStart(false),
 		opentracing.WithSkipperFunc(func(r *http.Request) bool {
 			return false
 		}),
-	).Handler()
+	)
 
 	mux := http.NewServeMux()
 
@@ -90,12 +89,7 @@ func main() {
 		prefix: "/console",
 		mux:    mux,
 	}
-	service.Handle("/console/", h, &api.Endpoint{
-		Name:    "console",
-		Path:    []string{"^/console/*"},
-		Method:  []string{"POST", "GET", "DELETE", "HEAD", "OPTIONS"},
-		Handler: "proxy",
-	})
+	service.Handle("/console/", h)
 
 	// run service
 	if err := service.Run(); err != nil {
