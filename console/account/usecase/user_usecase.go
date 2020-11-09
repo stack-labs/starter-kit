@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"github.com/hb-go/pkg/conv"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/service"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository"
+	"github.com/stack-labs/starter-kit/console/account/domain/service"
 )
 
 type UserUsecase interface {

@@ -2,15 +2,15 @@ package registry
 
 import (
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/micro/go-micro/config"
 	"github.com/sarulabs/di"
+	"github.com/stack-labs/stack-rpc/config"
 
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/gorm"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/memory"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/xorm"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/service"
-	"github.com/micro-in-cn/starter-kit/console/account/usecase"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/gorm"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/memory"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/xorm"
+	"github.com/stack-labs/starter-kit/console/account/domain/service"
+	"github.com/stack-labs/starter-kit/console/account/usecase"
 )
 
 type Container struct {
@@ -46,7 +46,9 @@ func (c *Container) Clean() error {
 }
 
 func buildUserUsecase(ctn di.Container) (interface{}, error) {
-	persistence := config.Get("persistence").String("")
+	// TODO stack-labs
+	conf, _ := config.NewConfig()
+	persistence := conf.Get("persistence").String("")
 
 	// ORM选择，gorm、xorm...
 	var repo repository.UserRepository

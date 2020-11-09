@@ -1,17 +1,18 @@
 package main
 
 import (
-	"github.com/micro/cli"
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/config"
-	"github.com/micro/go-micro/util/log"
+	"github.com/stack-labs/stack-rpc"
+	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/stack-rpc/config"
+	"github.com/stack-labs/stack-rpc/config/source/file"
+	"github.com/stack-labs/stack-rpc/util/log"
 
-	"github.com/micro-in-cn/starter-kit/console/account/conf"
-	"github.com/micro-in-cn/starter-kit/console/account/interface/handler"
-	"github.com/micro-in-cn/starter-kit/console/account/registry"
-	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
+	"github.com/stack-labs/starter-kit/console/account/conf"
+	"github.com/stack-labs/starter-kit/console/account/interface/handler"
+	"github.com/stack-labs/starter-kit/console/account/registry"
+	tracer "github.com/stack-labs/starter-kit/pkg/opentracing"
+	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/select/chain"
+	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 )
 
 func main() {
@@ -19,23 +20,26 @@ func main() {
 	md["chain"] = "gray"
 
 	// New Service
-	service := micro.NewService(
-		micro.Name("go.micro.srv.account"),
-		micro.Version("latest"),
-		micro.Metadata(md),
-		micro.Flags(
+	service := stack.NewService(
+		stack.Name("go.micro.srv.account"),
+		stack.Version("latest"),
+		stack.Metadata(md),
+		stack.Flags(
 			cli.StringFlag{
 				Name:  "conf_path",
 				Value: "./conf/",
 				Usage: "配置文件目录",
 			},
 		),
-		micro.Action(func(ctx *cli.Context) {
+		stack.Action(func(ctx *cli.Context) {
 			confPath := ctx.String("conf_path")
 			conf.BASE_PATH = confPath
 
 			// 配置加载
-			err := config.LoadFile(conf.BASE_PATH + "config.yaml")
+			cfg, _ := config.NewConfig()
+			err := cfg.Load(file.NewSource(
+				file.WithPath(conf.BASE_PATH + "config.yaml"),
+			))
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -50,9 +54,10 @@ func main() {
 	defer closer.Close()
 	service.Init(
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-		micro.WrapCall(opentracing.NewCallWrapper(t)),
-		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),
-		micro.WrapClient(chain.NewClientWrapper()),
+		// TODO stack-labs
+		stack.WrapCall(opentracing.NewCallWrapper(t)),
+		stack.WrapHandler(opentracing.NewHandlerWrapper(t)),
+		stack.WrapClient(chain.NewClientWrapper()),
 	)
 
 	// Initialise service

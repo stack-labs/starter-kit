@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/micro/go-micro/config"
-	"github.com/micro/go-micro/util/log"
+	"github.com/stack-labs/stack-rpc/config"
+	"github.com/stack-labs/stack-rpc/util/log"
 	"xorm.io/xorm"
 	"xorm.io/xorm/migrate"
 
-	"github.com/micro-in-cn/starter-kit/console/account/conf"
+	"github.com/stack-labs/starter-kit/console/account/conf"
 )
 
 var (
@@ -21,7 +21,9 @@ var (
 func InitDB() {
 	once.Do(func() {
 		dbConf = conf.Database{}
-		err := config.Get("database").Scan(&dbConf)
+		// TODO stack-labs
+		conf, _ := config.NewConfig()
+		err := conf.Get("database").Scan(&dbConf)
 		if err != nil {
 			log.Fatal(err)
 		}

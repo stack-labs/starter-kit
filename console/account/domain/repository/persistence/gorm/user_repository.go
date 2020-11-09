@@ -1,7 +1,7 @@
 package gorm
 
 import (
-	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
+	"github.com/stack-labs/starter-kit/console/account/domain/model"
 )
 
 type userRepository struct {

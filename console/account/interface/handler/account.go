@@ -6,12 +6,12 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/test"
-	"github.com/micro-in-cn/starter-kit/console/account/conf"
-	"github.com/micro/go-micro/errors"
-	"github.com/micro/go-micro/util/log"
+	"github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/util/log"
+	"github.com/stack-labs/starter-kit/console/account/conf"
 
-	account "github.com/micro-in-cn/starter-kit/console/account/genproto/srv"
-	"github.com/micro-in-cn/starter-kit/console/account/usecase"
+	account "github.com/stack-labs/starter-kit/console/account/genproto/srv"
+	"github.com/stack-labs/starter-kit/console/account/usecase"
 )
 
 type Account struct {
