@@ -54,7 +54,7 @@ func main() {
 	defer closer.Close()
 	service.Init(
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-		// TODO stack-labs
+		// TODO stack-rpc
 		stack.WrapCall(opentracing.NewCallWrapper(t)),
 		stack.WrapHandler(opentracing.NewHandlerWrapper(t)),
 		stack.WrapClient(chain.NewClientWrapper()),

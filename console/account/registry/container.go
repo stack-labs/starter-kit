@@ -46,7 +46,7 @@ func (c *Container) Clean() error {
 }
 
 func buildUserUsecase(ctn di.Container) (interface{}, error) {
-	// TODO stack-labs
+	// TODO stack-rpc
 	conf, _ := config.NewConfig()
 	persistence := conf.Get("persistence").String("")
 

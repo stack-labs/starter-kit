@@ -3,10 +3,10 @@ package client
 import (
 	"context"
 
-	account "github.com/micro-in-cn/starter-kit/console/api/genproto/srv"
+	"github.com/stack-labs/stack-rpc"
+	account "github.com/stack-labs/starter-kit/console/api/genproto/srv"
 
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/server"
+	"github.com/stack-labs/stack-rpc/server"
 )
 
 type exampleKey struct{}
@@ -18,7 +18,7 @@ func AccountFromContext(ctx context.Context) (account.AccountService, bool) {
 }
 
 // Client returns a wrapper for the ExampleClient
-func AccountWrapper(service micro.Service) server.HandlerWrapper {
+func AccountWrapper(service stack.Service) server.HandlerWrapper {
 	client := account.NewAccountService("go.micro.srv.account", service.Client())
 
 	return func(fn server.HandlerFunc) server.HandlerFunc {

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package go.micro.api.console.account;
 
-import "github.com/micro/go-micro/api/proto/api.proto";
+import "github.com/stack-labs/stack-rpc/api/proto/api.proto";
 import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
 import "srv/account.proto";
 

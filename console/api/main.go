@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/util/log"
+	"github.com/stack-labs/stack-rpc"
+	"github.com/stack-labs/stack-rpc/util/log"
 
-	"github.com/micro-in-cn/starter-kit/console/api/client"
-	"github.com/micro-in-cn/starter-kit/console/api/handler"
-	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/select/chain"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/wrapper/trace/opentracing"
+	"github.com/stack-labs/starter-kit/console/api/client"
+	"github.com/stack-labs/starter-kit/console/api/handler"
+	tracer "github.com/stack-labs/starter-kit/pkg/opentracing"
+	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/select/chain"
+	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/trace/opentracing"
 )
 
 func main() {
@@ -16,10 +16,10 @@ func main() {
 	md["chain"] = "gray"
 
 	// New Service
-	service := micro.NewService(
-		micro.Name("go.micro.api.console"),
-		micro.Version("v1"),
-		micro.Metadata(md),
+	service := stack.NewService(
+		stack.Name("go.micro.api.console"),
+		stack.Version("v1"),
+		stack.Metadata(md),
 	)
 
 	// 链路追踪
@@ -31,16 +31,16 @@ func main() {
 
 	// Initialise service
 	service.Init(
-		micro.WrapClient(chain.NewClientWrapper()),
+		stack.WrapClient(chain.NewClientWrapper()),
 	)
 	service.Init(
 		// create wrap for the Example srv client
-		micro.WrapHandler(client.AccountWrapper(service)),
+		stack.WrapHandler(client.AccountWrapper(service)),
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-		micro.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
-		micro.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
-		micro.WrapClient(opentracing.NewClientWrapper(nil)),         // client端发起请求，包括Call()、Stream()、Publish()
-		micro.WrapCall(opentracing.NewCallWrapper(t)),               // client端发起请求，仅Call()
+		stack.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
+		stack.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
+		stack.WrapClient(opentracing.NewClientWrapper(nil)),         // client端发起请求，包括Call()、Stream()、Publish()
+		stack.WrapCall(opentracing.NewCallWrapper(t)),               // client端发起请求，仅Call()
 	)
 
 	// Register Handler

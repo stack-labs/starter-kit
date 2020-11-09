@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 
-	api "github.com/micro/go-micro/api/proto"
+	api "github.com/stack-labs/stack-rpc/api/proto"
 )
 
 type responseBody struct {

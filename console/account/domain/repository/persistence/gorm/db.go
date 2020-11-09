@@ -20,7 +20,7 @@ var (
 func InitDB() {
 	once.Do(func() {
 		dbConf = conf.Database{}
-		// TODO stack-labs
+		// TODO stack-rpc
 		conf, _ := config.NewConfig()
 		err := conf.Get("database").Scan(&dbConf)
 		if err != nil {
