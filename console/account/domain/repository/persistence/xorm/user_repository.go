@@ -1,14 +1,13 @@
 package xorm
 
 import (
-	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
+	"github.com/stack-labs/starter-kit/console/account/domain/model"
 )
 
 type userRepository struct {
 }
 
-func NewUserRepository() repository.UserRepository {
+func NewUserRepository() *userRepository {
 	return &userRepository{}
 }
 

@@ -16,7 +16,7 @@ micro new github.com/micro-in-cn/starter-kit/console/web --namespace=go.micro --
 
 ## Configuration
 
-- FQDN: go.micro.web.console
+- FQDN: stack.rpc.web.console
 - Type: web
 - Alias: console
 

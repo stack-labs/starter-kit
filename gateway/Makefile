@@ -1,6 +1,10 @@
 
 GOPATH:=$(shell go env GOPATH)
 
+.PHONY: proto
+proto:
+	protoc --proto_path=$GOPATH/src --stack_out=$GOPATH/src --go_out=:$GOPATH/src github.com/stack-labs/starter-kit/pkg/gateway/api/proto/api.proto
+
 .PHONY: build
 build:
 	go build -o ./bin/micro main.go plugin.go
@@ -15,6 +19,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	test -n "$(profile)"
-	test -n "$(env)"
-	./bin/micro --profile=$(profile) --env=$(env) gateway --address=$(addr)
+	./bin/micro --registry=$(registry) --transport=$(transport) api

@@ -5,7 +5,7 @@ import (
 
 	"github.com/astaxie/beego"
 	bctx "github.com/astaxie/beego/context"
-	log "github.com/micro/go-micro/v3/logger"
+	"github.com/stack-labs/stack-rpc/util/log"
 )
 
 //New return a beego handler

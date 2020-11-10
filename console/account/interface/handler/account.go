@@ -2,18 +2,16 @@ package handler
 
 import (
 	"context"
-	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/test"
-	"github.com/micro-in-cn/starter-kit/console/account/conf"
-	"github.com/micro/go-micro/v3/errors"
-	log "github.com/micro/go-micro/v3/logger"
+	"github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/util/log"
+	"github.com/stack-labs/starter-kit/console/account/conf"
 
-	account "github.com/micro-in-cn/starter-kit/console/account/genproto/srv"
-	"github.com/micro-in-cn/starter-kit/console/account/usecase"
+	account "github.com/stack-labs/starter-kit/console/account/genproto/srv"
+	"github.com/stack-labs/starter-kit/console/account/usecase"
 )
 
 type Account struct {
@@ -28,19 +26,18 @@ func NewAccountService(userUsecase usecase.UserUsecase) *Account {
 
 // Call is a single request handler called via client.Call or the generated client code
 func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *account.LoginResponse) error {
-	log.Infof("Received Account.Login request")
+	log.Log("Received Example.Call request")
 
 	user, err := a.userUsecase.LoginUser(req.Username, req.Password)
 	if err != nil {
 		return err
 	} else if user == nil {
-		return errors.New("go.micro.srv.account", "用户名或密码错误", 200)
+		return errors.New("stack.rpc.srv.account", "用户名或密码错误", 200)
 	}
 
 	claims := jwt.StandardClaims{
-		Id:        strconv.FormatInt(user.Id, 10),
+		Id:        req.Username,
 		ExpiresAt: time.Now().Add(time.Minute * 10).Unix(),
-		Subject:   req.Username,
 	}
 
 	privateKey := test.LoadRSAPrivateKeyFromDisk(conf.BASE_PATH + "auth_key")
@@ -53,19 +50,14 @@ func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *acc
 
 // Call is a single request handler called via client.Call or the generated client code
 func (*Account) Logout(ctx context.Context, req *account.Request, rsp *account.LogoutResponse) error {
-	log.Info("Received Account.Logout request")
+	log.Log("Received Example.Call request")
 	return nil
 }
 
 // Call is a single request handler called via client.Call or the generated client code
-func (a *Account) Info(ctx context.Context, req *account.Request, rsp *account.InfoResponse) error {
-	log.Info("Received Account.Info request")
-	user, err := a.userUsecase.GetUser(req.Id)
-	if err != nil {
-		return err
-	}
-
-	rsp.Name = fmt.Sprintf("%s-ID:%d", user.Name, req.Id)
+func (*Account) Info(ctx context.Context, req *account.Request, rsp *account.InfoResponse) error {
+	log.Log("Received Example.Call request")
+	rsp.Name = "Hobo"
 	rsp.Avatar = "https://avatars3.githubusercontent.com/u/730866?s=460&v=4"
 	return nil
 }

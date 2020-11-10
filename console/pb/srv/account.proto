@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package go.micro.srv.account;
+package stack.rpc.srv.account;
 
 service Account {
     rpc Login (LoginRequest) returns (LoginResponse) {

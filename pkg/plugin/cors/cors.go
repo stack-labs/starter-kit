@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/micro/micro/v3/plugin"
 	"github.com/rs/cors"
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 )
 
 // Headers
