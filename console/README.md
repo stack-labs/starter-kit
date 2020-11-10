@@ -28,7 +28,7 @@ Compose包含以下服务:
 - Etcd注册中心
     - `etcd`，使用docker镜像`bitnami/etcd`
 - API网关
-    - `gateway`
+    - `gateway`，使用docker镜像`hbchen/starter-kit-gateway`
 - Console Web
     - `web`
 - Console API
@@ -43,7 +43,7 @@ Compose包含以下服务:
 docker network create starter-kit-console
 ```
 
-2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务以及`gateway`网关
+2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务
 > 使用Dockerfile编译太慢，所以编译还是选择使用本机环境
 ```shell script
 make build
@@ -93,16 +93,15 @@ docker-compose -p starter-kit-console down --remove-orphans
 
 [网关](./../gateway) 
 
-```shell script
+```bash
 $ cd gateway
 
 # 编译
 $ make build
 
-# API网关
-$ make run profile=dev env=dev
-# 或
-$ make run profile=dev env=dev addr=:8080
+# API网关(二选一)
+$ make run_api                                  # 默认mdns + http
+$ make run_api registry=etcd transport=tcp      # 使用etcd + tcp
 ```
 
 **2.运行服务**
@@ -117,16 +116,19 @@ $ make run profile=dev env=dev addr=:8080
 ```bash
 $ cd {指定服务目录}
 
-# 运行服务
-$ make build profile=dev
+# 运行服务(二选一)
+$ make build run                                # 默认mdns + http
+$ make build run registry=etcd transport=tcp    # 使用etcd + tcp
 ```
 
 **Makefile说明**
 ```bash
 $ make build                                    # 编译
-$ make run profile=dev                          # 运行
+$ make run                                      # 运行
+$ make run registry=etcd transport=tcp          # 运行，指定registry、transport
 
-$ make build profile=dev                        # 编译&运行
+$ make build run                                # 编译&运行
+$ make build run registry=etcd transport=tcp    # 编译&运行，指定registry、transport
 
 $ make vue statik                               # 前端编译，并打包statik.go文件
 
@@ -140,7 +142,7 @@ $ make docker tag=xxx/xxx:v0.0.1
 	- http://localhost:8080/metrics
 - console
 	- Web
-	    - http://localhost:8080/console/
+	    - http://localhost:8080/console
 		- http://localhost:8080/console/v1/echo/
 		- http://localhost:8080/console/v1/gin/
 		- http://localhost:8080/console/v1/iris/
@@ -162,24 +164,3 @@ cd api
 make proto
 ```
 
-### Swagger文档生成
-使用[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)的`protoc-gen-swagger`生成swagger文档
-```shell script
-cd pb
-protoc -I$GOPATH/src/ -I./ \
---swagger_out=logtostderr=true,grpc_api_configuration=api/api.yaml,allow_merge=true,merge_file_name=api/api:. \
-api/*.proto
-```
-
-
-## Fluentbit + ES
-
-修改`Makefile`中`COMPOSE_FILE`为`docker-compose-fb-es.yml`
-
-ES 查询，或者自己启动个 Kibana
-```shell script
-curl localhost:9200/_cat/indices
-yellow open logstash-2020.05.19 vFmaYrt7Qx6gh9dgI8F-Ew 1 1 11 0 27.3kb 27.3kb
-
-curl localhost:9200/logstash-2020.05.19/_search?pretty=true&q={'matchAll':{''}}
-```

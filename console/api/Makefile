@@ -10,11 +10,11 @@ proto:
 
 .PHONY: build
 build:
-	go build -o ./bin/console-api cmd/main.go
+	go build -o ./bin/console-api main.go plugin.go
 
 .PHONY: build_linux
 build_linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-api cmd/main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-api main.go plugin.go
 
 .PHONY: test
 test:
@@ -26,4 +26,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/console-api --profile=$(profile)
+	./bin/console-api --registry=$(registry) --transport=$(transport)

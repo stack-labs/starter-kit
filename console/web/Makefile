@@ -4,13 +4,13 @@ GOPATH:=$(shell go env GOPATH)
 
 .PHONY: build
 build:
-	go build -o ./bin/console-web cmd/main.go
+	go build -o ./bin/console-web main.go plugin.go
 	# go build -o ./bin/console-web -tags "statik" main.go plugin.go
 
 .PHONY: build_linux
 build_linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web cmd/main.go
-	#CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web -tags "statik" cmd/main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web main.go plugin.go
+	# CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/console-web -tags "statik" main.go plugin.go
 
 .PHONY: test
 test:
@@ -31,4 +31,4 @@ statik:
 
 .PHONY: run
 run:
-	./bin/console-web --profile=$(profile)
+	./bin/console-web --registry=$(registry) --transport=$(transport)

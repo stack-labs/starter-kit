@@ -25,6 +25,10 @@ dependencies:
   version: 0.1.0
   condition: gateway-api.enabled
   alias: gateway-api
+- name: gateway
+  version: 0.1.0
+  condition: gateway-web.enabled
+  alias: gateway-web
 - name: service
   version: 0.1.0
   condition: console-api.enabled
@@ -35,5 +39,5 @@ dependencies:
   alias: console-web
 - name: service
   version: 0.1.0
-  condition: console-account.enabled
-  alias: console-account
+  condition: account-srv.enabled
+  alias: console-srv
