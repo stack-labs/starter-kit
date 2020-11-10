@@ -5,8 +5,8 @@ package statik
 import (
 	"net/http"
 
-	log "github.com/micro/go-micro/v3/logger"
 	"github.com/rakyll/statik/fs"
+	"github.com/stack-labs/stack-rpc/util/log"
 )
 
 func Handler() http.Handler {

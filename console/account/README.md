@@ -16,7 +16,7 @@ micro new github.com/micro-in-cn/starter-kit/console/account --namespace=go.micr
 
 ## Configuration
 
-- FQDN: go.micro.srv.console
+- FQDN: stack.rpc.srv.console
 - Type: srv
 - Alias: console
 

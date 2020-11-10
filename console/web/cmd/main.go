@@ -1,82 +1,30 @@
 package main
 
+//go:generate statik -src=./vue/dist -dest=./ -f
 import (
-	"context"
 	"net/http"
-	"os"
 	"strings"
 
-	"github.com/micro/go-micro/v3/api"
-	"github.com/micro/go-micro/v3/logger"
-	log "github.com/micro/go-micro/v3/logger"
-	"github.com/micro/micro/v3/profile"
-	"github.com/urfave/cli/v2"
+	"github.com/stack-labs/stack-rpc/api"
+	"github.com/stack-labs/stack-rpc/util/log"
+	"github.com/stack-labs/starter-kit/pkg/plugin/opentracing"
 
-	"github.com/hb-go/micro-plugins/v3/web"
-	"github.com/micro-in-cn/starter-kit/console/web/beego"
-	"github.com/micro-in-cn/starter-kit/console/web/echo"
-	"github.com/micro-in-cn/starter-kit/console/web/gin"
-	"github.com/micro-in-cn/starter-kit/console/web/iris"
-	"github.com/micro-in-cn/starter-kit/console/web/statik"
-	tracer "github.com/micro-in-cn/starter-kit/pkg/opentracing"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/opentracing"
-	_ "github.com/micro-in-cn/starter-kit/profile"
+	"github.com/stack-labs/starter-kit/console/web/beego"
+	"github.com/stack-labs/starter-kit/console/web/echo"
+	"github.com/stack-labs/starter-kit/console/web/gin"
+	"github.com/stack-labs/starter-kit/console/web/iris"
+	"github.com/stack-labs/starter-kit/console/web/statik"
+	"github.com/stack-labs/starter-kit/pkg/gateway/web"
+	"github.com/stack-labs/starter-kit/pkg/tracer"
 )
 
 func main() {
-	app := cli.NewApp()
-
-	app.Flags = []cli.Flag{
-		&cli.StringFlag{
-			Name:  "profile",
-			Usage: "micro profile",
-		},
-		&cli.BoolFlag{
-			Name:  "debug",
-			Usage: "starter kit debug.",
-		},
-	}
-
-	app.Before = func(ctx *cli.Context) error {
-		p := ctx.String("profile")
-		// apply the profile
-		if profile, err := profile.Load(p); err != nil {
-			logger.Fatal(err)
-		} else {
-			// load the profile
-			profile.Setup(ctx)
-		}
-
-		return nil
-	}
-
-	app.Action = func(ctx *cli.Context) error {
-		return run(ctx)
-	}
-
-	app.Commands = cli.Commands{
-		&cli.Command{
-			Name:  "reload",
-			Usage: "TODO",
-			Action: func(ctx *cli.Context) error {
-				return nil
-			},
-		},
-	}
-
-	ctx := context.TODO()
-	if err := app.RunContext(ctx, os.Args); err != nil {
-		logger.Fatal(err)
-	}
-}
-
-func run(ctx *cli.Context) error {
 	md := make(map[string]string)
 	md["chain"] = "gray"
 
 	// create new web service
 	service := web.NewService(
-		web.Name("go.micro.api.consoleweb"),
+		web.Name("stack.rpc.api.console.web"),
 		web.Version("latest"),
 		web.Metadata(md),
 	)
@@ -87,20 +35,20 @@ func run(ctx *cli.Context) error {
 	}
 
 	// 链路追踪
-	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console.web", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("stack.rpc.api.console.web", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}
 	defer closer.Close()
 
 	// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-	traceHandler := opentracing.NewPlugin(
+	traceHandler := opentracing.Handler(
 		opentracing.WithTracer(t),
 		opentracing.WithAutoStart(false),
 		opentracing.WithSkipperFunc(func(r *http.Request) bool {
 			return false
 		}),
-	).Handler()
+	)
 
 	mux := http.NewServeMux()
 
@@ -146,11 +94,13 @@ func run(ctx *cli.Context) error {
 		Name:    "console",
 		Path:    []string{"^/console/*"},
 		Method:  []string{"POST", "GET", "DELETE", "HEAD", "OPTIONS"},
-		Handler: "http",
+		Handler: "proxy",
 	})
 
 	// run service
-	return service.Run()
+	if err := service.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 type handler struct {

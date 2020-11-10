@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/micro-in-cn/starter-kit/console/account/domain/model"
+import "github.com/stack-labs/starter-kit/console/account/domain/model"
 
 type UserRepository interface {
 	FindById(id int64) (*model.User, error)

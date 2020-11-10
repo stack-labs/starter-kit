@@ -2,10 +2,8 @@ package handler
 
 import (
 	"encoding/json"
-	"errors"
-	"strconv"
 
-	api "github.com/micro/go-micro/v3/api/proto"
+	api "github.com/stack-labs/stack-rpc/api/proto"
 )
 
 type responseBody struct {
@@ -31,8 +29,6 @@ func ResponseBody(code int64, data interface{}, detail ...string) (string, error
 	return string(b), nil
 }
 
-var ErrPairValueNotfound = errors.New("pair extract value not found")
-
 func extractValue(pair *api.Pair) string {
 	if pair == nil {
 		return ""
@@ -41,15 +37,4 @@ func extractValue(pair *api.Pair) string {
 		return ""
 	}
 	return pair.Values[0]
-}
-
-func extractValueInt64(pair *api.Pair) (int64, error) {
-	if pair == nil {
-		return 0, ErrPairValueNotfound
-	}
-	if len(pair.Values) == 0 {
-		return 0, ErrPairValueNotfound
-	}
-
-	return strconv.ParseInt(pair.Values[0], 10, 64)
 }

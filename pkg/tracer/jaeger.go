@@ -1,10 +1,10 @@
-package opentracing
+package tracer
 
 import (
 	"io"
 
-	"github.com/micro/go-micro/v3/util/log"
 	"github.com/opentracing/opentracing-go"
+	"github.com/stack-labs/stack-rpc/util/log"
 	"github.com/uber/jaeger-client-go"
 	"github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-lib/metrics"
@@ -33,7 +33,7 @@ func NewJaegerTracer(serviceName, addr string) (opentracing.Tracer, io.Closer, e
 
 	sender, err := jaeger.NewUDPTransport(addr, 0)
 	if err != nil {
-		log.Errorf("could not initialize jaeger sender: %s", err.Error())
+		log.Logf("could not initialize jaeger sender: %s", err.Error())
 		return nil, nil, err
 	}
 
@@ -51,10 +51,10 @@ type jaegerLogger struct{}
 
 // Error logs a message at error priority
 func (l *jaegerLogger) Error(msg string) {
-	log.WithLevel(log.LevelError, msg)
+	log.Error(msg)
 }
 
 // Infof logs a message at info priority
 func (l *jaegerLogger) Infof(msg string, args ...interface{}) {
-	log.WithLevelf(log.LevelInfo, msg, args...)
+	log.Logf(msg, args...)
 }

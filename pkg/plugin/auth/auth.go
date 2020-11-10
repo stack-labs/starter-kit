@@ -10,12 +10,13 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
 	"github.com/dgrijalva/jwt-go/test"
-	"github.com/micro/go-micro/v3/errors"
-	"github.com/micro/micro/v3/plugin"
-	cli "github.com/urfave/cli/v2"
+	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/util/log"
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 )
 
-const id = "micro.x-gateway.auth"
+const id = "stack.rpc.gateway.auth"
 
 var adapters map[string]persist.Adapter
 var watchers map[string]persist.Watcher
@@ -25,17 +26,17 @@ func init() {
 	watchers = make(map[string]persist.Watcher)
 }
 
-// RegisterAdapter of auth
+//RegisterAdapter of auth
 func RegisterAdapter(key string, a persist.Adapter) {
 	adapters[key] = a
 }
 
-// RegisterWatcher of auth
+//RegisterWatcher of auth
 func RegisterWatcher(key string, w persist.Watcher) {
 	watchers[key] = w
 }
 
-// Auth for micro
+//Auth for micro
 type Auth struct {
 	options Options
 
@@ -58,6 +59,8 @@ func (a *Auth) handler(h http.Handler) http.Handler {
 		path := r.URL.Path
 		method := r.Method
 
+		log.Infof("path: %s, method: %s, pubUser: %s", path, method, a.pubUser)
+
 		// Public接口
 		if a.pubUser != "" {
 			allowed, err := a.enforcer.Enforce(a.pubUser, path, method)
@@ -75,7 +78,7 @@ func (a *Auth) handler(h http.Handler) http.Handler {
 			r,
 			request.AuthorizationHeaderExtractor,
 			a.keyFunc,
-			request.WithClaims(a.options.claims),
+			request.WithClaims(&jwt.StandardClaims{}),
 		)
 
 		if err != nil || token == nil {
@@ -89,23 +92,25 @@ func (a *Auth) handler(h http.Handler) http.Handler {
 		}
 
 		// 访问控制
-		if allowed, err := a.enforcer.Enforce(a.options.claimsSubjectFunc(token.Claims), path, method); err != nil {
+		claims := token.Claims.(*jwt.StandardClaims)
+		if allowed, err := a.enforcer.Enforce(claims.Id, path, method); err != nil {
 			a.options.responseHandler(w, r, errors.InternalServerError(id, err.Error()))
 			return
 		} else if !allowed {
+			log.Infof("Claims ID: %v, path: %v, method: %v", claims.Id, path, method)
 			a.options.responseHandler(w, r, errors.Forbidden(id, "Casbin access control not allowed"))
 			return
 		}
 
-		// 添加Header
-		a.options.headerFunc(r, token.Claims)
+		// 将用户ID加入Header
+		r.Header.Set("UserId", claims.Id)
 
 		// otherwise serve everything
 		h.ServeHTTP(w, r)
 	})
 }
 
-// NewPlugin for auth
+//NewPlugin for auth
 func NewPlugin(opts ...Option) plugin.Plugin {
 	options := newOptions(opts...)
 
@@ -124,27 +129,27 @@ func NewPlugin(opts ...Option) plugin.Plugin {
 	return plugin.NewPlugin(
 		plugin.WithName("Auth"),
 		plugin.WithFlag(
-			&cli.StringFlag{
+			cli.StringFlag{
 				Name:  "auth_pub_key",
 				Usage: "Auth public key file",
 				Value: "./conf/auth_key.pub",
 			},
-			&cli.StringFlag{
+			cli.StringFlag{
 				Name:  "casbin_model",
 				Usage: "Casbin model config file",
 				Value: "./conf/casbin_model.conf",
 			},
-			&cli.StringFlag{
+			cli.StringFlag{
 				Name:  "casbin_adapter",
 				Usage: "Casbin registed adapter {" + strings.Join(egAdapter, ", ") + "}",
 				Value: "default",
 			},
-			&cli.StringFlag{
+			cli.StringFlag{
 				Name:  "casbin_watcher",
 				Usage: "Casbin registed watcher {" + strings.Join(egWatcher, ", ") + "}",
 				Value: "default",
 			},
-			&cli.StringFlag{
+			cli.StringFlag{
 				Name:  "casbin_public_user",
 				Usage: "Casbin public user",
 				Value: "public",

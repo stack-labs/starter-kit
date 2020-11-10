@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"sync"
 
-	log "github.com/micro/go-micro/v3/logger"
+	"github.com/stack-labs/stack-rpc/pkg/config"
+	"github.com/stack-labs/stack-rpc/util/log"
 	"xorm.io/xorm"
 	"xorm.io/xorm/migrate"
 
-	"github.com/micro-in-cn/starter-kit/console/account/conf"
+	"github.com/stack-labs/starter-kit/console/account/conf"
 )
 
 var (
@@ -20,14 +21,16 @@ var (
 func InitDB() {
 	once.Do(func() {
 		dbConf = conf.Database{}
-		//err := config.Get("database").Scan(&dbConf)
-		//if err != nil {
-		//	log.Fatal(err)
-		//}
+		// TODO stack-rpc
+		conf, _ := config.NewConfig()
+		err := conf.Get("database").Scan(&dbConf)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		log.Infof("ConnMaxLifetime: %v", dbConf.ConnMaxLifetime)
 
-		db, err := xorm.NewEngine("mysql", fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
+		db, err = xorm.NewEngine("mysql", fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
 			dbConf.User,
 			dbConf.Password,
 			dbConf.Host,

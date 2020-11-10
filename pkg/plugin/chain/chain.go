@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/micro/micro/v3/plugin"
-	"github.com/urfave/cli/v2"
+	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 )
 
 type chainPlugin struct {
@@ -16,7 +16,7 @@ func (*chainPlugin) Flags() []cli.Flag {
 	return nil
 }
 
-func (*chainPlugin) Commands() []*cli.Command {
+func (*chainPlugin) Commands() []cli.Command {
 	return nil
 }
 

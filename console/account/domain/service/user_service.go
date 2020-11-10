@@ -3,8 +3,8 @@ package service
 import (
 	"fmt"
 
-	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
+	"github.com/stack-labs/starter-kit/console/account/domain/model"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository"
 )
 
 type UserService struct {

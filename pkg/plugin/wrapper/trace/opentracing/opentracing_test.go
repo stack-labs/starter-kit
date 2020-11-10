@@ -4,14 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/micro/go-micro/v3/client"
-	grpcClient "github.com/micro/go-micro/v3/client/grpc"
-	microerr "github.com/micro/go-micro/v3/errors"
-	"github.com/micro/go-micro/v3/registry/memory"
-	"github.com/micro/go-micro/v3/server"
-	grpcServer "github.com/micro/go-micro/v3/server/grpc"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/mocktracer"
+	"github.com/stack-labs/stack-rpc/client"
+	"github.com/stack-labs/stack-rpc/client/selector"
+	microerr "github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/registry/memory"
+	"github.com/stack-labs/stack-rpc/server"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -64,17 +63,18 @@ func TestClient(t *testing.T) {
 			tracer := mocktracer.New()
 
 			registry := memory.NewRegistry()
+			sel := selector.NewSelector(selector.Registry(registry))
 
 			serverName := "micro.server.name"
 			serverID := "id-1234567890"
 			serverVersion := "1.0.0"
 
-			c := grpcClient.NewClient(
-				client.Registry(registry),
+			c := client.NewClient(
+				client.Selector(sel),
 				client.WrapCall(NewCallWrapper(tracer)),
 			)
 
-			s := grpcServer.NewServer(
+			s := server.NewServer(
 				server.Name(serverName),
 				server.Version(serverVersion),
 				server.Id(serverID),

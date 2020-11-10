@@ -2,41 +2,70 @@ package registry
 
 import (
 	_ "github.com/go-sql-driver/mysql"
-	"go.uber.org/dig"
+	"github.com/sarulabs/di"
+	"github.com/stack-labs/stack-rpc/pkg/config"
 
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/gorm"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/memory"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository/persistence/xorm"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/service"
-	"github.com/micro-in-cn/starter-kit/console/account/usecase"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/gorm"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/memory"
+	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/xorm"
+	"github.com/stack-labs/starter-kit/console/account/domain/service"
+	"github.com/stack-labs/starter-kit/console/account/usecase"
 )
 
-func NewContainer() (*dig.Container, error) {
-	c := dig.New()
-
-	buildUserUsecase(c)
-
-	return c, nil
+type Container struct {
+	ctn di.Container
 }
 
-func buildUserUsecase(c *dig.Container) {
-	persistence := "" //config.Get("persistence").String("")
+func NewContainer() (*Container, error) {
+	builder, err := di.NewBuilder()
+	if err != nil {
+		return nil, err
+	}
+
+	if err := builder.Add([]di.Def{
+		{
+			Name:  "user-usecase",
+			Build: buildUserUsecase,
+		},
+	}...); err != nil {
+		return nil, err
+	}
+
+	return &Container{
+		ctn: builder.Build(),
+	}, nil
+}
+
+func (c *Container) Resolve(name string) interface{} {
+	return c.ctn.Get(name)
+}
+
+func (c *Container) Clean() error {
+	return c.ctn.Clean()
+}
+
+func buildUserUsecase(ctn di.Container) (interface{}, error) {
+	// TODO stack-rpc
+	conf, _ := config.NewConfig()
+	persistence := conf.Get("persistence").String("")
 
 	// ORM选择，gorm、xorm...
+	var repo repository.UserRepository
 	switch persistence {
 	case "xorm":
 		// DB初始化
 		xorm.InitDB()
-		c.Provide(xorm.NewUserRepository)
+		repo = xorm.NewUserRepository()
 	case "gorm":
 		// DB初始化
 		gorm.InitDB()
-		c.Provide(gorm.NewUserRepository)
+		repo = gorm.NewUserRepository()
 	default:
 		// 默认memory作为mock
-		c.Provide(memory.NewUserRepository)
+		repo = memory.NewUserRepository()
 	}
 
-	c.Provide(service.NewUserService)
-	c.Provide(usecase.NewUserUsecase)
+	service := service.NewUserService(repo)
+	return usecase.NewUserUsecase(repo, service), nil
 }

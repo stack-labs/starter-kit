@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/utils/request"
+	"github.com/stack-labs/starter-kit/pkg/utils/request"
 )
 
 //Options of metric
