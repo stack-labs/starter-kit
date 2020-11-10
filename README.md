@@ -2,7 +2,7 @@
 
 > *项目进行中*
 
-本仓库旨在提供面向Go-Micro生产环境的快速开发包。
+本仓库旨在提供面向 stack-rpc 生产环境的快速开发包。
 
 ## 目录
 
@@ -45,7 +45,7 @@
 │   │   ├── domain              领域
 │   │   │   ├── model           模型
 │   │   │   ├── repository      存储接口
-│   │   │   │   └── persistence ①存储接口实现   
+│   │   │   │   └── persistence ①存储接口实现
 │   │   │   └── service         领域服务
 │   │   ├── interface           接口
 │   │   │   ├── handler         micro handler接口
@@ -90,7 +90,7 @@
 - 配置中心
 - 前后端分离`console`
 	- [x] [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)，[示例](/console/web/vue)
-	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin) 
+	- [ ] [tookit/vue-material-admin](https://github.com/tookit/vue-material-admin)
 	- [ ] [view-design/iview-admin](https://github.com/view-design/iview-admin)
 - 参数验证
 	- [x] [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)，适用于API`handler=rpc`的模式
@@ -120,7 +120,7 @@
 	- [ ] 日志收集
 		- `stdout`标准输出
 		- `log.file`日志文件
-		- [log-pilot](https://github.com/AliyunContainerService/log-pilot) 
+		- [log-pilot](https://github.com/AliyunContainerService/log-pilot)
 	- [ ] 监控告警
 		- Prometheus
 		- Grafana

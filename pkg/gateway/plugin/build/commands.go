@@ -9,7 +9,7 @@ import (
 	"github.com/stack-labs/stack-rpc/cli"
 	goplugin "github.com/stack-labs/stack-rpc/plugin"
 	"github.com/stack-labs/stack-rpc/util/log"
-	"github.com/stack-labs/starter-kit/gateway/plugin"
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 )
 
 func build(ctx *cli.Context) {

@@ -11,7 +11,7 @@ import (
 
 	"github.com/stack-labs/stack-rpc/client"
 	"github.com/stack-labs/stack-rpc/client/selector"
-	"github.com/stack-labs/stack-rpc/config/cmd"
+	"github.com/stack-labs/stack-rpc/cmd"
 	"github.com/stack-labs/stack-rpc/metadata"
 	"github.com/stack-labs/stack-rpc/registry/memory"
 	"github.com/stack-labs/stack-rpc/server"

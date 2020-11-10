@@ -1,5 +1,3 @@
-// +build ignore
-
 package main
 
 import (
@@ -8,24 +6,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/micro-in-cn/x-gateway/api"
-	"github.com/micro-in-cn/x-gateway/web"
-	"golang.org/x/time/rate"
-
-	// micro plugins
-	_ "github.com/micro/go-plugins/registry/kubernetes"
-	_ "github.com/micro/go-plugins/transport/tcp"
-
 	"github.com/casbin/casbin/v2/persist/file-adapter"
 	"github.com/stack-labs/stack-rpc/util/log"
+	"golang.org/x/time/rate"
 
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
-	"github.com/micro-in-cn/x-gateway/plugin/auth"
-	"github.com/micro-in-cn/x-gateway/plugin/cors"
-	"github.com/micro-in-cn/x-gateway/plugin/metrics"
-	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
-	tracer "github.com/micro-in-cn/x-gateway/plugin/trace"
-	"github.com/micro-in-cn/x-gateway/utils/response"
+	"github.com/stack-labs/starter-kit/pkg/gateway/api"
+	"github.com/stack-labs/starter-kit/pkg/plugin/auth"
+	"github.com/stack-labs/starter-kit/pkg/plugin/chain"
+	"github.com/stack-labs/starter-kit/pkg/plugin/cors"
+	"github.com/stack-labs/starter-kit/pkg/plugin/metrics"
+	"github.com/stack-labs/starter-kit/pkg/plugin/opentracing"
+	"github.com/stack-labs/starter-kit/pkg/tracer"
+	"github.com/stack-labs/starter-kit/pkg/utils/response"
 )
 
 var apiTracerCloser, webTracerCloser io.Closer
@@ -66,7 +58,6 @@ func initCors() {
 		cors.WithUseRsPkg(true),
 	)
 	api.Register(corsPlugin)
-	web.Register(corsPlugin)
 }
 
 func initAuth() {
@@ -90,15 +81,6 @@ func initAuth() {
 		}),
 	)
 	api.Register(authPlugin)
-
-	webAuthPlugin := auth.NewPlugin(
-		auth.WithResponseHandler(response.DefaultResponseHandler),
-		auth.WithSkipperFunc(func(r *http.Request) bool {
-			// 自定义skipper规则
-			return true
-		}),
-	)
-	web.Register(webAuthPlugin)
 }
 
 func initMetrics() {
@@ -107,13 +89,7 @@ func initMetrics() {
 		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			return false
-		}),
-	))
 
-	web.Register(metrics.NewPlugin(
-		metrics.WithNamespace("gateway"),
-		metrics.WithSubsystem(""),
-		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			// 过滤micro web服务的前缀，便于设置统一规则，如/console/v1/* => /v1/*
 			path := r.URL.Path
 			idx := strings.Index(path[1:], "/")
@@ -147,35 +123,10 @@ func initTrace() {
 			return false
 		}),
 	))
-
-	webTracer, webCloser, err := tracer.NewJaegerTracer("stack.rpc.web", "127.0.0.1:6831")
-	if err != nil {
-		log.Fatalf("opentracing tracer create error:%v", err)
-	}
-	webTracerCloser = webCloser
-	web.Register(opentracing.NewPlugin(
-		opentracing.WithTracer(webTracer),
-		opentracing.WithSkipperFunc(func(r *http.Request) bool {
-			// Host、Path等过滤规则
-			path := r.URL.Path
-			idx := strings.Index(path[1:], "/")
-			if idx > 0 {
-				path = path[idx+1:]
-			}
-			if strings.HasPrefix(path, "/v1/") {
-				return false
-			}
-			return true
-		}),
-	))
 }
 
 func initChain() {
 	api.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
-		return []string{"gray"}
-	})))
-
-	web.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
 		return []string{"gray"}
 	})))
 }

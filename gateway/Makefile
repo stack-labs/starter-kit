@@ -7,7 +7,7 @@ proto:
 
 .PHONY: build
 build:
-	go build -o ./bin/micro main.go
+	go build -o ./bin/micro main.go plugin.go
 
 .PHONY: build_linux
 build_linux:

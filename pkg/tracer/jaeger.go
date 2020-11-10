@@ -1,10 +1,10 @@
-package opentracing
+package tracer
 
 import (
 	"io"
 
-	"github.com/micro/go-micro/util/log"
 	"github.com/opentracing/opentracing-go"
+	"github.com/stack-labs/stack-rpc/util/log"
 	"github.com/uber/jaeger-client-go"
 	"github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-lib/metrics"

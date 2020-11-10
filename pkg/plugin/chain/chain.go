@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/micro/cli"
-	"github.com/micro/micro/plugin"
+	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 )
 
 type chainPlugin struct {

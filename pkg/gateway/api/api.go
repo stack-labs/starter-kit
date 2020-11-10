@@ -82,9 +82,9 @@ func run(ctx *cli.Context, srvOpts ...stack.Option) {
 	}
 
 	// Init plugins
-	//for _, p := range Plugins() {
-	//	p.Init(ctx)
-	//}
+	for _, p := range Plugins() {
+		p.Init(ctx)
+	}
 
 	// Init API
 	var opts []server.Option

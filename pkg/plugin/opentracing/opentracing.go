@@ -5,6 +5,7 @@ import (
 
 	"github.com/opentracing/opentracing-go"
 
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 	"github.com/stack-labs/starter-kit/pkg/utils/response"
 )
 
@@ -80,4 +81,51 @@ func SpanFromHeader(header http.Header, tracer opentracing.Tracer, name string, 
 	}
 
 	return sp, nil
+}
+
+func newPlugin(opts ...Option) plugin.Plugin {
+	options := newOptions(opts...)
+	return plugin.NewPlugin(
+		plugin.WithName("trace"),
+		plugin.WithHandler(func(h http.Handler) http.Handler {
+			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if options.skipperFunc(r) {
+					h.ServeHTTP(w, r)
+					return
+				}
+
+				name := r.URL.Path
+				var span opentracing.Span
+				var err error
+				if options.autoStart {
+					span, err = StartSpanFromHeader(r.Header, options.tracer, name)
+
+				} else {
+					span, err = SpanFromHeader(r.Header, options.tracer, name)
+				}
+
+				if err != nil {
+					options.responseHandler(w, r, err)
+					return
+				} else if span != nil {
+					defer span.Finish()
+
+					span.SetTag("http.host", r.Host)
+					span.SetTag("http.method", r.Method)
+
+					ww := response.WrapWriter{ResponseWriter: w}
+					h.ServeHTTP(&ww, r)
+
+					span.SetTag("http.status_code", ww.StatusCode)
+				} else {
+					h.ServeHTTP(w, r)
+				}
+			})
+		}),
+	)
+}
+
+//NewPlugin of opentracing
+func NewPlugin(opts ...Option) plugin.Plugin {
+	return newPlugin(opts...)
 }

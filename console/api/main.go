@@ -8,9 +8,9 @@ import (
 
 	"github.com/stack-labs/starter-kit/console/api/client"
 	"github.com/stack-labs/starter-kit/console/api/handler"
-	tracer "github.com/stack-labs/starter-kit/pkg/opentracing"
 	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/select/chain"
 	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/trace/opentracing"
+	"github.com/stack-labs/starter-kit/pkg/tracer"
 )
 
 func main() {

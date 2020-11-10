@@ -11,9 +11,9 @@ import (
 	"github.com/stack-labs/starter-kit/console/account/conf"
 	"github.com/stack-labs/starter-kit/console/account/interface/handler"
 	"github.com/stack-labs/starter-kit/console/account/registry"
-	tracer "github.com/stack-labs/starter-kit/pkg/opentracing"
 	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/select/chain"
 	"github.com/stack-labs/starter-kit/pkg/plugin/wrapper/trace/opentracing"
+	"github.com/stack-labs/starter-kit/pkg/tracer"
 )
 
 func main() {
