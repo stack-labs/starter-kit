@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/stack-labs/stack-rpc"
+	"github.com/stack-labs/stack-rpc/pkg/config/source"
+	"github.com/stack-labs/stack-rpc/pkg/config/source/file"
 	"github.com/stack-labs/stack-rpc/util/log"
 
 	"github.com/stack-labs/starter-kit/console/api/client"
@@ -17,13 +19,14 @@ func main() {
 
 	// New Service
 	service := stack.NewService(
-		stack.Name("go.micro.api.console"),
+		stack.ConfigSource([]source.Source{file.NewSource(file.WithPath("./stack_config.yml"))}...),
+		stack.Name("stack.rpc.api.console"),
 		stack.Version("v1"),
 		stack.Metadata(md),
 	)
 
 	// 链路追踪
-	t, closer, err := tracer.NewJaegerTracer("go.micro.api.console", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("stack.rpc.api.console", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}

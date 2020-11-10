@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/stack-labs/stack-rpc/config"
+	"github.com/stack-labs/stack-rpc/pkg/config"
 	"github.com/stack-labs/stack-rpc/util/log"
 	"xorm.io/xorm"
 	"xorm.io/xorm/migrate"

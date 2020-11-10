@@ -1,3 +1,5 @@
+// +build ignore
+
 package main
 
 import (
@@ -15,16 +17,15 @@ import (
 	_ "github.com/micro/go-plugins/transport/tcp"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/micro/go-micro/util/log"
+	"github.com/stack-labs/stack-rpc/util/log"
 
 	"github.com/micro-in-cn/starter-kit/pkg/plugin/micro/chain"
-	tracer "github.com/micro-in-cn/x-gateway/plugin/trace"
 	"github.com/micro-in-cn/x-gateway/plugin/auth"
 	"github.com/micro-in-cn/x-gateway/plugin/cors"
 	"github.com/micro-in-cn/x-gateway/plugin/metrics"
 	"github.com/micro-in-cn/x-gateway/plugin/opentracing"
+	tracer "github.com/micro-in-cn/x-gateway/plugin/trace"
 	"github.com/micro-in-cn/x-gateway/utils/response"
-
 )
 
 var apiTracerCloser, webTracerCloser io.Closer
@@ -129,7 +130,7 @@ func initMetrics() {
 
 // Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 func initTrace() {
-	apiTracer, apiCloser, err := tracer.NewJaegerTracer("go.micro.api", "127.0.0.1:6831")
+	apiTracer, apiCloser, err := tracer.NewJaegerTracer("stack.rpc.api", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}
@@ -147,7 +148,7 @@ func initTrace() {
 		}),
 	))
 
-	webTracer, webCloser, err := tracer.NewJaegerTracer("go.micro.web", "127.0.0.1:6831")
+	webTracer, webCloser, err := tracer.NewJaegerTracer("stack.rpc.web", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}

@@ -3,7 +3,7 @@ package registry
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/sarulabs/di"
-	"github.com/stack-labs/stack-rpc/config"
+	"github.com/stack-labs/stack-rpc/pkg/config"
 
 	"github.com/stack-labs/starter-kit/console/account/domain/repository"
 	"github.com/stack-labs/starter-kit/console/account/domain/repository/persistence/gorm"

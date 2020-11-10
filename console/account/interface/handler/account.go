@@ -32,7 +32,7 @@ func (a *Account) Login(ctx context.Context, req *account.LoginRequest, rsp *acc
 	if err != nil {
 		return err
 	} else if user == nil {
-		return errors.New("go.micro.srv.account", "用户名或密码错误", 200)
+		return errors.New("stack.rpc.srv.account", "用户名或密码错误", 200)
 	}
 
 	claims := jwt.StandardClaims{

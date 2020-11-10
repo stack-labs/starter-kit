@@ -1,6 +1,10 @@
-module github.com/micro-in-cn/starter-kit
+module github.com/stack-labs/starter-kit
 
-go 1.13
+go 1.14
+
+replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
+
+replace github.com/stack-labs/stack-rpc v0.0.0-20201108135255-5cb713a726b7 => /Users/Steven/Develop/Go/project/src/github.com/stack-labs/stack-rpc
 
 require (
 	cloud.google.com/go v0.45.1
@@ -15,11 +19,12 @@ require (
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32 // indirect
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
 	github.com/gin-gonic/gin v1.3.0
+	github.com/go-acme/lego/v3 v3.2.0
 	github.com/go-sql-driver/mysql v1.4.1
-	github.com/golang/protobuf v1.3.2
+	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
-	github.com/gorilla/mux v1.7.3
+	github.com/gorilla/mux v1.7.4
 	github.com/hb-go/micro-plugins v1.18.0
 	github.com/hb-go/pkg v0.0.2
 	github.com/imkira/go-interpol v1.1.0 // indirect
@@ -27,6 +32,7 @@ require (
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
 	github.com/labstack/echo/v4 v4.1.11
+	github.com/micro-in-cn/starter-kit v1.18.0
 	github.com/micro-in-cn/x-gateway v0.0.5-0.20200115034840-d9055f8e2002
 	github.com/micro/cli v0.2.0
 	github.com/micro/go-micro v1.18.1-0.20200110215436-f50a50eeb36a
@@ -41,6 +47,7 @@ require (
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
+	github.com/stack-labs/stack-rpc v0.0.0-20201108135255-5cb713a726b7
 	github.com/stretchr/testify v1.4.0
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible
@@ -50,9 +57,9 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	go.opencensus.io v0.22.2
-	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
+	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
-	google.golang.org/grpc v1.26.0
+	google.golang.org/grpc v1.27.1
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	xorm.io/xorm v0.8.0
 )

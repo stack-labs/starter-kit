@@ -24,13 +24,13 @@ func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Respons
 	log.Log("Received Example.Call request")
 
 	if err := req.Validate(); err != nil {
-		return errors.BadRequest("go.micro.api.example.example.call", err.Error())
+		return errors.BadRequest("stack.rpc.api.example.example.call", err.Error())
 	}
 
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
 	if !ok {
-		return errors.InternalServerError("go.micro.api.example.example.call", "example client not found")
+		return errors.InternalServerError("stack.rpc.api.example.example.call", "example client not found")
 	}
 
 	// make request
@@ -38,7 +38,7 @@ func (*Account) Login(ctx context.Context, req *pb.LoginRequest, rsp *pb.Respons
 	conv.StructToStruct(req, r)
 	response, err := ac.Login(ctx, r)
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("stack.rpc.api.example.example.call", err.Error())
 	}
 
 	rsp.Code = 20000
@@ -54,7 +54,7 @@ func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response)
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
 	if !ok {
-		return errors.InternalServerError("go.micro.api.example.example.call", "example client not found")
+		return errors.InternalServerError("stack.rpc.api.example.example.call", "example client not found")
 	}
 
 	// make request
@@ -62,12 +62,12 @@ func (*Account) Logout(ctx context.Context, req *api.Request, rsp *api.Response)
 		Id: 0,
 	})
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("stack.rpc.api.example.example.call", err.Error())
 	}
 
 	b, err := ResponseBody(20000, response)
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("stack.rpc.api.example.example.call", err.Error())
 	}
 
 	rsp.StatusCode = 200
@@ -83,7 +83,7 @@ func (*Account) Info(ctx context.Context, req *api.Request, rsp *api.Response) e
 	// extract the client from the context
 	ac, ok := client.AccountFromContext(ctx)
 	if !ok {
-		return errors.InternalServerError("go.micro.api.example.example.call", "example client not found")
+		return errors.InternalServerError("stack.rpc.api.example.example.call", "example client not found")
 	}
 
 	// make request
@@ -91,12 +91,12 @@ func (*Account) Info(ctx context.Context, req *api.Request, rsp *api.Response) e
 		Id: 0,
 	})
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("stack.rpc.api.example.example.call", err.Error())
 	}
 
 	b, err := ResponseBody(20000, response)
 	if err != nil {
-		return errors.InternalServerError("go.micro.api.example.example.call", err.Error())
+		return errors.InternalServerError("stack.rpc.api.example.example.call", err.Error())
 	}
 
 	rsp.StatusCode = 200

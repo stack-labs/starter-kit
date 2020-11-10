@@ -3,8 +3,9 @@ package main
 import (
 	"github.com/stack-labs/stack-rpc"
 	"github.com/stack-labs/stack-rpc/cli"
-	"github.com/stack-labs/stack-rpc/config"
-	"github.com/stack-labs/stack-rpc/config/source/file"
+	"github.com/stack-labs/stack-rpc/pkg/config"
+	"github.com/stack-labs/stack-rpc/pkg/config/source"
+	"github.com/stack-labs/stack-rpc/pkg/config/source/file"
 	"github.com/stack-labs/stack-rpc/util/log"
 
 	"github.com/stack-labs/starter-kit/console/account/conf"
@@ -21,7 +22,8 @@ func main() {
 
 	// New Service
 	service := stack.NewService(
-		stack.Name("go.micro.srv.account"),
+		stack.ConfigSource([]source.Source{file.NewSource(file.WithPath("./stack_config.yml"))}...),
+		stack.Name("stack.rpc.srv.account"),
 		stack.Version("latest"),
 		stack.Metadata(md),
 		stack.Flags(
@@ -47,7 +49,7 @@ func main() {
 	)
 
 	// 链路追踪
-	t, closer, err := tracer.NewJaegerTracer("go.micro.srv.account", "127.0.0.1:6831")
+	t, closer, err := tracer.NewJaegerTracer("stack.rpc.srv.account", "127.0.0.1:6831")
 	if err != nil {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}

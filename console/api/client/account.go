@@ -19,7 +19,7 @@ func AccountFromContext(ctx context.Context) (account.AccountService, bool) {
 
 // Client returns a wrapper for the ExampleClient
 func AccountWrapper(service stack.Service) server.HandlerWrapper {
-	client := account.NewAccountService("go.micro.srv.account", service.Client())
+	client := account.NewAccountService("stack.rpc.srv.account", service.Client())
 
 	return func(fn server.HandlerFunc) server.HandlerFunc {
 		return func(ctx context.Context, req server.Request, rsp interface{}) error {

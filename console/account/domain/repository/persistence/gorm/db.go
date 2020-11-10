@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	"github.com/jinzhu/gorm"
-	"github.com/stack-labs/stack-rpc/config"
+	"github.com/stack-labs/stack-rpc/pkg/config"
 	"github.com/stack-labs/stack-rpc/util/log"
 
 	"github.com/stack-labs/starter-kit/console/account/conf"
