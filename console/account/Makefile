@@ -8,11 +8,11 @@ proto:
 
 .PHONY: build
 build:
-	go build -o ./bin/account-srv cmd/main.go
+	go build -o ./bin/account-srv main.go plugin.go
 
 .PHONY: build_linux
 build_linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/account-srv cmd/main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags '-w' -o ./bin/linux_amd64/account-srv main.go plugin.go
 
 .PHONY: test
 test:
@@ -24,4 +24,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/account-srv --profile=$(profile) --conf_path=./conf/
+	./bin/account-srv --registry=$(registry) --transport=$(transport) --conf_path=./../conf/

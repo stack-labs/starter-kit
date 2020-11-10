@@ -27,9 +27,8 @@ services:
   gateway:
     depends_on:
       - etcd
-    command: --profile=compose --env=dev gateway --address=:8080
-    #image:  "registry.cn-hangzhou.aliyuncs.com/hb-chen/starter-kit-gateway:latest"
-    build: ./../gateway
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp api --address=:8080
+    image:  "hbchen/starter-kit-gateway:latest"
     restart: always
     logging:
       driver: "json-file"
@@ -37,7 +36,7 @@ services:
         max-size: "100m"
         max-file: "10"
     volumes:
-      - ./account/conf:/conf
+    - ./conf:/conf
     ports:
       - "8080:8080"
     networks:
@@ -47,7 +46,7 @@ services:
   web:
     depends_on:
       - etcd
-    command:  --profile=compose
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./web
     restart: always
@@ -65,7 +64,7 @@ services:
   api:
     depends_on:
       - etcd
-    command: --profile=compose
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./api
     restart: always
@@ -83,7 +82,7 @@ services:
   account:
     depends_on:
       - etcd
-    command: --profile=compose
+    command: --registry=etcd --registry_address=etcd:2379 --transport=tcp
     #image: ""
     build: ./account
     restart: always
@@ -93,7 +92,7 @@ services:
         max-size: "100m"
         max-file: "10"
     volumes:
-      - ./account/conf:/conf
+      - ./conf:/conf
     networks:
       - starter-kit-console
 

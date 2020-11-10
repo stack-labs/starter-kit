@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"github.com/micro/micro/v3/plugin"
+	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
 )
 
 //NewPlugin of metrics

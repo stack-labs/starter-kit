@@ -66,10 +66,11 @@ Create the name of the service account to use
 Command options
 */}}
 {{- define "chart.command" -}}
-{{ default "/main" .Values.micro.command | quote }},
+{{ default "main" .Values.micro.command | quote }},
 {{- range .Values.micro.globalOptions }}
 "{{ . }}",
 {{- end }}
+"api",
 {{- range .Values.micro.commandOptions }}
 "{{ . }}",
 {{- end -}}

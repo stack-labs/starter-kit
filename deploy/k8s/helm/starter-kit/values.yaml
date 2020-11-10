@@ -10,10 +10,21 @@ gateway-api:
     host: api.starter-kit.com
     nodePort: 30000
     command:
-      basic: "/micro"
+      basic: "micro"
       gateway: "api"
-  image:
-    tag: latest
+  serviceAccount:
+    name: micro-services
+
+# Web Dashboard
+gateway-web:
+  enabled: true
+  nameOverride: gateway-web
+  micro:
+    host: web.starter-kit.com
+    nodePort: 30002
+    command:
+      basic: "micro"
+      gateway: "web"
   serviceAccount:
     name: micro-services
 
@@ -23,30 +34,27 @@ console-api:
   serviceAccount:
     name: micro-services
   micro:
-    command: "/console-api"
+    command: "console-api"
   image:
     repository: hbchen/starter-kit-console-api
-    tag: latest
 
 console-web:
   enabled: true
   serviceAccount:
     name: micro-services
   micro:
-    command: "/console-web"
+    command: "console-web"
   image:
     repository: hbchen/starter-kit-console-web
-    tag: latest
 
-console-account:
+account-srv:
   enabled: true
   serviceAccount:
     name: micro-services
   micro:
-    command: "/account-srv"
+    command: "account-srv"
   image:
-    repository: hbchen/starter-kit-console-account
-    tag: latest
+    repository: hbchen/starter-kit-account-srv
 
 replicaCount: 1
 

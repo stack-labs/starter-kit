@@ -28,7 +28,7 @@ Compose包含以下服务:
 - Etcd注册中心
     - `etcd`，使用docker镜像`bitnami/etcd`
 - API网关
-    - `gateway`
+    - `gateway`，使用docker镜像`hbchen/starter-kit-gateway`
 - Console Web
     - `web`
 - Console API
@@ -43,7 +43,7 @@ Compose包含以下服务:
 docker network create starter-kit-console
 ```
 
-2.Go编译，编译Console项目全部服务，包括`gateway`、`web`、`api`和`account`服务
+2.Go编译，编译Console项目全部服务，包括`web`、`api`和`account`服务
 > 使用Dockerfile编译太慢，所以编译还是选择使用本机环境
 ```shell script
 make build
@@ -142,7 +142,7 @@ $ make docker tag=xxx/xxx:v0.0.1
 	- http://localhost:8080/metrics
 - console
 	- Web
-	    - http://localhost:8080/console/
+	    - http://localhost:8080/console
 		- http://localhost:8080/console/v1/echo/
 		- http://localhost:8080/console/v1/gin/
 		- http://localhost:8080/console/v1/iris/
@@ -164,24 +164,3 @@ cd api
 make proto
 ```
 
-### Swagger文档生成
-使用[grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)的`protoc-gen-swagger`生成swagger文档
-```shell script
-cd pb
-protoc -I$GOPATH/src/ -I./ \
---swagger_out=logtostderr=true,grpc_api_configuration=api/api.yaml,allow_merge=true,merge_file_name=api/api:. \
-api/*.proto
-```
-
-
-## Fluentbit + ES
-
-修改`Makefile`中`COMPOSE_FILE`为`docker-compose-fb-es.yml`
-
-ES 查询，或者自己启动个 Kibana
-```shell script
-curl localhost:9200/_cat/indices
-yellow open logstash-2020.05.19 vFmaYrt7Qx6gh9dgI8F-Ew 1 1 11 0 27.3kb 27.3kb
-
-curl localhost:9200/logstash-2020.05.19/_search?pretty=true&q={'matchAll':{''}}
-```

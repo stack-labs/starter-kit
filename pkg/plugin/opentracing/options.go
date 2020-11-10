@@ -3,8 +3,8 @@ package opentracing
 import (
 	"github.com/opentracing/opentracing-go"
 
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/utils/request"
-	"github.com/micro-in-cn/starter-kit/pkg/plugin/utils/response"
+	"github.com/stack-labs/starter-kit/pkg/utils/request"
+	"github.com/stack-labs/starter-kit/pkg/utils/response"
 )
 
 //Options of opentracing

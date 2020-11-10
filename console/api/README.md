@@ -16,7 +16,7 @@ micro new github.com/micro-in-cn/console/api --namespace=go.micro --alias=consol
 
 ## Configuration
 
-- FQDN: go.micro.api.console
+- FQDN: stack.rpc.api.console
 - Type: api
 - Alias: console
 

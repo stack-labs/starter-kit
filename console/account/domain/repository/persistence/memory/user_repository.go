@@ -3,8 +3,7 @@ package memory
 import (
 	"sync"
 
-	"github.com/micro-in-cn/starter-kit/console/account/domain/model"
-	"github.com/micro-in-cn/starter-kit/console/account/domain/repository"
+	"github.com/stack-labs/starter-kit/console/account/domain/model"
 )
 
 type userRepository struct {
@@ -12,7 +11,7 @@ type userRepository struct {
 	users []*model.User
 }
 
-func NewUserRepository() repository.UserRepository {
+func NewUserRepository() *userRepository {
 	users := make([]*model.User, 0)
 	users = append(users, &model.User{
 		Id:       1,
