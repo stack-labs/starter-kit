@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
+	"github.com/stack-labs/stack-rpc-plugins/service/gateway/api"
 	"github.com/stack-labs/stack-rpc/util/log"
 	"golang.org/x/time/rate"
 
-	"github.com/stack-labs/starter-kit/pkg/gateway/api"
 	"github.com/stack-labs/starter-kit/pkg/plugin/auth"
 	"github.com/stack-labs/starter-kit/pkg/plugin/chain"
 	"github.com/stack-labs/starter-kit/pkg/plugin/cors"

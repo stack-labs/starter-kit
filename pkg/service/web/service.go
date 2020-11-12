@@ -286,17 +286,6 @@ func (s *service) Handle(pattern string, handler http.Handler, endpoints ...*api
 				Name: pattern,
 			})
 		}
-		s.srv.Endpoints = append(s.srv.Endpoints, &registry.Endpoint{
-			Name: pattern,
-			Metadata: api.Encode(
-				&api.Endpoint{
-					Name:    "console",
-					Path:    []string{"^/console/*"},
-					Method:  []string{"POST", "GET", "DELETE", "HEAD", "OPTIONS"},
-					Handler: "proxy",
-				},
-			),
-		})
 	}
 
 	// disable static serving
