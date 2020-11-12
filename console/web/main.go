@@ -14,7 +14,7 @@ import (
 	"github.com/stack-labs/starter-kit/console/web/gin"
 	"github.com/stack-labs/starter-kit/console/web/iris"
 	"github.com/stack-labs/starter-kit/console/web/statik"
-	"github.com/stack-labs/starter-kit/pkg/gateway/web"
+	"github.com/stack-labs/starter-kit/pkg/service/web"
 	"github.com/stack-labs/starter-kit/pkg/tracer"
 )
 

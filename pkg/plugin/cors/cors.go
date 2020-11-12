@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/rs/cors"
-	"github.com/stack-labs/starter-kit/pkg/gateway/plugin"
+	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
 )
 
 // Headers
