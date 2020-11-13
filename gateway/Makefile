@@ -19,4 +19,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/micro --registry=$(registry) --transport=$(transport) api
+	./bin/micro --config=conf/stack_config.yml

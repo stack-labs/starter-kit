@@ -1,5 +1,0 @@
-stack:
-  service:
-    name: go.stack.srv.account
-      rpc-port:
-      http-port:

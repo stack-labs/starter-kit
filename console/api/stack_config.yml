@@ -1,5 +1,0 @@
-stack:
-  service:
-    name: console.api
-      rpc-port: 8082
-      http-port: 8083

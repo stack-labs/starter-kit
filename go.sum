@@ -593,10 +593,14 @@ github.com/stack-labs/stack-rpc v0.0.0-20201109172001-476524747036/go.mod h1:j2p
 github.com/stack-labs/stack-rpc v0.0.0-20201111135257-3c837d277d70 h1:lacaA5Ttj2T9gddrdOPDKvYGimDwVQ52Sjd5dOESI2s=
 github.com/stack-labs/stack-rpc v0.0.0-20201111162745-1a1f4a1d2aca h1:uFBNx39iAqeUDCivLZv9f1ICzSy/ekUh/nyt+WAwOl8=
 github.com/stack-labs/stack-rpc v0.0.0-20201111162745-1a1f4a1d2aca/go.mod h1:DPjCA+qDAt6ezu5+LHHqRNu4e13VNcZjdHEi03eYzYo=
+github.com/stack-labs/stack-rpc v0.0.0-20201113122949-6f4cb846af53 h1:e+FFx9EBP8Uzf8c/u0EFdlNZfkJbsljMJtcSzZEyaQU=
+github.com/stack-labs/stack-rpc v0.0.0-20201113122949-6f4cb846af53/go.mod h1:DPjCA+qDAt6ezu5+LHHqRNu4e13VNcZjdHEi03eYzYo=
 github.com/stack-labs/stack-rpc-plugins v0.0.0-20201111012424-c8b2ea81d16f h1:1xr67KC3Tff94BlUrod8z+RsIWmAI4KRJrcshZUd0j0=
 github.com/stack-labs/stack-rpc-plugins v0.0.0-20201111012424-c8b2ea81d16f/go.mod h1:JiN19JjaS41BLKgexN+8Q7IYl8wzmrp3jd4j6pp/97M=
 github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201112010223-0e6b66767ebc h1:MPkSEtH5oQVq7VJm3Khn41A42YxdwLp+5UHM834/DuY=
 github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201112010223-0e6b66767ebc/go.mod h1:YGFkdh0fOC1tc8QBS9df3CfIisovEmvhikiSIvwUJOY=
+github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201113195717-80f3b0034c45 h1:C/iXQ79ajFW7VOI0h1cap8uugl4/h8OtKRVBbxh9fT4=
+github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201113195717-80f3b0034c45/go.mod h1:hUgJXMsA/4MDtYmCvgBbiB6hV7FpmgvneeTugBjXA3k=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.2.0/go.mod h1:qt09Ya8vawLte6SNmTgCsAVtYtaKzEcn8ATUoHMkEqE=

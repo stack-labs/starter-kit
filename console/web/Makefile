@@ -31,4 +31,4 @@ statik:
 
 .PHONY: run
 run:
-	./bin/console-web --registry=$(registry) --transport=$(transport)
+	./bin/console-web --config=./../conf/config.yml

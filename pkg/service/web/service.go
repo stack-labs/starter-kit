@@ -16,7 +16,7 @@ import (
 
 	"github.com/stack-labs/stack-rpc"
 	"github.com/stack-labs/stack-rpc/api"
-	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/stack-rpc/pkg/cli"
 	"github.com/stack-labs/stack-rpc/registry"
 	maddr "github.com/stack-labs/stack-rpc/util/addr"
 	mhttp "github.com/stack-labs/stack-rpc/util/http"

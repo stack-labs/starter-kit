@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/stack-labs/stack-rpc-plugins/service/gateway/api"
+	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
 	"github.com/stack-labs/stack-rpc/util/log"
 	"golang.org/x/time/rate"
 
@@ -57,7 +57,7 @@ func initCors() {
 		cors.WithMaxAge(3600),
 		cors.WithUseRsPkg(true),
 	)
-	api.Register(corsPlugin)
+	plugin.Register(corsPlugin)
 }
 
 func initAuth() {
@@ -80,11 +80,11 @@ func initAuth() {
 			return false
 		}),
 	)
-	api.Register(authPlugin)
+	plugin.Register(authPlugin)
 }
 
 func initMetrics() {
-	api.Register(metrics.NewPlugin(
+	plugin.Register(metrics.NewPlugin(
 		metrics.WithNamespace("gateway"),
 		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
@@ -113,7 +113,7 @@ func initTrace() {
 
 	limiter := rate.NewLimiter(rate.Every(time.Millisecond*100), 10)
 	apiTracerCloser = apiCloser
-	api.Register(opentracing.NewPlugin(
+	plugin.Register(opentracing.NewPlugin(
 		opentracing.WithTracer(apiTracer),
 		opentracing.WithSkipperFunc(func(r *http.Request) bool {
 			// 采样频率控制，根据需要细分Host、Path等分别控制
@@ -126,7 +126,7 @@ func initTrace() {
 }
 
 func initChain() {
-	api.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
+	plugin.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
 		return []string{"gray"}
 	})))
 }

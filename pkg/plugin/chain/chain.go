@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
-	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/stack-rpc/pkg/cli"
 )
 
 type chainPlugin struct {
