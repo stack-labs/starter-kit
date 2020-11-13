@@ -2,9 +2,8 @@ package main
 
 import (
 	"github.com/stack-labs/stack-rpc"
-	"github.com/stack-labs/stack-rpc/cli"
+	"github.com/stack-labs/stack-rpc/pkg/cli"
 	"github.com/stack-labs/stack-rpc/pkg/config"
-	"github.com/stack-labs/stack-rpc/pkg/config/source"
 	"github.com/stack-labs/stack-rpc/pkg/config/source/file"
 	"github.com/stack-labs/stack-rpc/util/log"
 
@@ -22,7 +21,6 @@ func main() {
 
 	// New Service
 	service := stack.NewService(
-		stack.ConfigSource([]source.Source{file.NewSource(file.WithPath("./stack_config.yml"))}...),
 		stack.Name("stack.rpc.srv.account"),
 		stack.Version("latest"),
 		stack.Metadata(md),

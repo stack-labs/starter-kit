@@ -26,4 +26,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/console-api --registry=$(registry) --transport=$(transport)
+	./bin/console-api --config=./../conf/stack_config.yml

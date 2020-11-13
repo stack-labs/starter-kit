@@ -11,8 +11,8 @@ import (
 	"github.com/dgrijalva/jwt-go/request"
 	"github.com/dgrijalva/jwt-go/test"
 	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
-	"github.com/stack-labs/stack-rpc/cli"
 	"github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/pkg/cli"
 	"github.com/stack-labs/stack-rpc/util/log"
 )
 

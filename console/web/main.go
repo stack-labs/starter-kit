@@ -7,6 +7,7 @@ import (
 
 	"github.com/stack-labs/stack-rpc/api"
 	"github.com/stack-labs/stack-rpc/util/log"
+	"github.com/stack-labs/stack-rpc/web"
 	"github.com/stack-labs/starter-kit/pkg/plugin/opentracing"
 
 	"github.com/stack-labs/starter-kit/console/web/beego"
@@ -14,7 +15,6 @@ import (
 	"github.com/stack-labs/starter-kit/console/web/gin"
 	"github.com/stack-labs/starter-kit/console/web/iris"
 	"github.com/stack-labs/starter-kit/console/web/statik"
-	"github.com/stack-labs/starter-kit/pkg/service/web"
 	"github.com/stack-labs/starter-kit/pkg/tracer"
 )
 

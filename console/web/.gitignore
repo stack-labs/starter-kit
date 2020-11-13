@@ -1,3 +1,4 @@
 .DS_Store
 statik/statik.go
 bin
+stack_config.conf

@@ -51,8 +51,8 @@ require (
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
-	github.com/stack-labs/stack-rpc v0.0.0-20201109172001-476524747036
-	github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201112010223-0e6b66767ebc
+	github.com/stack-labs/stack-rpc v0.0.0-20201113122949-6f4cb846af53
+	github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201113195717-80f3b0034c45
 	github.com/stretchr/testify v1.4.0
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
