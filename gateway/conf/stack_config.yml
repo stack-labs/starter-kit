@@ -1,1 +1,34 @@
-registry: mdns
+stack:
+  server:
+    protocol: mock
+    name: "stack.rpc.gateway"
+    version: "1.0.0"
+  registry:
+    name: mdns
+
+gateway:
+  name: "stack.rpc.gateway"
+  address: ":8080"
+  handler: "meta"
+  resolver: "stack"
+  rpc_path: "/rpc"
+  api_path: "/"
+  proxy_path: "/{service:[a-zA-Z0-9]+}"
+  namespace: "stack.rpc.api"
+  header_prefix: "X-Stack-"
+  enable_rpc: false
+  enable_acme: false
+  enable_tls: false
+  acme:
+    provider: "autocert"
+    challenge_provider: "cloudflare"
+    ca: "https://acme-v02.api.letsencrypt.org/directory"
+    hosts:
+      - ""
+  # Plugins
+  auth:
+    public_key: ./conf/auth_key.pub
+    public_user: public
+    casbin_model: ./conf/casbin_model.conf
+    casbin_adapter: default
+    casbin_watcher: default
