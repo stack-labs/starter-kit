@@ -5,19 +5,10 @@ import (
 	"strings"
 
 	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
-	"github.com/stack-labs/stack-rpc/pkg/cli"
 )
 
 type chainPlugin struct {
 	opts Options
-}
-
-func (*chainPlugin) Flags() []cli.Flag {
-	return nil
-}
-
-func (*chainPlugin) Commands() []cli.Command {
-	return nil
 }
 
 func (p *chainPlugin) Handler() plugin.Handler {
@@ -34,15 +25,11 @@ func (p *chainPlugin) Handler() plugin.Handler {
 	}
 }
 
-func (*chainPlugin) Init(ctx *cli.Context) error {
-	return nil
-}
-
-func (*chainPlugin) String() string {
-	return "chain"
-}
-
 func New(opts ...Option) plugin.Plugin {
 	options := newOptions(opts...)
-	return &chainPlugin{opts: options}
+	cp := &chainPlugin{opts: options}
+	return plugin.NewPlugin(
+		plugin.WithName("chain"),
+		plugin.WithHandler(cp.Handler()),
+	)
 }

@@ -1,1 +1,3 @@
-registry: mdns
+stack:
+  registry:
+    name: mdns

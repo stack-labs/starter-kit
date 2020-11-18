@@ -9,6 +9,7 @@ import (
 type Options struct {
 	responseHandler response.Handler
 	skipperFunc     request.SkipperFunc
+	configPaths     []string
 }
 
 //Option of auth
@@ -18,6 +19,7 @@ func newOptions(opts ...Option) Options {
 	opt := Options{
 		responseHandler: response.DefaultResponseHandler,
 		skipperFunc:     request.DefaultSkipperFunc,
+		configPaths:     []string{"gateway", "auth"},
 	}
 
 	for _, o := range opts {
@@ -38,5 +40,11 @@ func WithResponseHandler(handler response.Handler) Option {
 func WithSkipperFunc(skipperFunc request.SkipperFunc) Option {
 	return func(o *Options) {
 		o.skipperFunc = skipperFunc
+	}
+}
+
+func WithConfigPaths(paths ...string) Option {
+	return func(o *Options) {
+		o.configPaths = paths
 	}
 }

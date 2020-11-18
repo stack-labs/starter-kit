@@ -3,7 +3,6 @@ package main
 import (
 	"io"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/casbin/casbin/v2/persist/file-adapter"
@@ -20,14 +19,11 @@ import (
 	"github.com/stack-labs/starter-kit/pkg/utils/response"
 )
 
-var apiTracerCloser, webTracerCloser io.Closer
+var apiTracerCloser io.Closer
 
 func pluginAfterFunc() error {
 	// closer
-	webTracerCloser.Close()
-	apiTracerCloser.Close()
-
-	return nil
+	return apiTracerCloser.Close()
 }
 
 // 插件注册
@@ -57,7 +53,9 @@ func initCors() {
 		cors.WithMaxAge(3600),
 		cors.WithUseRsPkg(true),
 	)
-	plugin.Register(corsPlugin)
+	if err := plugin.Register(corsPlugin); err != nil {
+		log.Error(err)
+	}
 }
 
 func initAuth() {
@@ -80,28 +78,24 @@ func initAuth() {
 			return false
 		}),
 	)
-	plugin.Register(authPlugin)
+
+	if err := plugin.Register(authPlugin); err != nil {
+		log.Error(err)
+	}
 }
 
 func initMetrics() {
-	plugin.Register(metrics.NewPlugin(
+	metricsPlugin := metrics.NewPlugin(
 		metrics.WithNamespace("gateway"),
 		metrics.WithSubsystem(""),
 		metrics.WithSkipperFunc(func(r *http.Request) bool {
 			return false
-
-			// 过滤micro web服务的前缀，便于设置统一规则，如/console/v1/* => /v1/*
-			path := r.URL.Path
-			idx := strings.Index(path[1:], "/")
-			if idx > 0 {
-				path = path[idx+1:]
-			}
-			if strings.HasPrefix(path, "/v1/") {
-				return false
-			}
-			return true
 		}),
-	))
+	)
+
+	if err := plugin.Register(metricsPlugin); err != nil {
+		log.Error(err)
+	}
 }
 
 // Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
@@ -113,20 +107,26 @@ func initTrace() {
 
 	limiter := rate.NewLimiter(rate.Every(time.Millisecond*100), 10)
 	apiTracerCloser = apiCloser
-	plugin.Register(opentracing.NewPlugin(
+
+	otPlugin := opentracing.NewPlugin(
 		opentracing.WithTracer(apiTracer),
 		opentracing.WithSkipperFunc(func(r *http.Request) bool {
 			// 采样频率控制，根据需要细分Host、Path等分别控制
-			if !limiter.Allow() {
-				return true
-			}
-			return false
+			return !limiter.Allow()
 		}),
-	))
+	)
+
+	if err := plugin.Register(otPlugin); err != nil {
+		log.Error(err)
+	}
 }
 
 func initChain() {
-	plugin.Register(chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
+	chainPlugin := chain.New(chain.WithChainsFunc(func(r *http.Request) []string {
 		return []string{"gray"}
-	})))
+	}))
+
+	if err := plugin.Register(chainPlugin); err != nil {
+		log.Error(err)
+	}
 }

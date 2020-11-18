@@ -11,6 +11,7 @@ import (
 	"github.com/dgrijalva/jwt-go/request"
 	"github.com/dgrijalva/jwt-go/test"
 	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
+	"github.com/stack-labs/stack-rpc/config"
 	"github.com/stack-labs/stack-rpc/errors"
 	"github.com/stack-labs/stack-rpc/pkg/cli"
 	"github.com/stack-labs/stack-rpc/util/log"
@@ -34,6 +35,14 @@ func RegisterAdapter(key string, a persist.Adapter) {
 //RegisterWatcher of auth
 func RegisterWatcher(key string, w persist.Watcher) {
 	watchers[key] = w
+}
+
+type authConfig struct {
+	PublicKey     string `json:"public_key"`
+	PublicUser    string `json:"public_user"`
+	CasbinModel   string `json:"casbin_model"`
+	CasbinAdapter string `json:"casbin_adapter"`
+	CasbinWatcher string `json:"casbin_watcher"`
 }
 
 //Auth for micro
@@ -130,40 +139,44 @@ func NewPlugin(opts ...Option) plugin.Plugin {
 		plugin.WithName("Auth"),
 		plugin.WithFlag(
 			cli.StringFlag{
-				Name:  "auth_pub_key",
+				Name:  "gateway-auth-public_key",
 				Usage: "Auth public key file",
 				Value: "./conf/auth_key.pub",
 			},
 			cli.StringFlag{
-				Name:  "casbin_model",
+				Name:  "gateway-auth-public_user",
+				Usage: "Auth public user",
+				Value: "public",
+			},
+			cli.StringFlag{
+				Name:  "gateway-auth-casbin_model",
 				Usage: "Casbin model config file",
 				Value: "./conf/casbin_model.conf",
 			},
 			cli.StringFlag{
-				Name:  "casbin_adapter",
+				Name:  "gateway-auth-casbin_adapter",
 				Usage: "Casbin registed adapter {" + strings.Join(egAdapter, ", ") + "}",
 				Value: "default",
 			},
 			cli.StringFlag{
-				Name:  "casbin_watcher",
+				Name:  "gateway-auth-casbin_watcher",
 				Usage: "Casbin registed watcher {" + strings.Join(egWatcher, ", ") + "}",
 				Value: "default",
 			},
-			cli.StringFlag{
-				Name:  "casbin_public_user",
-				Usage: "Casbin public user",
-				Value: "public",
-			},
 		),
 		plugin.WithHandler(a.handler),
-		plugin.WithInit(func(ctx *cli.Context) error {
-			a.pubUser = ctx.String("casbin_public_user")
-			pubKey := ctx.String("auth_pub_key")
-			a.pubKey = test.LoadRSAPublicKeyFromDisk(pubKey)
+		plugin.WithInit(func(cfg config.Config) error {
+			conf := &authConfig{}
+			cfg.Get(options.configPaths...).Scan(conf)
 
-			model := ctx.String("casbin_model")
-			adapter := ctx.String("casbin_adapter")
-			watcher := ctx.String("casbin_watcher")
+			// TODO config public key with config source
+			pubKey := conf.PublicKey
+			a.pubKey = test.LoadRSAPublicKeyFromDisk(pubKey)
+			a.pubUser = conf.PublicUser
+
+			model := conf.CasbinModel
+			adapter := conf.CasbinAdapter
+			watcher := conf.CasbinWatcher
 
 			var e *casbin.Enforcer
 			if a, ok := adapters[adapter]; ok {
