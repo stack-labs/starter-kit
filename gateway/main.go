@@ -18,6 +18,8 @@ func main() {
 	// run gateway
 	gateway.Run(svc)
 
+	_ = svc.Init(stack.AfterStop(pluginAfterFunc))
+
 	// run service
 	if err := svc.Run(); err != nil {
 		log.Fatal(err)

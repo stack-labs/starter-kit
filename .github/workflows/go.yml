@@ -13,12 +13,12 @@ jobs:
     - name: Code
       uses: actions/checkout@v1
     - name: Intsall Golangci-lint
-      run: curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b . latest
+      run: curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b . latest
     - name: Lint
-      run: ./golangci-lint run pkg/config/...
+      run: ./golangci-lint run gateway/...
 
   test:
-#    needs: Lint
+    #needs: Lint
     name: Unit Testing
     runs-on: ${{ matrix.os }}
     strategy:
