@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	"github.com/stack-labs/stack-rpc/errors"
+	"github.com/stack-labs/stack-rpc/util/errors"
 )
 
 //Handler for http

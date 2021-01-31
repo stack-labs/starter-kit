@@ -5,7 +5,7 @@ import (
 
 	"github.com/opentracing/opentracing-go"
 
-	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
+	"github.com/stack-labs/stack-rpc-plugins/service/stackway/plugin"
 	"github.com/stack-labs/starter-kit/pkg/utils/response"
 )
 
