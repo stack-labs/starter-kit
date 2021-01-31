@@ -4,11 +4,12 @@ go 1.14
 
 replace (
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.4
+	github.com/stack-labs/stack-rpc v1.0.1-rc1 => ../stack-rpc
 	google.golang.org/grpc => google.golang.org/grpc v1.26.0
+	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0 => github.com/hb-chen/stack-rpc-plugins/service/stackway v0.0.0-20210131160353-ba214d03398b
 )
 
 require (
-	cloud.google.com/go v0.45.1 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/alangpierce/go-forceexport v0.0.0-20160317203124-8f1d6941cd75 // indirect
 	github.com/astaxie/beego v1.12.0
@@ -25,12 +26,12 @@ require (
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32 // indirect
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
 	github.com/gin-gonic/gin v1.3.0
-	github.com/go-acme/lego/v3 v3.2.0
+	github.com/go-acme/lego/v3 v3.4.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
-	github.com/gorilla/mux v1.7.4
+	github.com/gorilla/mux v1.7.4 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.5 // indirect
 	github.com/hb-go/pkg v0.0.2
@@ -51,8 +52,8 @@ require (
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
-	github.com/stack-labs/stack-rpc v0.0.0-20201118152624-d448b92ef772
-	github.com/stack-labs/stack-rpc-plugins/service/gateway v0.0.0-20201118155828-1dc141d6e8e4
+	github.com/stack-labs/stack-rpc v1.0.1-rc1.0.20210131055900-7ff3c657756c
+	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0
 	github.com/stretchr/testify v1.4.0
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/uber/jaeger-client-go v2.21.1+incompatible

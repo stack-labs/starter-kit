@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
+	"github.com/stack-labs/stack-rpc-plugins/service/stackway/plugin"
 )
 
 //NewPlugin of metrics

@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 
-	"github.com/stack-labs/stack-rpc"
+	"github.com/stack-labs/stack-rpc/service"
 	account "github.com/stack-labs/starter-kit/console/api/genproto/srv"
 
 	"github.com/stack-labs/stack-rpc/server"
@@ -18,7 +18,7 @@ func AccountFromContext(ctx context.Context) (account.AccountService, bool) {
 }
 
 // Client returns a wrapper for the ExampleClient
-func AccountWrapper(service stack.Service) server.HandlerWrapper {
+func AccountWrapper(service service.Service) server.HandlerWrapper {
 	client := account.NewAccountService("stack.rpc.srv.account", service.Client())
 
 	return func(fn server.HandlerFunc) server.HandlerFunc {

@@ -31,16 +31,11 @@ func main() {
 
 	// Initialise service
 	service.Init(
-		stack.WrapClient(chain.NewClientWrapper()),
-	)
-	service.Init(
-		// create wrap for the Example srv client
-		stack.WrapHandler(client.AccountWrapper(service)),
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
-		stack.WrapHandler(opentracing.NewHandlerWrapper(t)),         // server端handler接受请求
-		stack.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)), // server端subscriber接受消息
-		stack.WrapClient(opentracing.NewClientWrapper(nil)),         // client端发起请求，包括Call()、Stream()、Publish()
-		stack.WrapCall(opentracing.NewCallWrapper(t)),               // client端发起请求，仅Call()
+		stack.WrapHandler(client.AccountWrapper(service), opentracing.NewHandlerWrapper(t)), // server端handler接受请求
+		stack.WrapSubscriber(opentracing.NewSubscriberWrapper(nil)),                         // server端subscriber接受消息
+		stack.WrapClient(chain.NewClientWrapper(), opentracing.NewClientWrapper(nil)),       // client端发起请求，包括Call()、Stream()、Publish()
+		stack.WrapCall(opentracing.NewCallWrapper(t)),                                       // client端发起请求，仅Call()
 	)
 
 	// Register Handler
