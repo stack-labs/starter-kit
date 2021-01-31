@@ -24,4 +24,4 @@ docker: build_linux
 
 .PHONY: run
 run:
-	./bin/account-srv --config=./../conf/stack_config.yml
+	./bin/account-srv --config=./../conf/stack_config.yml --conf_path=./../conf/

@@ -24,16 +24,9 @@ func main() {
 		stack.Name("stack.rpc.srv.account"),
 		stack.Version("latest"),
 		stack.Metadata(md),
-		stack.Flags(
-		//cli.StringFlag{
-		//	Name:  "conf_path",
-		//	Value: "./conf/",
-		//	Usage: "配置文件目录",
-		//},
-		),
 		stack.Action(func(ctx *cli.Context) {
-			//confPath := ctx.String("conf_path")
-			//conf.BASE_PATH = confPath
+			confPath := ctx.String("conf_path")
+			conf.BASE_PATH = confPath
 
 			// 配置加载
 			cfg, _ := config.NewConfig()
@@ -52,16 +45,22 @@ func main() {
 		log.Fatalf("opentracing tracer create error:%v", err)
 	}
 	defer closer.Close()
+
+	// Initialise service
 	service.Init(
+		stack.Flags(
+			cli.StringFlag{
+				Name:  "conf_path",
+				Value: "./conf/",
+				Usage: "配置文件目录",
+			},
+		),
 		// Tracing仅由Gateway控制，在下游服务中仅在有Tracing时启动
 		// TODO stack-rpc
 		stack.WrapCall(opentracing.NewCallWrapper(t)),
 		stack.WrapHandler(opentracing.NewHandlerWrapper(t)),
 		stack.WrapClient(chain.NewClientWrapper()),
 	)
-
-	// Initialise service
-	service.Init()
 
 	ctn, err := registry.NewContainer()
 	if err != nil {

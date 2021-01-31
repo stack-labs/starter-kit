@@ -6,6 +6,7 @@ replace (
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.4
 	github.com/stack-labs/stack-rpc v1.0.1-rc1 => ../stack-rpc
 	google.golang.org/grpc => google.golang.org/grpc v1.26.0
+	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0 => github.com/hb-chen/stack-rpc-plugins/service/stackway v0.0.0-20210131160353-ba214d03398b
 )
 
 require (
@@ -52,7 +53,7 @@ require (
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
 	github.com/stack-labs/stack-rpc v1.0.1-rc1.0.20210131055900-7ff3c657756c
-	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0-20201230154724-fb70913588ae // indirect
+	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0
 	github.com/stretchr/testify v1.4.0
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
