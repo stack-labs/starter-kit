@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-var BASE_PATH = "./conf/"
+var BASE_PATH = "./../conf/"
 
 type Database struct {
 	Engine   string

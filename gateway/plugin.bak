@@ -1,3 +1,5 @@
+// +build ignore
+
 package main
 
 import (
@@ -5,8 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/casbin/casbin/v2/persist/file-adapter"
-	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
+	"github.com/stack-labs/stack-rpc-plugins/service/stackway/plugin"
 	"github.com/stack-labs/stack-rpc/util/log"
 	"golang.org/x/time/rate"
 

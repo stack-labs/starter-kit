@@ -8,8 +8,8 @@ import (
 	hApi "github.com/stack-labs/stack-rpc/api/handler/api"
 	"github.com/stack-labs/stack-rpc/api/handler/rpc"
 	api "github.com/stack-labs/stack-rpc/api/proto"
-	"github.com/stack-labs/stack-rpc/errors"
 	"github.com/stack-labs/stack-rpc/server"
+	"github.com/stack-labs/stack-rpc/util/errors"
 	"github.com/stack-labs/stack-rpc/util/log"
 
 	"github.com/stack-labs/starter-kit/console/api/client"

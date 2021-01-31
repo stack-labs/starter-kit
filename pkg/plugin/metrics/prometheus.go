@@ -7,7 +7,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/stack-labs/stack-rpc-plugins/service/gateway/plugin"
+	"github.com/stack-labs/stack-rpc-plugins/service/stackway/plugin"
 	"github.com/stack-labs/starter-kit/pkg/utils/request"
 	"github.com/stack-labs/starter-kit/pkg/utils/response"
 )

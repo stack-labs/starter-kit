@@ -25,15 +25,15 @@ func main() {
 		stack.Version("latest"),
 		stack.Metadata(md),
 		stack.Flags(
-			cli.StringFlag{
-				Name:  "conf_path",
-				Value: "./conf/",
-				Usage: "配置文件目录",
-			},
+		//cli.StringFlag{
+		//	Name:  "conf_path",
+		//	Value: "./conf/",
+		//	Usage: "配置文件目录",
+		//},
 		),
 		stack.Action(func(ctx *cli.Context) {
-			confPath := ctx.String("conf_path")
-			conf.BASE_PATH = confPath
+			//confPath := ctx.String("conf_path")
+			//conf.BASE_PATH = confPath
 
 			// 配置加载
 			cfg, _ := config.NewConfig()

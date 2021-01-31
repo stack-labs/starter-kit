@@ -8,9 +8,9 @@ import (
 	"github.com/opentracing/opentracing-go/mocktracer"
 	"github.com/stack-labs/stack-rpc/client"
 	"github.com/stack-labs/stack-rpc/client/selector"
-	microerr "github.com/stack-labs/stack-rpc/errors"
 	"github.com/stack-labs/stack-rpc/registry/memory"
 	"github.com/stack-labs/stack-rpc/server"
+	microerr "github.com/stack-labs/stack-rpc/util/errors"
 	"github.com/stretchr/testify/assert"
 )
 
