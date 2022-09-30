@@ -5,8 +5,8 @@ go 1.14
 replace (
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.4
 	github.com/stack-labs/stack-rpc v1.0.1-rc1 => ../stack-rpc
-	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0 => github.com/hb-chen/stack-rpc-plugins/service/stackway v0.0.0-20210131160353-ba214d03398b
+	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 )
 
 require (
@@ -39,7 +39,7 @@ require (
 	github.com/jinzhu/gorm v1.9.11
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/iris/v12 v12.0.1
-	github.com/labstack/echo/v4 v4.1.11
+	github.com/labstack/echo/v4 v4.9.0
 	github.com/marten-seemann/chacha20 v0.2.0 // indirect
 	github.com/micro/mdns v0.3.0 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
@@ -54,7 +54,7 @@ require (
 	github.com/soheilhy/cmux v0.1.4 // indirect
 	github.com/stack-labs/stack-rpc v1.0.1-rc1.0.20210131055900-7ff3c657756c
 	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.7.0
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/uber/jaeger-client-go v2.21.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible
@@ -64,7 +64,7 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
+	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	gopkg.in/telegram-bot-api.v4 v4.6.4 // indirect
