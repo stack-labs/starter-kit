@@ -5,8 +5,8 @@ go 1.14
 replace (
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.4
 	github.com/stack-labs/stack-rpc v1.0.1-rc1 => ../stack-rpc
-	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0 => github.com/hb-chen/stack-rpc-plugins/service/stackway v0.0.0-20210131160353-ba214d03398b
+	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 )
 
 require (
@@ -24,8 +24,7 @@ require (
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
 	github.com/forestgiant/sliceutil v0.0.0-20160425183142-94783f95db6c // indirect
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32 // indirect
-	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
-	github.com/gin-gonic/gin v1.3.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-acme/lego/v3 v3.4.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.4.3
