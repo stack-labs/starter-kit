@@ -5,14 +5,15 @@ go 1.14
 replace (
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.4
 	github.com/stack-labs/stack-rpc v1.0.1-rc1 => ../stack-rpc
-	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0 => github.com/hb-chen/stack-rpc-plugins/service/stackway v0.0.0-20210131160353-ba214d03398b
+	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 )
 
 require (
+	github.com/OwnLocal/goes v1.0.0 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/alangpierce/go-forceexport v0.0.0-20160317203124-8f1d6941cd75 // indirect
-	github.com/astaxie/beego v1.12.0
+	github.com/astaxie/beego v1.12.2
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
 	github.com/casbin/casbin/v2 v2.1.2
 	github.com/cloudflare/cloudflare-go v0.10.9 // indirect
@@ -27,7 +28,7 @@ require (
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
 	github.com/gin-gonic/gin v1.3.0
 	github.com/go-acme/lego/v3 v3.4.0 // indirect
-	github.com/go-sql-driver/mysql v1.4.1
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.1.1
 	github.com/gopherjs/gopherjs v0.0.0-20190430165422-3e4dfb77656c // indirect
@@ -44,11 +45,13 @@ require (
 	github.com/micro/mdns v0.3.0 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
-	github.com/prometheus/client_golang v1.2.1
+	github.com/prometheus/client_golang v1.7.0
 	github.com/rakyll/statik v0.1.6
 	github.com/rs/cors v1.7.0
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
+	github.com/siddontang/go v0.0.0-20180604090527-bdc77568d726 // indirect
+	github.com/siddontang/ledisdb v0.0.0-20181029004158-becf5f38d373 // indirect
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190710185942-9d28bd7c0945 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
