@@ -5,8 +5,8 @@ go 1.14
 replace (
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.4
 	github.com/stack-labs/stack-rpc v1.0.1-rc1 => ../stack-rpc
-	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 	github.com/stack-labs/stack-rpc-plugins/service/stackway v0.0.0 => github.com/hb-chen/stack-rpc-plugins/service/stackway v0.0.0-20210131160353-ba214d03398b
+	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 )
 
 require (
@@ -44,7 +44,7 @@ require (
 	github.com/micro/mdns v0.3.0 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
-	github.com/prometheus/client_golang v1.2.1
+	github.com/prometheus/client_golang v1.11.1
 	github.com/rakyll/statik v0.1.6
 	github.com/rs/cors v1.7.0
 	github.com/sarulabs/di v2.0.0+incompatible
